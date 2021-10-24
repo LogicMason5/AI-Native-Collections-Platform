@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from aioredis import from_url
 from dotenv import load_dotenv
 from fastapi.param_functions import Depends
-
+from fastapi.middleware.cors import CORSMiddleware
 from routes import user
 from db import engine, Base
 from ratelimit import RateLimit, RateLimiter
@@ -11,6 +11,13 @@ from ratelimit import RateLimit, RateLimiter
 load_dotenv()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(user.router)
 
 @app.on_event("startup")
