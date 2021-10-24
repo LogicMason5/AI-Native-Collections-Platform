@@ -23,8 +23,13 @@ async def register(
     if get_user:
         raise HTTPException(
                         status_code=400, 
-                        detail="Public key already registered."
+                        detail="Public key already registered"
                         )
+    elif db.query(Link).filter(Link.link == user.link).first():
+        raise HTTPException(
+                        status_code=400, 
+                        detail="Link already taken"
+                        )        
     else:
         db_user = User(username=random_username(), public_key=user.public_key)
         db.add(db_user)
