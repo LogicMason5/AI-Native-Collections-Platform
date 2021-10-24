@@ -4,6 +4,6 @@ COPY /pay /root
 
 WORKDIR /root
 
-RUN pip install fastapi uvicorn sqlalchemy aioredis
+RUN pip install fastapi uvicorn sqlalchemy aioredis mysqlclient
 
 CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
