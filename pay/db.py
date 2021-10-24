@@ -1,19 +1,26 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-def get_db_url() -> str:
+load_dotenv()
+
+
+def initialize_engine() -> str:
     try:
-        return os.environ["DB_URL"]
+        return create_engine(os.environ["MYSQL_URL"])
     except KeyError:
         print(
-            "'DB_URL' environment variable not found,",
+            "'MYSQL_URL' environment variable not found,",
             "creating 'db.sql' locally...'"
             )
-        return "sqlite:///../db.sql"
+        return create_engine(
+                            "sqlite:///../db.sql", 
+                            connect_args={"check_same_thread": False}
+                            )
 
-engine = create_engine(get_db_url())
+engine = initialize_engine()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

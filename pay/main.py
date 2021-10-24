@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from typing import Union
 from aioredis import from_url
 from fastapi import FastAPI, HTTPException
@@ -11,6 +12,7 @@ from models import RegisterUser
 from db import engine, SessionLocal, Base
 
 
+load_dotenv()
 app = FastAPI()
 
 def get_db() -> None:
@@ -24,13 +26,14 @@ Base.metadata.create_all(bind=engine)
 
 @app.on_event("startup")
 async def startup() -> None:
+    if not os.environ.get("REDIS_URL"):
+        raise KeyError("You must setup REDIS_URL environment variable.")
     redis = await from_url(os.environ["REDIS_URL"], encoding="utf8")
     await RateLimiter.init(redis)
-
+    
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await RateLimiter.close()
-
 
 
 @app.get("/", dependencies=[Depends(RateLimit(times=20, seconds=1))])
