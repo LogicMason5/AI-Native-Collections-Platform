@@ -1,3 +1,4 @@
+import os
 from typing import Union
 from aioredis import from_url
 from fastapi import FastAPI, HTTPException
@@ -23,7 +24,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.on_event("startup")
 async def startup() -> None:
-    redis = await from_url("redis://localhost", encoding="utf8")
+    redis = await from_url(os.environ["REDIS_URL"], encoding="utf8")
     await RateLimiter.init(redis)
 
 @app.on_event("shutdown")
