@@ -32,11 +32,12 @@ async def shutdown() -> None:
 
 
 
-@app.get("/", dependencies=[Depends(RateLimit(times=100, seconds=5))])
+@app.get("/", dependencies=[Depends(RateLimit(times=20, seconds=1))])
 async def root() -> dict:
     return {"message": "Welcome"}
 
-@app.post("/register", dependencies=[Depends(RateLimit(times=100, seconds=5))])
+
+@app.post("/register", dependencies=[Depends(RateLimit(times=20, seconds=5))])
 async def register(
                 user: RegisterUser, db: Session=Depends(get_db)
                 ) -> Union[HTTPException, dict]:
