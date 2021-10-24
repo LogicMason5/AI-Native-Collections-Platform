@@ -1,6 +1,6 @@
 FROM python:3
 
-COPY /maskpay /root
+COPY /pay /root
 
 WORKDIR /root
 
