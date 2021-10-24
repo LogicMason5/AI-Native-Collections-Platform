@@ -4,6 +4,7 @@ from db import get_db
 from schemas import User, Link
 from models import RegisterUser
 from ratelimit import RateLimit
+from utils import random_username
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -25,7 +26,7 @@ async def register(
                         detail="Public key already registered."
                         )
     else:
-        db_user = User(username=user.username, public_key=user.public_key)
+        db_user = User(username=random_username(), public_key=user.public_key)
         db.add(db_user)
         db.flush() # Adding db_user to the session in order to access id
         db.add(Link(link=user.link, owner_id=db_user.id))
