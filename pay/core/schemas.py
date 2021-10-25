@@ -5,7 +5,7 @@ from sqlalchemy import (
                         Integer, 
                         DateTime, 
                         )
-from db import Base
+from core.db import Base
 
 
 class User(Base):
