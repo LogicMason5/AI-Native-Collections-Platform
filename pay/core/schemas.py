@@ -4,9 +4,7 @@ from sqlalchemy import (
                         String, 
                         Integer, 
                         DateTime, 
-                        ForeignKey
                         )
-from sqlalchemy.orm import relationship
 from db import Base
 
 

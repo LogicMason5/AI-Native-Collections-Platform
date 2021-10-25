@@ -1,9 +1,9 @@
 from typing import Union
 
-from db import get_db
-from schemas import User, Link
-from models import RegisterUser
-from ratelimit import RateLimit
+from core.db import get_db
+from core.schemas import User, Link
+from core.models import RegisterUser
+from core.ratelimit import RateLimit
 from utils import random_username
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException
@@ -11,11 +11,12 @@ from fastapi import APIRouter, Depends, HTTPException
 router = APIRouter()
 
 @router.post("/register", 
-            dependencies=[Depends(RateLimit(times=20, seconds=5))]
+            dependencies=[Depends(RateLimit(times=20, seconds=5))],
+            status_code=201
             )
 async def register(
                 user: RegisterUser, db: Session=Depends(get_db)
-                ) -> Union[HTTPException, dict]:
+                ) -> Union[HTTPException, User]:
 
     get_user = db.query(User).filter(
                 User.public_key == user.public_key).first()
@@ -50,4 +51,4 @@ async def pay(link: str, db: Session=Depends(get_db)):
         db.refresh(user)
         return user
     else:
-        return {"message": "No one owns this link yet."}
+        return {"message": "No one owns this link yet"}

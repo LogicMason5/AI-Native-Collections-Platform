@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from fastapi.param_functions import Depends
 from fastapi.middleware.cors import CORSMiddleware
 from routes import user
-from db import engine, Base
-from ratelimit import RateLimit, RateLimiter
+from core.db import engine, Base
+from core.ratelimit import RateLimit, RateLimiter
 
 load_dotenv()
 

@@ -6,7 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 load_dotenv()
 
-
 def initialize_engine() -> str:
     try:
         return create_engine(os.environ["MYSQL_URL"])
