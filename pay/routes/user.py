@@ -41,7 +41,7 @@ async def register(
         return db_user
 
 
-@router.get("/{link}", dependencies=[Depends(RateLimit(times=30, seconds=1))])
+@router.get("/link/{link}", dependencies=[Depends(RateLimit(times=30, seconds=1))])
 async def pay(link: str, db: Session=Depends(get_db)):
     link_obj = db.query(Link).filter(link == Link.link).first()
     if link_obj:
