@@ -6,7 +6,7 @@ from core.schemas import Link
 
 router = APIRouter(prefix="/check")
 
-@router.get("/", dependencies=[Depends(RateLimit(times=30, seconds=1))])
+@router.get("", dependencies=[Depends(RateLimit(times=30, seconds=1))])
 async def check_link(link: str, db: Session=Depends(get_db)):
     link_obj = db.query(Link).filter(link == Link.link).first()
     if link_obj:

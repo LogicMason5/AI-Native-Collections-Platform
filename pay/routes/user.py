@@ -48,7 +48,13 @@ async def pay(link: str, db: Session=Depends(get_db)):
         user = db.query(User).filter(User.id==link_obj.owner_id).first()
         link_obj.uses += 1
         db.commit()
-        db.refresh(user)
-        return user
+        if user:
+            db.refresh(user)
+            return user
+        else:
+            return {
+                "message": 
+                "Uh oh! The user owning this link does not exist anymore"
+                }
     else:
         return {"message": "No one owns this link yet"}
