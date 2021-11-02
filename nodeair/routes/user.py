@@ -58,3 +58,33 @@ async def pay(link: str, db: Session=Depends(get_db)):
                 }
     else:
         return {"message": "No one owns this link yet"}
+
+@router.post("/register", 
+            dependencies=[Depends(RateLimit(times=20, seconds=5))],
+            status_code=201
+            )
+async def register(
+                user: RegisterUser, db: Session=Depends(get_db)
+                ) -> Union[HTTPException, User]:
+
+    get_user = db.query(User).filter(
+                User.public_key == user.public_key).first()
+
+    if get_user:
+        raise HTTPException(
+                        status_code=400, 
+                        detail="Public key already registered"
+                        )
+    elif db.query(Link).filter(Link.link == user.link).first():
+        raise HTTPException(
+                        status_code=400, 
+                        detail="Link already taken"
+                        )        
+    else:
+        db_user = User(username=random_username(), public_key=user.public_key)
+        db.add(db_user)
+        db.flush() # Adding db_user to the session in order to access id
+        db.add(Link(link=user.link, owner_id=db_user.id))
+        db.commit()
+        db.refresh(db_user)
+        return db_user

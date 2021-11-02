@@ -1,6 +1,6 @@
 FROM python:3
 
-COPY /pay /root
+COPY /nodeair /root
 
 WORKDIR /root
 
