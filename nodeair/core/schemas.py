@@ -4,7 +4,10 @@ from sqlalchemy import (
                         String, 
                         Integer, 
                         DateTime, 
+                        Text,
+                        ForeignKey
                         )
+from sqlalchemy.orm import relationship
 from core.db import Base
 
 
@@ -12,9 +15,10 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    username = Column(String(length=15), nullable=False)
-    public_key = Column(String(length=44), nullable=False)
-    joined_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    public_key = Column(String(length=44), nullable=False, unique=True)
+    name = Column(String(length=15), nullable=False)
+    bio = Column(Text, nullable=True)
+    social = Column(String(100), nullable=True)
     avatar = Column(String(100), default=(
                     "https://res.cloudinary.com/f22/image"
                     "/upload/v1635015065/Test/avatar.png"
@@ -23,13 +27,18 @@ class User(Base):
                     "https://res.cloudinary.com/f22/image"
                     "/upload/v1635100450/Test/banner.png"
                     ), nullable=False)
+    email = Column(String(30), nullable=True)
+    joined_on = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    bookmarks = relationship("Bookmark", back_populates="users", passive_deletes=True)
 
 
-class Link(Base):
-    __tablename__ = "links"
+class Bookmark(Base):
+    __tablename__ = "bookmarks"
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    link = Column(String(30), nullable=False)
-    expiration = Column(DateTime, nullable=True)
-    uses = Column(Integer, default=0, nullable=True)
-    owner_id = Column(Integer, nullable=False)
+    public_key = Column(String(length=44), ForeignKey('users.public_key', ondelete='CASCADE'), nullable=False)
+    bookmarked_on = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship("User", back_populates="bookmark")
+
