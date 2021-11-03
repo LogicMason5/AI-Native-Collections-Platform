@@ -11,8 +11,8 @@ export default function Index() {
       <DefaultHead title={'NodeAir - Have more than just wallet address.'} />
         <Navbar/>
         <main className={styles.index_body}>
-          <h1 className={styles.heading}>Customize your wallet, look how you want to be.</h1>
-          <p className={styles.description}>Get more than a simple wallet address, customize and share your Solana identity with anyone in minutes.</p>
+          <h1 className={styles.heading}>Customize your wallet, get detailed insights about your Solana identity.</h1>
+          <p className={styles.description}>NodeAir let's you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds. </p>
           <button className={styles.button} onClick={registerWallet}>Create your profile</button>
           <div className={styles.profile_image} ><Image src={ProfileImage} height="600"/></div>
         </main>
