@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter()
 
+
 @router.post("/register", 
             dependencies=[Depends(RateLimit(times=20, seconds=5))],
             status_code=201
@@ -17,9 +18,7 @@ async def register(
                 user: RegisterUser, db: Session=Depends(get_db)
                 ) -> Union[HTTPException, User]:
 
-    get_user = db.query(User).filter(
-                User.public_key == user.public_key).first()
-
+    get_user = db.query(User).filter_by(public_key=user.public_key).first()
     if get_user:
         raise HTTPException(
                         status_code=400, 
