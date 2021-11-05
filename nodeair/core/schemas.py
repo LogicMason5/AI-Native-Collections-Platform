@@ -30,7 +30,7 @@ class User(Base):
     email = Column(String(30), nullable=True)
     joined_on = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    bookmarks = relationship("Bookmark", back_populates="users", passive_deletes=True)
+    bookmarks = relationship("Bookmark", back_populates="user", passive_deletes=True)
 
 
 class Bookmark(Base):
@@ -40,5 +40,5 @@ class Bookmark(Base):
     public_key = Column(String(length=44), ForeignKey('users.public_key', ondelete='CASCADE'), nullable=False)
     bookmarked_on = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    user = relationship("User", back_populates="bookmark")
+    user = relationship("User", back_populates="bookmarks")
 
