@@ -8,10 +8,10 @@ load_dotenv()
 
 def initialize_engine() -> str:
     try:
-        return create_engine(os.environ["MYSQL_URL"])
+        return create_engine(os.environ["POSTGRESQL_URL"])
     except KeyError:
         print(
-            "'MYSQL_URL' environment variable not found,",
+            "'POSTGRESQL_URL' environment variable not found,",
             "creating 'db.sql' locally...'"
             )
         return create_engine(
