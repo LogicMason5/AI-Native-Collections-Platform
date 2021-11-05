@@ -18,7 +18,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# app.include_router(user.router)
+app.include_router(user.router)
 
 @app.on_event("startup")
 async def startup() -> None:
