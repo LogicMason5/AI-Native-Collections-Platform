@@ -1,16 +1,19 @@
 @import '../variables';
 
-
 .navbar {
-    background-color: $bg;
+    position: fixed;
     display: flex;
+    background-color: $bg;
+    box-shadow: 0px 5px 30px #0D0D0D;
+    border-radius: 0px 0px 3rem 3rem;
+    width: 100vw;
+    padding: 10px 5%;
+    font-size: 1.2rem;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5%;
-    border-radius: 0px 0px 3rem 3rem;
-    box-shadow: 0px 5px 30px #0D0D0D;
-    font-size: 1.1rem;
+    z-index: 2;
 }
+
 
 .links {
     list-style: None;

@@ -7,10 +7,10 @@ export const Navbar = () => {
       <header className={styles.navbar}>
         <nav>
           <ul className={styles.links}>
-            <Link href="/"><a>Home</a></Link>
-            <Link href="/"><a>Support</a></Link>
-            <Link href="/"><a>Pricing</a></Link>
-            <Link href="/"><a>Guide</a></Link>
+            <Link href="/">Home</Link>
+            <Link href="/">Support</Link>
+            <Link href="/">Pricing</Link>
+            <Link href="/">Guide</Link>
           </ul>
         </nav>
         <button className={styles.connect_button} onClick={registerWallet}>Connect wallet</button>
