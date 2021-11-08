@@ -39,7 +39,7 @@ async def register(
         return db_user
 
 
-@router.post("/profile/{name}", 
+@router.get("/profile/{name}", 
             dependencies=[Depends(RateLimit(times=20, seconds=5))],
             status_code=201
             )
