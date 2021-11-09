@@ -1,6 +1,6 @@
 FROM python:3
 
-COPY /nodeair /root
+COPY /nodeair-api /root
 
 WORKDIR /root
 
