@@ -1,7 +1,9 @@
+import os
 from typing import Union
 
 from core.db import get_db
 from core.schemas import User
+from core.webhook import Webhook, Embed
 from sqlalchemy.orm import Session
 from core.ratelimit import RateLimit
 from core.models import RegisterUser
@@ -36,6 +38,12 @@ async def register(
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
+        webhook = Webhook(os.getenv("WEBHOOK_URL"))
+        embed = Embed(
+            f"New registration!", 
+            f"**{db_user.public_key}** registered with the name **{db_user.name}**"
+            ).json()
+        await webhook.send(embed=embed)
         return db_user
 
 
