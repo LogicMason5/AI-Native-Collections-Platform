@@ -1,8 +1,30 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const connectWallet = async () => {
+  const notify = () => toast("Wow so easy!");
+
   if ("solana" in window) {
     // @ts-ignore
-    const response = await window.solana.connect();
-    return response.publicKey;
+    const res = await window.solana.connect();
+    const button = document.querySelector(".Navbar_connect_button__32n_j")
+    if (button != null) {
+      const pubKey = res.publicKey.toString()
+      let start =pubKey.substring(0, 5)
+      let end = pubKey.substring(39, 44)
+      button.innerHTML = start + "..." + end
+    }
+    toast.success('Connected to wallet!', {
+      position: "top-center",
+      autoClose: 2000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      theme: "dark"
+      });
+    return (
+      <>
+      </>
+    )
   }
   window.open("https://phantom.app/", "_blank");
 }
@@ -10,9 +32,12 @@ export const connectWallet = async () => {
 export const registerWallet = async () => {
   const { API_URL }: any = process.env;
   const pubKey = await connectWallet();
-  const data = {
+  let data
+  if (pubKey != null) {
+    data = {
       public_key: pubKey.toString()
     }
+  }
 
   fetch(`${API_URL}/register`, {
     body: JSON.stringify(data),
