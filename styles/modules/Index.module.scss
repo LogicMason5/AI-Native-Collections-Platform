@@ -5,119 +5,86 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(10, .2fr);
-
  }
 
-.heading { 
-    font-size: calc(1.2vw + 1.5rem);
-    color: white;
+.heading {
+    font-size: calc(1vw + 1.5rem);
     grid-column: 2/5;
-    justify-self: center;
     grid-row: 2;
-    max-width: 34vw;
+    justify-self: center;
+    max-width: 35vw;
 }
 
 .description { 
-    font-size: calc(.4vw + .8rem);
-    color: #A6A6A6;
+    color: $primarygrey;
+    font-size: calc(.2vw + 1rem);
     grid-column: 2/5;
-    justify-self: center;
-    max-width: 34vw;
     grid-row: 3;
-    z-index: 1;
+    justify-self: center;
+    max-width: 35vw;
+
 }
 
 .button {
-    z-index: 1;
     @include button;
+    font-size: 1.2rem;
     grid-column: 2/4;
     grid-row: 4;
     justify-self: start;
     align-self: center;
-    height: 60px;
-    width: 15em;
-    margin-left: 6%;
-    font-size: 1.4rem;
+    height: 4rem;
+    width: 18rem;
+    margin-left: 5%;
 }
 
-.insightsImage {
+.insights_image {
+    border:  1px solid $secondarygrey;
     grid-column: 5/8;
     grid-row: 2/5;
     justify-self: start;
     align-self: center;
-    z-index: 1;
-    width: 799px;
-    border:  1px solid rgb(70, 70, 70);
+    width: 796px;
     height: 450px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 100px #104eaa46;
+    border-radius: 15px;
+    box-shadow: 0px 0px 100px #104eaa40;
 }
 
 .features {
+    color: $primarygrey;
     margin-top: 100px;
     grid-column: 3/7;
     grid-row: 5/6;
     justify-self: center;
-    color: rgb(189, 189, 189);
     text-align: center;
     & > h2 {
         @include head_text($primaryblue);
     }
 }
 
-
-.boxes1 {
-    display: flex;
-    flex-flow: row wrap;
-    & > *h3 {
-        color: white;
-        font-size: 1.6rem;
-    }
-    & > * {
-        background-color: $secondarybg;
-        border-radius: 1rem;
-        margin: 25px;
-        padding: 20px 10px;
-        flex: 2 0 40%;
-        box-shadow: 0px 0px 30px #104EAA50;
-        border: 1px solid $secondaryblue;
-    }
-}
-
 .pricing {
+    color: $primarygrey;
     grid-column: 3/7;
     grid-row: 7;
     justify-self: center;
-    color: rgb(189, 189, 189);
     text-align: center;
     & > h2 {
         @include head_text($orange)
     }
 }
 
-.boxes2 {
-    display: flex;
-    flex-flow: row wrap;
-    & > *h3 {
-        color: white;
-        font-size: 1.6rem;
-    }
-    & > * {
-        background-color: $secondarybg;
-        border-radius: 1rem;
-        margin: 25px;
-        padding: 20px 10px;
-        flex: 2 0 40%;
-        box-shadow: 0px 0px 30px #CC6B2550;
-        border: 1px solid $orange;
-    }
+.boxes1 {
+    @include landingPage_boxes($secondaryblue, #104EAA60);
 }
 
-.getstarted {
+.boxes2 {
+    @include landingPage_boxes($orange, #CC6B2560);
+}
+
+.get_started {
+    color: $primarygrey;
     grid-column: 3/7;
     grid-row: 9;
     justify-self: center;
-    color: rgb(189, 189, 189);
     text-align: center;
     & > h2 {
         @include head_text(white)
@@ -128,34 +95,56 @@
 }
 
 @media screen and (max-width: 1050px) {
-    .insightsImage {
+    .insights_image {
         display: none;
     }
+
     .heading {
         text-align: center;
+        grid-column: 2/8;
+        grid-row: 2;
+        max-width: 90vw;
+    }
+
+    .description {
+        text-align: center;
+        grid-column: 2/8;
+        grid-row: 2/4;
+        align-self: center;
+        max-width: 90vw;
+    }
+
+    .button {
+        grid-column: 2/8;
+        grid-row: 3/5;
+        align-self: center;
+        justify-self: center;
+        margin-left: 0;
+        max-width: 50vw;
+    }
+
+    .features {
+        margin-top: -50px;
+    }
+}
+
+@media screen and (max-width:800px) {
+
+    .heading {
         grid-row: 1/3;
         align-self: center;
-        grid-column: 2/8;
-        max-width: 90vw;
-        margin-bottom: 100px;
     }
+
     .description {
-        grid-row: 2/3;
-        align-self: center;
-        grid-column: 2/8;
-        max-width: 90vw;
-        font-size: 1.4rem;
-        text-align: center;
+        grid-row: 1/4;
     }
+
     .button {
-        grid-row: 3;
+        grid-row: 3/6;
         align-self: start;
-        grid-column: 2/8;
-        max-width: 50vw;
-        margin-left: 0%;
-        justify-self: center;
     }
+
     .features {
-        margin-top: -20vh;
-    }
+        margin-top: -200px;
+    } 
 }

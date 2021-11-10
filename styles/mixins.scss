@@ -42,3 +42,21 @@
         transform: scale(.90);
     }
 }
+
+@mixin landingPage_boxes($glow_colour, $show_colour){
+    display: flex;
+    flex-flow: row wrap;
+    & > *h3 {
+        color: white;
+        font-size: 1.6rem;
+    }
+    & > * {
+        background-color: $secondarybg;
+        border-radius: 1rem;
+        margin: 20px;
+        padding: 20px 10px;
+        flex: 2 0 40%;
+        box-shadow: 0px 0px 30px $show_colour;
+        border: 1px solid $glow_colour;
+    }
+}

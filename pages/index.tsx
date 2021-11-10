@@ -14,7 +14,7 @@ export default function Index() {
           <h1 className={styles.heading}>Get more out of your Solana wallet.</h1>
           <p className={styles.description}>NodeAir let's you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds. </p>
           <button className={styles.button} onClick={registerWallet}>Create your profile</button>
-          <div className={styles.insightsImage} ><Image src={InsightsImage}/></div>
+          <div className={styles.insights_image} ><Image src={InsightsImage}/></div>
           <section className={styles.features}>
             <h2 className={styles.content_heading}>Features you want</h2>
             <p className={styles.content_desc}>Easy to use, quick and useful features.</p>
@@ -53,7 +53,7 @@ export default function Index() {
             </div>
           </section>
 
-          <section className={styles.getstarted}>
+          <section className={styles.get_started}>
             <h2>What are you waiting for?</h2>
             <p>Get started for free in seconds.</p>
             <button className={styles.button} onClick={registerWallet}>Get started now</button>
