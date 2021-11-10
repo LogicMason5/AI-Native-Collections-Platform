@@ -1,9 +1,10 @@
 @import "mixins.scss";
+@import "variables.scss";
 
 html, body {
   padding: 0;
   margin: 0;
-  background: #0F1115;
+  background: $bg;
   @include default_font;
 }
 
