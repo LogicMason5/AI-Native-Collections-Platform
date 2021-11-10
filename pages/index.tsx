@@ -3,7 +3,7 @@ import { DefaultHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { registerWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Index.module.scss'
-import InsightsImage from '@/images/InsightsImage.png';
+import InsightsImage from '@/images/InsightsImage.svg';
 
 export default function Index() {  
   return (
@@ -18,6 +18,24 @@ export default function Index() {
           <div className={styles.features}>
             <h2 className={styles.content_heading}>Features you want</h2>
             <p className={styles.content_desc}>Easy to use, quick and useful features.</p>
+            <div className={styles.boxes}>
+              <div className={styles.box}>
+                <h3>Custom profile</h3>
+                <p>Create your profile in seconds, show it to anyone with a shareable link.</p>
+              </div>
+              <div className={styles.box}>
+                <h3>Insights</h3>
+                <p>Get your profile activity and transaction history in the form of graphs.</p>
+              </div>
+              <div className={styles.box}>
+                <h3>Insights</h3>
+                <p>Get your profile activity and transaction history in the form of graphs.</p>
+              </div>
+              <div className={styles.box}>
+                <h3>Insights</h3>
+                <p>Get your profile activity and transaction history in the form of graphs.</p>
+              </div>
+            </div>
           </div>
         </main>
     </>
