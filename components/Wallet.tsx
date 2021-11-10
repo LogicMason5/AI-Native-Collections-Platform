@@ -30,21 +30,28 @@ export const connectWallet = async () => {
 }
 
 export const registerWallet = async () => {
-  const { API_URL }: any = process.env;
-  const pubKey = await connectWallet();
-  let data
-  if (pubKey != null) {
-    data = {
-      public_key: pubKey.toString()
-    }
-  }
+  toast.info('Create profiles feature tomorrow!', {
+    position: "top-center",
+    autoClose: 5000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    theme: "dark"
+    });
+  // const { API_URL }: any = process.env;
+  // const pubKey = await connectWallet();
+  // let data
+  // if (pubKey != null) {
+  //   data = {
+  //     public_key: pubKey.toString()
+  //   }
+  // }
 
-  fetch(`${API_URL}/register`, {
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST"
-    })
-    .then((res) => console.log(res.json())).catch((err) => console.log(err))
+  // fetch(`${API_URL}/register`, {
+  //   body: JSON.stringify(data),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   method: "POST"
+  //   })
+  //   .then((res) => console.log(res.json())).catch((err) => console.log(err))
   }
