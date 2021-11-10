@@ -74,10 +74,18 @@
 
 .boxes1 {
     @include landingPage_boxes($secondaryblue, #104EAA60);
+    & > div ul li{
+        margin: 20px;
+        text-align: left;
+    }
 }
 
 .boxes2 {
     @include landingPage_boxes($orange, #CC6B2560);
+    & > div ul li{
+        margin: 20px;
+        text-align: left;
+    }
 }
 
 .get_started {

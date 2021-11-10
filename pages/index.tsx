@@ -30,12 +30,12 @@ export default function Index() {
                 <p>Get your profile activity and transaction history in the form of graphs.</p>
               </div>
               <div >
-                <h3>Insights</h3>
-                <p>Get your profile activity and transaction history in the form of graphs.</p>
+                <h3>Open source</h3>
+                <p>For developers, the entire codebase is available on GitHub.</p>
               </div>
               <div>
-                <h3>Insights</h3>
-                <p>Get your profile activity and transaction history in the form of graphs.</p>
+                <h3>Profile history</h3>
+                <p>Want to know what change you made in your profile or revert it back? Done. </p>
               </div>
             </div>
           </section>
@@ -44,13 +44,23 @@ export default function Index() {
             <h2 className={styles.content_heading}>Affordable and easy</h2>
             <p className={styles.content_desc}>Easy to use, quick and useful features.</p>
             <div className={styles.boxes2}>
-              <div >
+              <div>
                 <h3>Free plan - $0</h3>
-                <p>Create your profile in seconds, show it to anyone with a shareable link.</p>
+                <ul>
+                  <li>Create & update profiles.</li>
+                  <li>Profile activity chart.</li>
+                  <li>Transaction distribution chart.</li>
+                  <li>Copy profile from history.</li>
+                </ul>
               </div>
-              <div >
+              <div>
                 <h3>Pro plan - $5/year</h3>
-                <p>Get your profile activity and transaction history in the form of graphs.</p>
+                <ul>
+                  <li>Transaction activity chart.</li>
+                  <li>Filter transactions.</li>
+                  <li>Bookmark other profiles.</li>
+                  <li>View profile history.</li>
+                </ul>
               </div>
             </div>
           </section>
