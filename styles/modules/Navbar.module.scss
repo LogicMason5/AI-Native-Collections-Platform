@@ -4,11 +4,11 @@
     position: fixed;
     display: flex;
     background-color: $bg;
-    box-shadow: 0px 5px 30px #0D0D0D;
+    box-shadow: 0px 5px 30px rgba(13, 13, 13, 0.69);
     border-radius: 0px 0px 3rem 3rem;
     width: 100vw;
     padding: 10px 5%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     justify-content: space-between;
     align-items: center;
     z-index: 2;
@@ -20,13 +20,13 @@
     color: white;
     & li {
         display: inline-block;
-        padding: 0px calc(6vw - 100px);
+        padding: 0px calc(6vw - 80px);
     } & a {
         transition: 0.3s ease-out;
         padding: 10px 2vw;
         &:hover {
-            background-color: rgb(41, 41, 41);
-            border-radius: 20px;
+            background-color: $hoverbg;
+            border-radius: 15px;
         }
     }
 }
@@ -42,6 +42,6 @@
     transition: 0.3s;
     &:hover {
         transform: translate(0px, -5px);
-        box-shadow: 0px 0px 20px rgb(53, 53, 53);
+        box-shadow: 0px 5px 20px $hoverbg;
     }
 }
