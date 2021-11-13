@@ -1,38 +1,34 @@
-import Image from 'next/image';
 import { useState } from 'react'; 
+import Image from 'next/image';
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
-import { ToastContainer } from 'react-toastify';
-import InsightsImage from '@/images/InsightsImage.svg';
+import { registerWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Index.module.scss'
-import { RegisterModal } from '@/components/RegisterModal'
-
+import InsightsImage from '@/images/InsightsImage.svg';
+import { ToastContainer } from 'react-toastify';
 
 export default function Index() { 
-  const [plan, setPlan] = useState(true)
   const [starter, setStarter] = useState(true)
   const [pro, setPro] = useState(true)
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [planText, setPlanText] = useState(true)
+  const [boxStyling, setBoxStyling] = useState(true)
 
-  const togglePlans = () => {
+  const handlePlans = () => {
     setStarter(!starter)
-    setPlan(!plan)
+    setPlanText(!planText)
     setPro(!pro)
+    setBoxStyling(!boxStyling)
   }
     
-  const toggleModal = () => {
-    setModalIsOpen(!modalIsOpen)
-  }
-
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
         <Navbar/>
-        <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true}/>
+        <ToastContainer/>
         <main className={styles.index_body}>
           <h1 className={styles.heading}>Get more out of your Solana wallet.</h1>
           <p className={styles.description}>Create your wallet profile to know about each other more. Get visual representation with graphs about your transactions and activity in seconds.</p>
-          <button className={styles.button} onClick={toggleModal}>Create your profile</button>
+          <button className={styles.button} onClick={registerWallet}>Create your profile</button>
           <div className={styles.insights_image} ><Image src={InsightsImage}/></div>
 
           <section className={styles.features}>
@@ -61,7 +57,7 @@ export default function Index() {
           <section className={styles.pricing}>
             <h2 className={styles.content_heading}>Affordable and flexible</h2>
             <p className={styles.content_desc}>Enjoy your favourite features with affordable and flexible pricing</p>
-            <div className={plan ? styles.boxes2 : styles.boxes2_}>
+            <div className={boxStyling ? styles.boxes2 : styles.boxes2_}>
               <div>
                 <h3>Starter plan - {starter ? "$1/year" : "$5"}</h3>
                 <h3></h3>
@@ -82,17 +78,16 @@ export default function Index() {
                 </ul>
               </div>
             </div>
-            <button className={styles.payment_button} onClick={togglePlans}>Prefer {plan ? 'one time payment' : 'subscription based'} plan instead?</button>
+            <button className={styles.payment_button} onClick={handlePlans}>Prefer {planText ? 'one time payment' : 'subscription based'} plan instead?</button>
           </section>
 
           <section className={styles.get_started}>
             <h2>What are you waiting for?</h2>
             <p>Get started for free in seconds.</p>
-            <button className={styles.button} onClick={toggleModal}>Get started now</button>
+            <button className={styles.button} onClick={registerWallet}>Get started now</button>
           </section>
-          {modalIsOpen ? <RegisterModal setModalIsOpen={toggleModal} /> : null}
+
         </main>
     </>
   )
 }
-
