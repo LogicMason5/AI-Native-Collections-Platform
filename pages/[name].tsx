@@ -1,4 +1,7 @@
+import { PageHead } from '@/components/Head'
+
 export default function Profile( data: Object ) {
+  <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
   console.log(data)
   return (
     <h1>{JSON.stringify(data)}</h1>

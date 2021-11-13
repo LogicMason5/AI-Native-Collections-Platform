@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { DefaultHead } from '@/components/Head'
+import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { registerWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Index.module.scss'
@@ -9,12 +9,12 @@ import { ToastContainer } from 'react-toastify';
 export default function Index() {  
   return (
     <>
-      <DefaultHead title={'NodeAir - Have more than just wallet address.'} />
+      <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
         <Navbar/>
         <ToastContainer/>
         <main className={styles.index_body}>
           <h1 className={styles.heading}>Get more out of your Solana wallet.</h1>
-          <p className={styles.description}>NodeAir let's you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds. </p>
+          <p className={styles.description}>Create your wallet profile to know about each other more. Get visual representation with graphs about your transactions and activity in seconds.</p>
           <button className={styles.button} onClick={registerWallet}>Create your profile</button>
           <div className={styles.insights_image} ><Image src={InsightsImage}/></div>
           <section className={styles.features}>
