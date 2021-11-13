@@ -1,3 +1,4 @@
+import { useState } from 'react'; 
 import Image from 'next/image';
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
@@ -6,7 +7,19 @@ import styles from '@/styles/modules/Index.module.scss'
 import InsightsImage from '@/images/InsightsImage.svg';
 import { ToastContainer } from 'react-toastify';
 
-export default function Index() {  
+export default function Index() { 
+  const [starter, setStarter] = useState(true)
+  const [pro, setPro] = useState(true)
+  const [planText, setPlanText] = useState(true)
+  const [boxStyling, setBoxStyling] = useState(true)
+
+  const handlePlans = () => {
+    setStarter(!starter)
+    setPlanText(!planText)
+    setPro(!pro)
+    setBoxStyling(!boxStyling)
+  }
+    
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
@@ -17,6 +30,7 @@ export default function Index() {
           <p className={styles.description}>Create your wallet profile to know about each other more. Get visual representation with graphs about your transactions and activity in seconds.</p>
           <button className={styles.button} onClick={registerWallet}>Create your profile</button>
           <div className={styles.insights_image} ><Image src={InsightsImage}/></div>
+
           <section className={styles.features}>
             <h2 className={styles.content_heading}>Features you want</h2>
             <p className={styles.content_desc}>Easy to use, quick and useful features.</p>
@@ -41,11 +55,12 @@ export default function Index() {
           </section>
 
           <section className={styles.pricing}>
-            <h2 className={styles.content_heading}>Affordable and easy</h2>
-            <p className={styles.content_desc}>Easy to use, quick and useful features.</p>
-            <div className={styles.boxes2}>
+            <h2 className={styles.content_heading}>Affordable and flexible</h2>
+            <p className={styles.content_desc}>Enjoy your favourite features with affordable and flexible pricing</p>
+            <div className={boxStyling ? styles.boxes2 : styles.boxes2_}>
               <div>
-                <h3>Free plan - $0</h3>
+                <h3>Starter plan - {starter ? "$1/year" : "$5"}</h3>
+                <h3></h3>
                 <ul>
                   <li>Create & update profiles.</li>
                   <li>Profile activity chart.</li>
@@ -54,7 +69,7 @@ export default function Index() {
                 </ul>
               </div>
               <div>
-                <h3>Pro plan - $5/year</h3>
+                <h3>Pro plan - {pro ? "$5/year" : "$15"}</h3>
                 <ul>
                   <li>Transaction activity chart.</li>
                   <li>Filter transactions.</li>
@@ -63,6 +78,7 @@ export default function Index() {
                 </ul>
               </div>
             </div>
+            <button className={styles.payment_button} onClick={handlePlans}>Prefer {planText ? 'one time payment' : 'subscription based'} plan instead?</button>
           </section>
 
           <section className={styles.get_started}>
@@ -70,6 +86,7 @@ export default function Index() {
             <p>Get started for free in seconds.</p>
             <button className={styles.button} onClick={registerWallet}>Get started now</button>
           </section>
+
         </main>
     </>
   )
