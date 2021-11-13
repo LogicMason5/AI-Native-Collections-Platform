@@ -44,3 +44,12 @@
         box-shadow: 0px 5px 20px $hoverbg;
     }
 }
+
+@media screen and (max-width: 600px) {
+    .navbar {
+        border-radius: 0px 0px 1rem 1rem;
+    }
+    .connect_button {
+        display: none;
+    }
+}
