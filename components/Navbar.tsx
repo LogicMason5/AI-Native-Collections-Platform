@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { connectWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Navbar.module.scss'
-import { ToastContainer } from 'react-toastify';
 
 export const Navbar = () => {
     return (
@@ -14,7 +13,6 @@ export const Navbar = () => {
             <Link href="/">Guide</Link>
           </ul>
         </nav>
-        <ToastContainer/>
         <button className={styles.connect_button} onClick={connectWallet}>Connect wallet</button>
       </header>
     )

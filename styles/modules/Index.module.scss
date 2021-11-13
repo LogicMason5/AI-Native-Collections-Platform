@@ -63,7 +63,7 @@
 
 .pricing {
     color: $primarygrey;
-    grid-column: 3/7;
+    grid-column: 2/8;
     grid-row: 7;
     justify-self: center;
     text-align: center;
@@ -74,6 +74,11 @@
 
 .boxes1 {
     @include landingPage_boxes($secondaryblue, #104EAA60);
+    & > div {
+        min-width: 350px;
+    } & > div p {
+        font-size: 1.2rem;
+    }
     & > div ul li{
         margin: 20px;
         text-align: left;
@@ -82,7 +87,15 @@
 
 .boxes2 {
     @include landingPage_boxes($orange, #CC6B2560);
+    text-align: left;
+    & > div {
+        min-width: 300px;
+        & > h3 {
+            margin-left: 50px;
+        }
+    }
     & > div ul li{
+        font-size: 1.2rem;
         margin: 20px;
         text-align: left;
     }
