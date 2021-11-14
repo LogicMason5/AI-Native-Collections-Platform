@@ -15,29 +15,14 @@ export const connectWallet = async () => {
       let end = pubKey.substring(39, 44)
       button.innerHTML = start + "..." + end
     }
-    toast.success('Connected to wallet!', {
-      position: "top-center",
-      autoClose: 2000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      theme: "dark"
-      });
-    return (
-      <>
-      </>
-    )
+    toast.success('Connected to wallet!');
+      return res.publicKey;
+  } 
+    window.open("https://phantom.app/", "_blank");
   }
-  window.open("https://phantom.app/", "_blank");
-}
 
 export const registerWallet = async () => {
-  toast.info('Create profiles feature tomorrow!', {
-    position: "top-center",
-    autoClose: 5000,
-    closeOnClick: true,
-    pauseOnHover: true,
-    theme: "dark"
-    });
+  toast.info('Create profiles feature tomorrow!');
   const { API_URL }: any = "http://localhost:8000/";
 
   const pubKey = await connectWallet();
