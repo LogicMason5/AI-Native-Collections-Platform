@@ -18,6 +18,10 @@ a {
   box-sizing: border-box;
 }
 
+input, button {
+  outline: none;
+}
+
 h1 {
   color: white;
 }

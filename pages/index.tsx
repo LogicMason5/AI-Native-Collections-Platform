@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
+import { NameModal } from '@/components/NameModal'
 import { registerWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Index.module.scss'
 import InsightsImage from '@/images/InsightsImage.svg';
@@ -12,6 +13,7 @@ export default function Index() {
   const [pro, setPro] = useState(true)
   const [planText, setPlanText] = useState(true)
   const [boxStyling, setBoxStyling] = useState(true)
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handlePlans = () => {
     setStarter(!starter)
@@ -20,6 +22,9 @@ export default function Index() {
     setBoxStyling(!boxStyling)
   }
     
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen)
+  }
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
@@ -28,7 +33,7 @@ export default function Index() {
         <main className={styles.index_body}>
           <h1 className={styles.heading}>Get more out of your Solana wallet.</h1>
           <p className={styles.description}>Create your wallet profile to know about each other more. Get visual representation with graphs about your transactions and activity in seconds.</p>
-          <button className={styles.button} onClick={registerWallet}>Create your profile</button>
+          <button className={styles.button} onClick={toggleModal}>Create your profile</button>
           <div className={styles.insights_image} ><Image src={InsightsImage}/></div>
 
           <section className={styles.features}>
@@ -84,9 +89,9 @@ export default function Index() {
           <section className={styles.get_started}>
             <h2>What are you waiting for?</h2>
             <p>Get started for free in seconds.</p>
-            <button className={styles.button} onClick={registerWallet}>Get started now</button>
+            <button className={styles.button} onClick={toggleModal}>Get started now</button>
           </section>
-
+          {modalIsOpen ? <NameModal setModalIsOpen={toggleModal} /> : null}
         </main>
     </>
   )

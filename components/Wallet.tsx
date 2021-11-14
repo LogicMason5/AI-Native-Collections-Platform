@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -37,21 +38,22 @@ export const registerWallet = async () => {
     pauseOnHover: true,
     theme: "dark"
     });
-  // const { API_URL }: any = process.env;
-  // const pubKey = await connectWallet();
-  // let data
-  // if (pubKey != null) {
-  //   data = {
-  //     public_key: pubKey.toString()
-  //   }
-  // }
+  const { API_URL }: any = "http://localhost:8000/";
 
-  // fetch(`${API_URL}/register`, {
-  //   body: JSON.stringify(data),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   method: "POST"
-  //   })
-  //   .then((res) => console.log(res.json())).catch((err) => console.log(err))
+  const pubKey = await connectWallet();
+  let data
+  if (pubKey != null) {
+    data = {
+      public_key: pubKey.toString()
+    }
+  }
+
+  fetch(`${API_URL}/register`, {
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST"
+    })
+    .then((res) => console.log(res.json())).catch((err) => console.log(err))
   }
