@@ -1,24 +1,23 @@
-import { useState } from 'react'; 
 import Image from 'next/image';
+import { useState } from 'react'; 
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
-import { NameModal } from '@/components/NameModal'
-import styles from '@/styles/modules/Index.module.scss'
-import InsightsImage from '@/images/InsightsImage.svg';
 import { ToastContainer } from 'react-toastify';
+import InsightsImage from '@/images/InsightsImage.svg';
+import styles from '@/styles/modules/Index.module.scss'
+import { RegisterModal } from '@/components/RegisterModal'
+
 
 export default function Index() { 
+  const [plan, setPlan] = useState(true)
   const [starter, setStarter] = useState(true)
   const [pro, setPro] = useState(true)
-  const [planText, setPlanText] = useState(true)
-  const [boxStyling, setBoxStyling] = useState(true)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const togglePlans = () => {
     setStarter(!starter)
-    setPlanText(!planText)
+    setPlan(!plan)
     setPro(!pro)
-    setBoxStyling(!boxStyling)
   }
     
   const toggleModal = () => {
@@ -62,7 +61,7 @@ export default function Index() {
           <section className={styles.pricing}>
             <h2 className={styles.content_heading}>Affordable and flexible</h2>
             <p className={styles.content_desc}>Enjoy your favourite features with affordable and flexible pricing</p>
-            <div className={boxStyling ? styles.boxes2 : styles.boxes2_}>
+            <div className={plan ? styles.boxes2 : styles.boxes2_}>
               <div>
                 <h3>Starter plan - {starter ? "$1/year" : "$5"}</h3>
                 <h3></h3>
@@ -83,7 +82,7 @@ export default function Index() {
                 </ul>
               </div>
             </div>
-            <button className={styles.payment_button} onClick={togglePlans}>Prefer {planText ? 'one time payment' : 'subscription based'} plan instead?</button>
+            <button className={styles.payment_button} onClick={togglePlans}>Prefer {plan ? 'one time payment' : 'subscription based'} plan instead?</button>
           </section>
 
           <section className={styles.get_started}>
@@ -91,7 +90,7 @@ export default function Index() {
             <p>Get started for free in seconds.</p>
             <button className={styles.button} onClick={toggleModal}>Get started now</button>
           </section>
-          {modalIsOpen ? <NameModal setModalIsOpen={toggleModal} /> : null}
+          {modalIsOpen ? <RegisterModal setModalIsOpen={toggleModal} /> : null}
         </main>
     </>
   )

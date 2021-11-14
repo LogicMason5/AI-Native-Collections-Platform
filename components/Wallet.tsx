@@ -28,9 +28,9 @@ const usdToSol = async (usd: number ) => {
   return usd/price
 }
 
-export const sendPayment = async (to: PublicKey, amount: number) => {
-  const sol = await usdToSol(amount)
-  console.log("sol", sol)
+export const sendPayment = async (to: PublicKey, usd: number) => {
+  const sol = await usdToSol(usd)
+  console.log("Converted SOL: ", sol)
 
   const publicKey = await connectWallet();
   const network = "https://api.devnet.solana.com";
@@ -53,14 +53,14 @@ export const sendPayment = async (to: PublicKey, amount: number) => {
 }
 
 
-export const registerWallet = async (event: any, name: string, amount: number) => {
-  console.log("Amount", amount)
+export const registerWallet = async (event: any, name: string, usd: number) => {
+  console.log("Initial USD: ", usd)
   event.preventDefault();
- await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), amount)
+  await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), usd)
 
   const API_URL: any = "http://localhost:8000";
+  const pubKey = window.solana._publicKey
 
-  const pubKey = await connectWallet();
   let data
   if (pubKey != null) {
     data = {
@@ -68,6 +68,7 @@ export const registerWallet = async (event: any, name: string, amount: number) =
       name: name
     }
   }
+  
   fetch(`${API_URL}/register`, {
     body: JSON.stringify(data),
     headers: {
