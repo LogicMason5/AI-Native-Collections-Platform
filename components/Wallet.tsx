@@ -20,13 +20,14 @@ export const connectWallet = async () => {
   }
 
 
-const usdToSol = async (usd: number ) => {
+export const usdToSol = async (usd: number ) => {
   let price;
   const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
   price = await res.json()
   price = price.price 
   return usd/price
 }
+
 
 export const sendPayment = async (to: PublicKey, usd: number) => {
   const sol = await usdToSol(usd)
@@ -46,25 +47,33 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   const { blockhash } = await connection.getRecentBlockhash();
   transaction.recentBlockhash = blockhash;
   transaction.feePayer = publicKey;
+  try {
+    const signedTransaction = await window.solana.signTransaction(transaction);
+    const txid = await connection.sendRawTransaction(signedTransaction.serialize());
+    const loadingToastId = toast.loading("Confirming transaction, this will take a few seconds...")
+    await connection.confirmTransaction(txid);
+    toast.dismiss(loadingToastId)
+    toast.info("Transaction complete!")
 
-  const signedTransaction = await window.solana.signTransaction(transaction);
-  const txid = await connection.sendRawTransaction(signedTransaction.serialize());
-  await connection.confirmTransaction(txid);
+  } catch (error) {
+    toast.error("Transaction rejected")
+  }
+  return new Promise(resolve => resolve)
 }
 
 
 export const registerWallet = async (event: any, name: string, usd: number) => {
   console.log("Initial USD: ", usd)
   event.preventDefault();
+
   await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), usd)
-
   const API_URL: any = "http://localhost:8000";
-  const pubKey = window.solana._publicKey
-
+  const pubKey = window.solana._publicKey.toString()
+  console.log("Pub key", pubKey)
   let data
   if (pubKey != null) {
     data = {
-      public_key: pubKey.toString(),
+      public_key: pubKey,
       name: name
     }
   }
@@ -83,5 +92,5 @@ export const registerWallet = async (event: any, name: string, usd: number) => {
         res.json().then(json => toast.error(json.validation_error))
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log("Error at register", err))
   }
