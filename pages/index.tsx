@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { NameModal } from '@/components/NameModal'
-import { registerWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Index.module.scss'
 import InsightsImage from '@/images/InsightsImage.svg';
 import { ToastContainer } from 'react-toastify';
@@ -15,7 +14,7 @@ export default function Index() {
   const [boxStyling, setBoxStyling] = useState(true)
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const handlePlans = () => {
+  const togglePlans = () => {
     setStarter(!starter)
     setPlanText(!planText)
     setPro(!pro)
@@ -25,6 +24,7 @@ export default function Index() {
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen)
   }
+
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
@@ -83,7 +83,7 @@ export default function Index() {
                 </ul>
               </div>
             </div>
-            <button className={styles.payment_button} onClick={handlePlans}>Prefer {planText ? 'one time payment' : 'subscription based'} plan instead?</button>
+            <button className={styles.payment_button} onClick={togglePlans}>Prefer {planText ? 'one time payment' : 'subscription based'} plan instead?</button>
           </section>
 
           <section className={styles.get_started}>
@@ -96,3 +96,4 @@ export default function Index() {
     </>
   )
 }
+

@@ -1,12 +1,10 @@
-import { MouseEventHandler } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js';
+
 
 export const connectWallet = async () => {
-  const notify = () => toast("Wow so easy!");
-
   if ("solana" in window) {
-    // @ts-ignore
     const res = await window.solana.connect();
     const button = document.querySelector(".Navbar_connect_button__32n_j")
     if (button != null) {
@@ -21,18 +19,55 @@ export const connectWallet = async () => {
     window.open("https://phantom.app/", "_blank");
   }
 
-export const registerWallet = async () => {
-  toast.info('Create profiles feature tomorrow!');
-  const { API_URL }: any = "http://localhost:8000/";
+
+const usdToSol = async (usd: number ) => {
+  let price;
+  const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
+  price = await res.json()
+  price = price.price 
+  return usd/price
+}
+
+export const sendPayment = async (to: PublicKey, amount: number) => {
+  const sol = await usdToSol(amount)
+  console.log("sol", sol)
+
+  const publicKey = await connectWallet();
+  const network = "https://api.devnet.solana.com";
+  const connection = new Connection(network);
+  const transaction = new Transaction()
+  .add(
+    SystemProgram.transfer({
+      fromPubkey: publicKey,
+      toPubkey: to,
+      lamports: Number(sol) * 1000000000
+    })
+  );
+  const { blockhash } = await connection.getRecentBlockhash();
+  transaction.recentBlockhash = blockhash;
+  transaction.feePayer = publicKey;
+
+  const signedTransaction = await window.solana.signTransaction(transaction);
+  const txid = await connection.sendRawTransaction(signedTransaction.serialize());
+  await connection.confirmTransaction(txid);
+}
+
+
+export const registerWallet = async (event: any, name: string, amount: number) => {
+  console.log("Amount", amount)
+  event.preventDefault();
+ await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), amount)
+
+  const API_URL: any = "http://localhost:8000";
 
   const pubKey = await connectWallet();
   let data
   if (pubKey != null) {
     data = {
-      public_key: pubKey.toString()
+      public_key: pubKey.toString(),
+      name: name
     }
   }
-
   fetch(`${API_URL}/register`, {
     body: JSON.stringify(data),
     headers: {
@@ -40,5 +75,12 @@ export const registerWallet = async () => {
     },
     method: "POST"
     })
-    .then((res) => console.log(res.json())).catch((err) => console.log(err))
+    .then(res => {
+      if(res.ok) {
+        toast.success("Profile registered successfully");     
+      } else {
+        res.json().then(json => toast.error(json.validation_error))
+      }
+    })
+    .catch((err) => console.log(err))
   }

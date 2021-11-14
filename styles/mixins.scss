@@ -41,6 +41,11 @@
     &:active {
         transform: scale(.90);
     }
+    &:disabled {
+        box-shadow: none;
+        cursor: not-allowed;
+        opacity: .5;
+    }
 }
 
 @mixin landingPage_boxes($glow_colour, $show_colour){
