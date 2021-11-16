@@ -58,26 +58,25 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   } catch (error) {
     toast.error("Transaction rejected")
   }
-  return new Promise(resolve => resolve)
 }
 
 
-export const registerWallet = async (event: any, name: string, usd: number) => {
+export const registerWallet = async (event: any, username: string, usd: number) => {
   console.log("Initial USD: ", usd)
   event.preventDefault();
 
-  await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), usd)
-  const API_URL: any = "http://localhost:8000";
-  const pubKey = window.solana._publicKey.toString()
-  console.log("Pub key", pubKey)
-  let data
-  if (pubKey != null) {
-    data = {
-      public_key: pubKey,
-      name: name
-    }
+  const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
+  console.log(API_URL)
+  let pubKey = window.solana._publicKey
+  if (pubKey == null) {
+    pubKey = connectWallet()
   }
   
+  const data = {
+      public_key: pubKey.toString(),
+      username: username
+    }
+
   fetch(`${API_URL}/register`, {
     body: JSON.stringify(data),
     headers: {
@@ -85,11 +84,12 @@ export const registerWallet = async (event: any, name: string, usd: number) => {
     },
     method: "POST"
     })
-    .then(res => {
+    .then(async res => {
       if(res.ok) {
+        await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), usd)
         toast.success("Profile registered successfully");     
       } else {
-        res.json().then(json => toast.error(json.validation_error))
+        res.json().then(json => toast.error(json.error))
       }
     })
     .catch((err) => console.log("Error at register", err))
