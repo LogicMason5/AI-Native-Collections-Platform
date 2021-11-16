@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from core.ratelimit import RateLimit
 from core.models import RegisterUser
 from fastapi.responses import JSONResponse
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 
 router = APIRouter()
 
@@ -19,22 +19,30 @@ router = APIRouter()
             )
 async def register(
                 user: RegisterUser, db: Session=Depends(get_db)
-                ) -> Union[HTTPException, User]:
+                ) -> Union[JSONResponse, User]:
 
-    if " " in user.name:
+    if " " in user.username:
         return JSONResponse(
             status_code=400,
-            content={"validation_error": "Name must not contain any spaces"}
+            content={"error": "Username must not contain any spaces"}
         )
 
-    get_user = db.query(User).filter_by(public_key=user.public_key).first()
+    get_user = db.query(User).filter(
+                                    (User.username == user.username) |
+                                    (User.public_key == user.public_key)
+                                    ).first()
     if get_user:
+        if get_user.public_key == user.public_key:
+            field = "Public key"
+        else:
+            field = "Username"             
         return JSONResponse(
-                        status_code=400, 
-                        content={"validation_error": "Public key already registered"}
-                        )    
+                status_code=400, 
+                content={"error": f"{field} already registered"}
+                )    
+ 
     else:
-        db_user = User(public_key=user.public_key, name=user.name)
+        db_user = User(public_key=user.public_key, username=user.username, name=user.username)
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -56,11 +64,11 @@ async def profile(
                 db: Session=Depends(get_db)
                 ) -> Union[JSONResponse, User]:
 
-        get_user = db.query(User).filter_by(name=name).first()
+    user = db.query(User).filter_by(name=name).first()
 
-        if get_user:
-            return get_user
-        return JSONResponse(
-            status_code=404,
-            content="User not found"
-        )
+    if user: 
+        return user
+    return JSONResponse(
+        status_code=404,
+        content="User not found"
+    )

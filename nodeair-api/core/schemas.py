@@ -16,7 +16,8 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     public_key = Column(String(length=44), nullable=False, unique=True)
-    name = Column(String(length=15), nullable=False)
+    username = Column(String(length=15), nullable=False, unique=True)
+    name = Column(String(length=25), nullable=False)
     bio = Column(Text, nullable=True)
     social = Column(String(100), nullable=True)
     avatar = Column(String(100), default=(
