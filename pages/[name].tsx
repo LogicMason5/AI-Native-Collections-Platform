@@ -11,8 +11,9 @@ export default function Profile( data: Object ) {
 
 export async function getServerSideProps(context: any) {
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const { name } = context.params
-  const res = await fetch(`http://localhost:8000/profile/${name}`)
+  const res = await fetch(API_URL + "/profile/" + name)
   const data = await res.json()
   return { props: { data } }
 }
