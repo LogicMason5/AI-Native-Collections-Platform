@@ -1,10 +1,12 @@
 import { PageHead } from '@/components/Head'
+import { ProfileBox } from '@/components/ProfileBox'
 
-export default function Profile( data: Object ) {
+
+export default function Profile( data: any ) {
   <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-  console.log(data)
+  const user = data["data"]
   return (
-    <h1>{JSON.stringify(data)}</h1>
+    <ProfileBox user={user}/>
   )
 }
 

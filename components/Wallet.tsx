@@ -137,3 +137,29 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     })
 }
 
+export const signMessage = async (e: any, message: string) => {
+  e.preventDefault();
+  await connectWallet(true)
+  const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
+
+  const data = await window.solana.signMessage(message, "utf8");
+  const sig = data.signature
+  const pub = data.publicKey
+
+  
+  fetch(`${API_URL}/signature`, {
+    body: sig,
+    headers: {"Content-Type": "application/octet-stream"},
+    method: "POST"
+  }
+  )
+  }
+
+
+/*
+- Generate a random hash in the backend and save it in db
+- Get it signed from the wallet in frontend
+
+- Send the signed signature to backend
+- Backend verifies the hash from the db using signautre from frontend
+*/

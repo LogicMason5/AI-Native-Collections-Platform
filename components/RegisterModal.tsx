@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { registerWallet } from './Wallet';
+import { registerWallet, signMessage } from './Wallet';
 import { useState, useEffect } from 'react';
 import Money from '@/images/icons/Money.svg';
 import styles from '@/styles/modules/RegisterModal.module.scss';
@@ -47,7 +47,7 @@ export const RegisterModal = (props: any) => {
                </select>
             </div>
             <hr />
-            <form  className={styles.form} onSubmit={(e) => registerWallet(e, name, amount)}>
+            <form  className={styles.form} onSubmit={(e) => signMessage(e, "hi")}>
               <p>Get started by entering your profile name and clicking that shiny button below. Feel free to change plan above.</p>
               <h1>Enter your profile name</h1>
               <input onChange={e => setName(e.target.value)} placeholder="Name" type="text"></input>
