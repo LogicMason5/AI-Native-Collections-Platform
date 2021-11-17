@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js';
 
 
-export const connectWallet = async () => {
+export const connectWallet = async (showToast: boolean) => {
   if ("solana" in window) {
     const res = await window.solana.connect();
     const button = document.querySelector(".Navbar_connect_button__32n_j")
@@ -13,8 +13,8 @@ export const connectWallet = async () => {
       let end = pubKey.substring(39, 44)
       button.innerHTML = start + "..." + end
     }
-    toast.success('Connected to wallet!');
-      return res.publicKey;
+    if (showToast){toast.success('Connected to wallet!');}
+    return res.publicKey;
   } 
     window.open("https://phantom.app/", "_blank");
   }
@@ -33,7 +33,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   const sol = await usdToSol(usd)
   console.log("Converted SOL: ", sol)
 
-  const publicKey = await connectWallet();
+  const publicKey = await connectWallet(false);
   const network = "https://api.devnet.solana.com";
   const connection = new Connection(network);
   const transaction = new Transaction()
@@ -54,9 +54,10 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
     await connection.confirmTransaction(txid);
     toast.dismiss(loadingToastId)
     toast.info("Transaction complete!")
-
+    return true
   } catch (error) {
     toast.error("Transaction rejected")
+    return false
   }
 }
 
@@ -66,10 +67,9 @@ export const registerWallet = async (event: any, username: string, usd: number) 
   event.preventDefault();
 
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
-  console.log(API_URL)
   let pubKey = window.solana._publicKey
   if (pubKey == null) {
-    pubKey = connectWallet()
+    pubKey = connectWallet(true)
   }
   
   const data = {
@@ -77,20 +77,64 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       username: username
     }
 
-  fetch(`${API_URL}/register`, {
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST"
+    fetch(`${API_URL}/check`, {
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST"
     })
-    .then(async res => {
-      if(res.ok) {
-        await sendPayment(new PublicKey('B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai'), usd)
-        toast.success("Profile registered successfully");     
+    .then (async res => {
+      if (res.ok) {
+        const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
+        if(payment) {
+          fetch(`${API_URL}/register`, {
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            method: "POST"
+          })
+          .then (async res => {
+            if (res.ok) {
+              toast.success("Profile registered successfully!")
+            } else {
+              toast.error("Uh oh something went wrong!")
+            }
+          })
+        }
       } else {
-        res.json().then(json => toast.error(json.error))
+        fetch(`${API_URL}/check`, {
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST"
+        })
+        .then (async res => {
+          if (res.ok) {
+            const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
+            if(payment) {
+              fetch(`${API_URL}/register`, {
+                body: JSON.stringify(data),
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              })
+              .then (async res => {
+                if (res.ok) {
+                  toast.success("Profile registered successfully!")
+                } else {
+                  toast.error("Uh oh something went wrong!")
+                }
+              })
+            }
+          } else {
+            res.json().then(json => toast.error(json.error))
+          }
+        })
       }
     })
-    .catch((err) => console.log("Error at register", err))
-  }
+}
+
