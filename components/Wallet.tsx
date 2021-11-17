@@ -69,9 +69,8 @@ export const registerWallet = async (event: any, username: string, usd: number) 
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
   let pubKey = window.solana._publicKey
   if (pubKey == null) {
-    pubKey = connectWallet(true)
+    pubKey = await connectWallet(true)
   }
-  
   const data = {
       public_key: pubKey.toString(),
       username: username
