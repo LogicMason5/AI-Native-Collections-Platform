@@ -43,3 +43,9 @@ class Bookmark(Base):
 
     user = relationship("User", back_populates="bookmarks")
 
+class View(Base):
+    __tablename__ = "views"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    public_key = Column(String(length=44), ForeignKey('users.public_key', ondelete='CASCADE'), nullable=False)
+    viewed_on = Column(DateTime, default=datetime.utcnow, nullable=False)

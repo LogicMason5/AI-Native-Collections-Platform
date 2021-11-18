@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 from fastapi.param_functions import Depends
 from fastapi.middleware.cors import CORSMiddleware
 from routes import user
-from routes import signature
+from routes import checks
+from routes import views
 from core.db import engine, Base
 from core.ratelimit import RateLimit, RateLimiter
 
@@ -20,7 +21,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(user.router)
-app.include_router(signature.router)
+app.include_router(checks.router)
+app.include_router(views.router)
+# app.include_router(signature.router)
 
 
 @app.on_event("startup")
