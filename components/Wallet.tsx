@@ -5,7 +5,12 @@ import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.
 
 export const connectWallet = async (showToast: boolean) => {
   if ("solana" in window) {
-    const res = await window.solana.connect();
+    let res
+    try{
+      res = await window.solana.connect({ onlyIfTrusted: true })
+    } catch {
+      res = await window.solana.connect()
+    }
     const button = document.querySelector(".Navbar_connect_button__32n_j")
     if (button != null) {
       const pubKey = res.publicKey.toString()
@@ -137,23 +142,22 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     })
 }
 
-export const signMessage = async (e: any, message: string) => {
-  e.preventDefault();
-  await connectWallet(true)
-  const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
+// export const signMessage = async (e: any, message: string) => {
+//   e.preventDefault();
+//   await connectWallet(false)
+//   const data = new TextEncoder().encode(message);
+//   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
 
-  const data = await window.solana.signMessage(message, "utf8");
-  const sig = data.signature
-  const pub = data.publicKey
-
+//   const res = await window.solana.signMessage(data, "utf8");
+//   const sig = res.signature
   
-  fetch(`${API_URL}/signature`, {
-    body: sig,
-    headers: {"Content-Type": "application/octet-stream"},
-    method: "POST"
-  }
-  )
-  }
+//   fetch(`${API_URL}/signature`, {
+//     body: res,
+//     headers: {"Content-Type": "application/json"},
+//     method: "POST"
+//   }
+//   )
+//   }
 
 
 /*

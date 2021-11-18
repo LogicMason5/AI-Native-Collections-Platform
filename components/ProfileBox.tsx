@@ -1,9 +1,11 @@
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '@/styles/modules/ProfileBox.module.scss';
 import Copy from '@/images/icons/Copy.svg';
 
 
-export const ProfileBox = ({ user }: any) => {
+export const ProfileBox = ({ user, activity }: any) => {
+
     const joined = user.joined_on.substring(0, 10)
     const months: any = {
         1: "January",
@@ -43,7 +45,15 @@ export const ProfileBox = ({ user }: any) => {
                     <p>{user.bio}</p>
                     <hr />
                 </div>
-
+                <div className={styles.activity}>
+                    {activity ? (activity.map((a: any) => (
+                            <div className="transaction">
+                                
+                            </div>
+                            
+                            ))
+                            )  : "Not fetched yet"}
+                </div>
                 <div className={styles.bottom}>
                     <p>{joined_on}</p>
                 </div>
