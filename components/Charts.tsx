@@ -2,20 +2,15 @@ import styles from '@/styles/modules/Charts.module.scss';
 import { Line, Bar } from "react-chartjs-2";
 
 export const ViewChart = ({ chartData }: any) => {
-    const getDays = () => {
-        const date = new Date();
-        const amount =  new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
-        const days = new Array
-        for (var i = 0; i <= amount; i++){
-            days.push(i)
-        }
-        return days
-    }
+
+    const values = Object.values(chartData)
+    const labels = Object.keys(chartData)
+
     const data = {
-        labels: getDays(),
+        labels: labels,
         datasets: [
             {
-                data: [1,2,3,5,56],
+                data: values,
                 fill: true,
                 backgroundColor: '#104EAA10',
                 borderColor: '#104EAA',
