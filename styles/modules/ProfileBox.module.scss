@@ -9,9 +9,10 @@
 }
 
 .profilebox {
+    position: relative;
     background-color: $secondarybg;
     height: 700px;
-    width: 600px;
+    width: 700px;
     border-radius: 1rem;
 }
 
@@ -27,7 +28,7 @@
 .banner {
     position: absolute;
     border-radius: 1rem 1rem 0rem 0rem;
-    width: 600px;
+    width: 700px;
 }
 
 .avatar {
@@ -54,6 +55,8 @@
 }
 
 .bio {
+    position: relative;
+    height: 15%;
     & > h2 {
         margin-left: 20px;
         color: $secondarygrey;
@@ -62,14 +65,39 @@
         margin-left: 20px;
         color: white;
     }
+    & hr {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+    }
 }
 
 .bottom {
-    background-color: red;
+    position: absolute;
+    bottom: 0;
     color: white;
-    justify-content: space-evenly;
     & p {
-        float: right;
         margin: 10px;
+    }
+}
+
+.activity {
+    & > h2 {
+        color: white;
+        margin: 10px;
+    }
+}
+.transaction {
+    padding: 0px 5px;
+    font-size: .9rem;
+    display: flex;
+    color: white;
+    background-color: #171B28;
+    margin: 10px;
+    border-radius: 10px;
+    & > p{
+        margin-left: 10px;
     }
 }

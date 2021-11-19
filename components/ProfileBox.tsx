@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import styles from '@/styles/modules/ProfileBox.module.scss'
 import Copy from '@/images/icons/Copy.svg'
+import Sent from '@/images/Sent.svg'
+import Received from '@/images/Received.svg'
 
 
 export const ProfileBox = ({ user, activity }: any) => {
-
+    console.log(activity)
     const joined = user.joined_on.substring(0, 10)
     const months: any = {
         1: "January",
@@ -45,15 +47,32 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <hr />
                 </div>
                 <div className={styles.activity}>
+                    <h2>Recent activity</h2>
                     {activity ? (activity.map((a: any) => (
-                            <div className="transaction">
-                                
+                            <div className={styles.transaction}>
+                                <Image src={(a['type'] == "sent") ? Sent : Received} width="40" /> 
+                                <p>{a["message"]}</p>
                             </div>
                             
                             ))
-                            )  : "Not fetched yet"}
+                            )  : <>
+                                <div className={styles.transaction}>
+                                    <p></p>
+                                </div>
+                                <div className={styles.transaction}>
+                                    <p></p>
+                                </div>
+                                <div className={styles.transaction}>
+                                    <p></p>
+                                </div>
+                                <div className={styles.transaction}>
+                                    <p></p>
+                                </div>
+                                </>
+                                }
                 </div>
                 <div className={styles.bottom}>
+                    <a href={user.social}>Hi</a>
                     <p>{joined_on}</p>
                 </div>
 

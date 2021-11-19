@@ -9,7 +9,7 @@ export default function Profile( {user}: any ) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch(API_URL + "/profile/activity/" + user["name"])
+      const result = await fetch(`http://localhost:8000/profile/activity/${user.public_key}`)
       const data = await result.json()
       setActivity(data)
     }
