@@ -1,5 +1,5 @@
-import styles from '@/styles/modules/Charts.module.scss';
-import { Line, Bar, Doughnut } from "react-chartjs-2";
+import { Line, Bar, Doughnut } from "react-chartjs-2"
+import styles from '@/styles/modules/Charts.module.scss'
 
 export const ViewChart = ({ chartData }: any) => {
     const values = Object.values(chartData)

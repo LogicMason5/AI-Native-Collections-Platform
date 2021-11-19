@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { ProfileBox } from '@/components/ProfileBox'
 
@@ -6,12 +6,14 @@ import { ProfileBox } from '@/components/ProfileBox'
 export default function Profile( {user}: any ) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL
   const [activity, setActivity] = useState(null);
-  //@ts-ignore
-  useEffect(async () => {
-    const result = await fetch(API_URL + "/profile/activity/" + user["name"])
-    const data = await result.json()
-    console.log(data)
-    setActivity(data);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(API_URL + "/profile/activity/" + user["name"])
+      const data = await result.json()
+      setActivity(data)
+    }
+    fetchData()
   }, []);
 
   return (
@@ -21,7 +23,6 @@ export default function Profile( {user}: any ) {
     </>
   )
 }
-
 
 export async function getServerSideProps(context: any) {
 

@@ -1,6 +1,6 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js';
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js'
 
 
 export const connectWallet = async (showToast: boolean) => {

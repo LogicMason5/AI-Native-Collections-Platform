@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import { useState } from 'react'; 
+import Image from 'next/image'
+import { useState } from 'react'
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
-import { ToastContainer } from 'react-toastify';
-import InsightsImage from '@/images/InsightsImage.svg';
+import { ToastContainer } from 'react-toastify'
+import InsightsImage from '@/images/InsightsImage.svg'
 import styles from '@/styles/modules/Index.module.scss'
 import { RegisterModal } from '@/components/RegisterModal'
 

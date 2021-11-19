@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import styles from '@/styles/modules/ProfileBox.module.scss';
-import Copy from '@/images/icons/Copy.svg';
+import Image from 'next/image'
+import styles from '@/styles/modules/ProfileBox.module.scss'
+import Copy from '@/images/icons/Copy.svg'
 
 
 export const ProfileBox = ({ user, activity }: any) => {

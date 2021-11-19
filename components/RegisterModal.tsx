@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import { registerWallet } from './Wallet';
-import { useState, useEffect } from 'react';
-import Money from '@/images/icons/Money.svg';
-import styles from '@/styles/modules/RegisterModal.module.scss';
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { registerWallet } from './Wallet'
+import Money from '@/images/icons/Money.svg'
+import styles from '@/styles/modules/RegisterModal.module.scss'
 
 
 export const RegisterModal = (props: any) => { 
@@ -17,12 +17,12 @@ export const RegisterModal = (props: any) => {
       { label: "Pro plan - $5/year", value: "Pro plan - $5/year" },
       { label: "Starter plan - $5", value: "Starter plan - $5" },
       { label: "Pro plan - $15", value: "Pro plan - $15" }
-    ];
+    ]
 
     const [name, setName] = useState<string>("")   
     const [selectedPlan, setSelectedPlan] = useState<string>("Starter plan - $1/year");
     let amount = 0
-    useEffect(() => {amount = pricing[selectedPlan] });
+    useEffect(() => {amount = pricing[selectedPlan] })
 
     const handleclose = () => {
         props.setModalIsOpen(false)
