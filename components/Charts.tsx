@@ -27,7 +27,7 @@ export const ViewChart = ({ chartData }: any) => {
         plugins: {
             title: {
               display: true,
-              text: "Profile views",
+              text: "Profile views for this month",
               color: "#0085FF",
             },
             legend: {
@@ -72,6 +72,86 @@ export const ViewChart = ({ chartData }: any) => {
       </div>
     )
 }
+
+export const TransactionChart = ({ chartData }: any) => {
+
+    const labels = Object.keys(chartData)
+    
+    const received = new Array
+    const sent = new Array
+    for(const i of Object.values(chartData)){
+        received.push(i["received"])
+        sent.push(i["sent"])
+    }
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Received",
+                backgroundColor: '#CC6B25',
+                data: received,
+            },
+            {
+                label: "Sent",
+                data: sent,
+                backgroundColor: '#0059DE',
+            }
+        ],
+        borderWidth: 1,
+    }
+    const options = {
+        responsive: true,
+        aspectRatio: 6/2,
+        layout: {
+            padding: 15
+        },
+        plugins: {
+            title: {
+              display: true,
+              text: "SOL transactions for this month",
+              color: "#0085FF",
+            },
+        },
+        scales: {
+          y : {
+              title: {
+                  display: true,
+                  text: "Amount of SOL",
+                  color: "#0085FF"
+              },
+              ticks: {
+                  color: "#FFFFFF",
+              },
+              grid: {
+                  color: "#282E4290"
+              },
+          },
+          x: {
+            title: {
+                display: true,
+                text: "Dates",
+                color: "#0085FF"
+            },
+              ticks: {
+                  color: "#FFFFFF"
+              },
+              grid: {
+                color: "#282E4290"
+            },
+          }
+    }}
+
+    return (
+        <div className={styles.viewchart}>
+        <Bar
+          data={data}
+          options={options}
+        />
+      </div>
+    )
+}
+
 
 /*
 // backgrounds
