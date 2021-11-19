@@ -59,11 +59,14 @@ async def transactions(public_key: str) -> dict:
         return sent, received
 
     data = {}
+    ratio = [0, 0]
     for i in range(1, amount_of_days + 1):
         if i not in days:
             data.update({i: {"sent": 0, "received": 0}})
         else:
             sent, received = get_sent(i)
             data.update({i: {"sent": sum(sent), "received": sum(received)}})
-  
-    return data
+            ratio[0] += sum(sent)
+            ratio[1] += sum(received)
+
+    return {"transactions": data, "ratio": ratio}
