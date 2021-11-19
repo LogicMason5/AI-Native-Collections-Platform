@@ -3,12 +3,13 @@ import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet';
-import { TransactionChart } from '@/components/Charts'
+import { TransactionChart, TransactionRatioChart } from '@/components/Charts'
 
 import styles from '@/styles/modules/Dashboard.module.scss'
 
 export default function Dashboard() {
     const [transactions, setTransactions] = useState('')
+    const [ratio, setRatio] = useState('')
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     //@ts-ignore
     useEffect(async () => {
@@ -18,8 +19,8 @@ export default function Dashboard() {
         }
         const result = await fetch(API_URL + "/fetch/transactions/" + public_key.toString())
         const data = await result.json()
-        console.log(data)
-        setTransactions(data);
+        setTransactions(data["transactions"]);
+        setRatio(data["ratio"]);
         }, []);
 
   return (
@@ -29,6 +30,7 @@ export default function Dashboard() {
     <Sidebar/>
     <div className={styles.dashboard}>
         <div className={styles.chart}>
+            <TransactionRatioChart chartData={ratio} />
             <TransactionChart chartData={transactions} />
         </div>
     </div>

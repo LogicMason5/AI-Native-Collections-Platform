@@ -1,5 +1,5 @@
 import styles from '@/styles/modules/Charts.module.scss';
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
 
 export const ViewChart = ({ chartData }: any) => {
 
@@ -74,7 +74,7 @@ export const ViewChart = ({ chartData }: any) => {
 }
 
 export const TransactionChart = ({ chartData }: any) => {
-
+    console.log(chartData)
     const labels = Object.keys(chartData)
     
     const received = new Array
@@ -152,6 +152,51 @@ export const TransactionChart = ({ chartData }: any) => {
     )
 }
 
+export const TransactionRatioChart = ({ chartData }: any) => {
+
+    const data = {
+        labels: ["Sent", "Received"],
+        datasets: [
+            {
+                data: chartData,
+                fill: true,
+                hoverOffset: 5,
+                backgroundColor: [
+                    '#CC6B25',
+                    '#0059DE'
+                  ],
+                borderWidth: 1
+            }
+        ],
+        borderWidth: 1,
+    }
+    const options = {
+        responsive: true,
+        aspectRatio: 5,
+        layout: {
+            padding: 10
+        },
+        plugins: {
+            title: {
+              display: true,
+              text: "Sent vs Received proportion",
+              color: "#0085FF",
+            },
+            legend: {
+              display: false,
+           },
+        },
+    }
+
+    return (
+        <div className={styles.viewchart}>
+        <Doughnut
+          data={data}
+          options={options}
+        />
+      </div>
+    )
+}
 
 /*
 // backgrounds
