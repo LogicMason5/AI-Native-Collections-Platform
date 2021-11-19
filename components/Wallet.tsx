@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js'
-
+import Router from 'next/router';
 
 export const connectWallet = async (showToast: boolean) => {
   if ("solana" in window) {
@@ -91,7 +91,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     .then (async res => {
       if (res.ok) {
         const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
-        if(payment) {
+        if (payment) {
           fetch(`${API_URL}/register`, {
             body: JSON.stringify(data),
             headers: {
@@ -101,46 +101,18 @@ export const registerWallet = async (event: any, username: string, usd: number) 
           })
           .then (async res => {
             if (res.ok) {
-              toast.success("Profile registered successfully!")
+              Router.push("/dashboard")
             } else {
               toast.error("Uh oh something went wrong!")
             }
           })
         }
       } else {
-        fetch(`${API_URL}/check`, {
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST"
-        })
-        .then (async res => {
-          if (res.ok) {
-            const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
-            if(payment) {
-              fetch(`${API_URL}/register`, {
-                body: JSON.stringify(data),
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                method: "POST"
-              })
-              .then (async res => {
-                if (res.ok) {
-                  toast.success("Profile registered successfully!")
-                } else {
-                  toast.error("Uh oh something went wrong!")
-                }
-              })
-            }
-          } else {
             res.json().then(json => toast.error(json.error))
           }
         })
-      }
-    })
 }
+
 
 // export const signMessage = async (e: any, message: string) => {
 //   e.preventDefault();

@@ -18,10 +18,10 @@
     font-size: 1.5rem;
     display: flex;
     flex-flow: column;
-    align-items: center;
-    gap: 30px;
+    align-items: flex-start;
+    gap: 40px;
     margin-top: 50%;
-    @include bold_font;
+    @include medium_font;
 }
 
 
@@ -30,9 +30,24 @@
     color: white;
     display: flex;  
     gap: 10px;
+    transition: .1s ease-out;
+    border-radius: 8px;
+    padding: 8px 20px;
+    opacity: .5;
+    &:hover {
+        opacity: 1;
+        background-color: $hoverbg;
+    }
+}
+.icon_active {
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    display: flex;  
+    gap: 10px;
     transition: .2s ease-in-out;
     border-radius: 8px;
-    padding: 10px 30px;
+    padding: 8px 20px;
+    opacity: 1;
     &:hover {
         background-color: $hoverbg;
     }
