@@ -7,20 +7,20 @@ import styles from '@/styles/modules/RegisterModal.module.scss'
 
 export const RegisterModal = (props: any) => { 
     const pricing: any = {
-                        "Starter plan - $1/year": 1, 
-                        "Pro plan - $5/year": 5,
-                        "Starter plan - $5": 5,
-                        "Pro plan - $15": 15
+                        "Starter - $1/year": 1, 
+                        "Pro - $5/year": 5,
+                        "Starter - $5": 5,
+                        "Pro - $15": 15
                       }
     const itemLabels = [
-      { label: "Starter plan - $1/year", value: "Starter plan - $1/year"},
-      { label: "Pro plan - $5/year", value: "Pro plan - $5/year" },
-      { label: "Starter plan - $5", value: "Starter plan - $5" },
-      { label: "Pro plan - $15", value: "Pro plan - $15" }
+      { label: "Starter - $1/year", value: "Starter - $1/year"},
+      { label: "Pro - $5/year", value: "Pro - $5/year" },
+      { label: "Starter - $5", value: "Starter - $5" },
+      { label: "Pro - $15", value: "Pro - $15" }
     ]
 
     const [name, setName] = useState<string>("")   
-    const [selectedPlan, setSelectedPlan] = useState<string>("Starter plan - $1/year");
+    const [selectedPlan, setSelectedPlan] = useState<string>("Starter - $1/year");
     let amount = 0
     useEffect(() => {amount = pricing[selectedPlan] })
 
@@ -33,7 +33,7 @@ export const RegisterModal = (props: any) => {
         <div className={styles.main}>
             <span className={styles.close} onClick={handleclose}>&times;</span>
             <div className={styles.change_plan}>
-              <Image src={Money} height="60" width="60"/>
+              <Image className={styles.img} src={Money} height="60" width="60"/>
               <h1>{selectedPlan}</h1>
               <select onChange={e => setSelectedPlan(e.currentTarget.value)} value={selectedPlan}>
                 {itemLabels.map(item => (

@@ -50,18 +50,22 @@
     align-items: center;
     & > h1 {
         font-size: 1.5rem;
+        width: 50%;
     }
     & > select {
         cursor: pointer;
         background-color: rgb(3, 27, 43);
         border: none;
+        outline: none;
         border-radius: 10px;
         color: white;
         text-align: center;
         height: 40px;
         @include bold_font;
+
     }
 }
+
 
 .form {
     padding: 10px 30px;
