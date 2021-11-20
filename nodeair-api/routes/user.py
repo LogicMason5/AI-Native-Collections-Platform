@@ -1,15 +1,16 @@
 import os
 from typing import Union
+
+from fastapi import Request
 from core.db import get_db
 from core.schemas import User, View
-from utils import lamport_to_sol
 from sqlalchemy.orm import Session
 from core.ratelimit import RateLimit
 from core.models import RegisterUser
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends
-from solana.rpc.async_api import AsyncClient
 from core.webhook import Webhook, Embed
+from utils import lamport_to_sol
 
 router = APIRouter()
 
@@ -78,53 +79,23 @@ async def profile(
         content="User not found"
     )
 
-@router.get("/profile/activity/{username}",
+@router.get("/profile/activity/{public_key}",
             dependencies=[Depends(RateLimit(times=30, seconds=5))],
             status_code=200
             )
-async def activity(username: str, db: Session=Depends(get_db)
-                ) -> JSONResponse:
+async def activity(public_key: str, request: Request) -> JSONResponse:
 
-    user = db.query(User).filter_by(username=username).first()
-    if not user:
-        return JSONResponse(
-            status_code=404,
-            content="Unable to fetch data"
-        )
+    resp = await request.app.request_client.get(f"https://api.solscan.io/account/soltransfer/txs?address={public_key}&limit=4")
+    data = resp.json()["data"]["tx"]["transactions"]
 
-    client = AsyncClient("https://api.mainnet-beta.solana.com")
-    res = await client.get_confirmed_signature_for_address2(user.public_key)
-    data = []
-    for i in res["result"][:4]:
-        result = await client.get_confirmed_transaction("4HEN8Azy2Pvcy2sKNdcY6UuYL45kdMZ5TYdwes35ZmXcEsSCSHirJeeNRpzoFpmdf5ncZsuX6j2vxYgrgRFkKVrx")
-
-        print(result)
-        break
-        sender, receiver = (account_keys[0], account_keys[1])
-        send_itself = True if sender.isdigit() | receiver.isdigit() else False
-        
-        pre_balance = meta["preBalances"][:2]
-        post_balance = meta["postBalances"][:2]
-        if post_balance[0] > pre_balance[0]:
-            amount = lamport_to_sol(post_balance[0] - pre_balance[0])
-        elif post_balance[1] > pre_balance[1]:
-            amount = lamport_to_sol(post_balance[1] - pre_balance[1])
-        elif send_itself:
-            amount = lamport_to_sol(pre_balance[0] - post_balance[0])
+    filtered_data = []
+    for i in data:
+        sols = lamport_to_sol(i["lamport"])
+        if i["src"] == public_key:
+            filtered_data.append({"type": "sent", "message": f"Sent {sols} SOLs to {i['dst']}"})
         else:
-            amount = "Error fetching details"
-        
-        print(receiver)
-        print(user.public_key)
-        if receiver == user.public_key:
-            transaction_data = ({"type": "recieved", "details": f"Received {amount} SOLs from {sender}"})
-        else:
-            transaction_data = ({"type": "sent", "details": f"Sent {amount} SOLs to {receiver}"})
-        data.append(transaction_data)
+            filtered_data.append({"type": "received", "message": f"Received {sols} SOLs from {i['src']}"})
 
-    await client.close()
-    return JSONResponse(
-        content=data
-    )
+    return filtered_data
 
 

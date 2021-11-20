@@ -1,4 +1,5 @@
 import os
+import httpx
 from fastapi import FastAPI
 from aioredis import from_url
 from dotenv import load_dotenv
@@ -34,11 +35,12 @@ async def startup() -> None:
     redis = await from_url(os.environ["REDIS_URL"], encoding="utf8")
     await RateLimiter.init(redis)
     Base.metadata.create_all(bind=engine)
-
+    app.request_client = httpx.AsyncClient()
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await RateLimiter.close()
+    await app.request_client.close()
 
 
 @app.get("/", dependencies=[Depends(RateLimit(times=20, seconds=1))])
