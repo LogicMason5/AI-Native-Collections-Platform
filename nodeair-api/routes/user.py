@@ -1,22 +1,20 @@
 import os
 from typing import Union
-
 from fastapi import Request
 from core.db import get_db
-from core.schemas import User, View
-from sqlalchemy.orm import Session
-from core.ratelimit import RateLimit
-from core.models import RegisterUser
-from fastapi.responses import JSONResponse
-from fastapi import APIRouter, Depends
-from core.webhook import Webhook, Embed
 from utils import lamport_to_sol
+from core.ratelimit import Limit
+from core.webhook import Webhook
+from sqlalchemy.orm import Session
+from core.schemas import User, View
+from core.models import RegisterUser
+from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
-
 @router.post("/register", 
-            dependencies=[Depends(RateLimit(times=20, seconds=5))],
+            dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=201
             )
 async def register(
@@ -48,17 +46,17 @@ async def register(
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
-        webhook = Webhook(os.getenv("WEBHOOK_URL"))
-        embed = Embed(
+        webhook = Webhook(os.getenv("WEBHOOK_SECRET"))
+        embed = Webhook.embed(
             f"New registration!", 
             f"**{db_user.public_key}** registered with the name **{db_user.name}**"
-            ).json()
+            )
         await webhook.send(embed=embed)
         return db_user
 
 
 @router.get("/profile/{username}", 
-            dependencies=[Depends(RateLimit(times=20, seconds=5))],
+            dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200
             )
 async def profile(
@@ -79,13 +77,18 @@ async def profile(
         content="User not found"
     )
 
+
 @router.get("/profile/activity/{public_key}",
-            dependencies=[Depends(RateLimit(times=30, seconds=5))],
+            dependencies=[Depends(Limit(times=30, seconds=5))],
             status_code=200
             )
 async def activity(public_key: str, request: Request) -> JSONResponse:
 
-    resp = await request.app.request_client.get(f"https://api.solscan.io/account/soltransfer/txs?address={public_key}&limit=4")
+    resp = await request.app.request_client.get(
+                ("https://api.solscan.io/account/"
+                f"soltransfer/txs?address={public_key}&limit=4")
+                )
+
     data = resp.json()["data"]["tx"]["transactions"]
 
     filtered_data = []
@@ -96,6 +99,8 @@ async def activity(public_key: str, request: Request) -> JSONResponse:
         else:
             filtered_data.append({"type": "received", "message": f"Received {sols} SOLs from {i['src']}"})
 
-    return filtered_data
+    return JSONResponse(
+        content=filtered_data
+    )
 
 

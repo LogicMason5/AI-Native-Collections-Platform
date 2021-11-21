@@ -2,7 +2,7 @@ from solana.publickey import PublicKey as PK
 from starlette.requests import Request
 from core.db import get_db
 from sqlalchemy.orm import Session
-from core.ratelimit import RateLimit
+from core.ratelimit import Limit
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends
 from nacl.signing import VerifyKey
@@ -12,7 +12,7 @@ from nacl.signing import VerifyKey
 router = APIRouter()
 
 @router.post("/signature", 
-            dependencies=[Depends(RateLimit(times=20, seconds=5))],
+            dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200
             )
 async def signature(

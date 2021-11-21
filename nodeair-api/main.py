@@ -2,14 +2,15 @@ import os
 import httpx
 from fastapi import FastAPI
 from aioredis import from_url
-from dotenv import load_dotenv
-from fastapi.param_functions import Depends
-from fastapi.middleware.cors import CORSMiddleware
 from routes import user
 from routes import checks
-from routes import views
+from routes import fetch
+from dotenv import load_dotenv
 from core.db import engine, Base
-from core.ratelimit import RateLimit, RateLimiter
+from fastapi.param_functions import Depends
+from core.ratelimit import RateLimiter, Limit
+from fastapi.middleware.cors import CORSMiddleware
+
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ app.add_middleware(
 )
 app.include_router(user.router)
 app.include_router(checks.router)
-app.include_router(views.router)
+app.include_router(fetch.router)
 # app.include_router(signature.router)
 
 
@@ -37,13 +38,14 @@ async def startup() -> None:
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
 
+
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await RateLimiter.close()
     await app.request_client.close()
 
 
-@app.get("/", dependencies=[Depends(RateLimit(times=20, seconds=1))])
+@app.get("/", dependencies=[Depends(Limit(times=20, seconds=1))])
 async def root() -> dict:
     return {"message": "Welcome"}
 

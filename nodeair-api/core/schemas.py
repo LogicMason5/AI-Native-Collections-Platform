@@ -43,6 +43,7 @@ class Bookmark(Base):
 
     user = relationship("User", back_populates="bookmarks")
 
+
 class View(Base):
     __tablename__ = "views"
 

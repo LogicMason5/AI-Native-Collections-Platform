@@ -64,7 +64,7 @@ class RateLimiter:
         await cls.redis.close()
 
 
-class RateLimit:
+class Limit:
     def __init__(
             self,
             times: int = 1,

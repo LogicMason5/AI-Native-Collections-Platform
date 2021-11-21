@@ -1,4 +1,6 @@
 import os
+import logging
+from typing import Callable
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -6,11 +8,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def initialize_engine() -> str:
+def initialize_engine() -> Callable:
     try:
         return create_engine(os.environ["POSTGRESQL_URL"])
     except KeyError:
-        print(
+        logging.info(
             "'POSTGRESQL_URL' environment variable not found,",
             "creating 'db.sql' locally...'"
             )
