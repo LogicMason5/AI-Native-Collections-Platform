@@ -82,15 +82,14 @@ async def profile(
             dependencies=[Depends(Limit(times=30, seconds=5))],
             status_code=200
             )
-async def activity(public_key: str, request: Request) -> JSONResponse:
+async def activity(public_key: str,  request: Request, limit: int = 4) -> JSONResponse:
 
     resp = await request.app.request_client.get(
                 ("https://api.solscan.io/account/"
-                f"soltransfer/txs?address={public_key}&limit=4")
+                f"soltransfer/txs?address={public_key}&offset=0&limit={limit}")
                 )
 
     data = resp.json()["data"]["tx"]["transactions"]
-
     filtered_data = []
     for i in data:
         sols = lamport_to_sol(i["lamport"])
