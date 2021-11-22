@@ -15,23 +15,27 @@ export const Sidebar = () => {
         const url = link.toLowerCase().replace(" ", '')
         return (
             <div className={router.pathname == "/" + url ? styles.icon_active : styles.icon}>
-                <Image src={icon}></Image>
-                <Link href={"/"+ url}>{link}</Link>
+                
+                <Link href={"/"+ url}>
+                    <a>
+                    <Image src={icon}></Image>
+                    <p>{link}</p>
+                    </a>
+                </Link>
             </div>
         )
     }
 
-    console.log(router.pathname)
     return (
-        <nav className={styles.sidebar}>
-          <ul className={styles.links}>
-            <SidebarIcon icon={Bargraph} link="Dashboard"/>
-            <SidebarIcon icon={Edit} link="Edit Profile"/>
-            <SidebarIcon icon={Piechart} link="Insights"/>
-            <SidebarIcon icon={History} link="History"/>
-            <SidebarIcon icon={Settings} link="Settings"/>
-          </ul>
-        </nav>
+    <nav className={styles.sidebar}>
+        <ul className={styles.links}>
+        <SidebarIcon icon={Bargraph} link="Dashboard"/>
+        <SidebarIcon icon={Edit} link="Edit Profile"/>
+        <SidebarIcon icon={Piechart} link="Insights"/>
+        <SidebarIcon icon={History} link="History"/>
+        <SidebarIcon icon={Settings} link="Settings"/>
+        </ul>
+    </nav>
     )
 }
 
