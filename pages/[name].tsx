@@ -1,19 +1,35 @@
+import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
+import { ProfileBox } from '@/components/ProfileBox'
 
-export default function Profile( data: Object ) {
-  <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-  console.log(data)
+
+export default function Profile( {user}: any ) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
+  const [activity, setActivity] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(`http://localhost:8000/profile/activity/${user.public_key}`)
+      const data = await result.json()
+      setActivity(data)
+    }
+    fetchData()
+  }, []);
+
   return (
-    <h1>{JSON.stringify(data)}</h1>
+    <>
+    <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
+    <ProfileBox user={user} activity={activity}/>
+    </>
   )
 }
 
-
 export async function getServerSideProps(context: any) {
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const { name } = context.params
-  const res = await fetch(`http://localhost:8000/profile/${name}`)
-  const data = await res.json()
-  return { props: { data } }
+  const res = await fetch(API_URL + "/profile/" + name)
+  const user = await res.json()
+  return { props: { user } }
 }
   

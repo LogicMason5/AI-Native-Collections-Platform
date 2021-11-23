@@ -4,36 +4,54 @@
 .sidebar {
     position: fixed;
     display: flex;
-    background-color: $bg;
-    box-shadow: 0px 5px 30px #0D0D0D;
+    border-right: 2px solid $secondaryStroke;
     height: 100vh;
-    width: 20rem;
-    font-size: 1.2rem;
+    width: 300px;
     z-index: 1;
     justify-content: center;
 }
 
-
 .links {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     display: flex;
     flex-flow: column;
-    align-items: center;
-    gap: 30px;
-    margin-top: 50%;
-    @include bold_font;
+    gap: 40px;
+    margin-top: 30%;
+    @include light_font;
 }
 
 
-.icon { 
+.icon, .icon_active { 
     cursor: pointer;
     color: white;
-    display: flex;  
-    gap: 10px;
-    transition: .2s ease-in-out;
-    border-radius: 8px;
-    padding: 10px 30px;
+    transition: .2s ease-out;
+    border-radius: 10px;
+    padding: 10px 25px;
+    opacity: .6;
     &:hover {
+        opacity: 1;
         background-color: $hoverbg;
+    }
+    & > a {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+.icon_active { 
+    background-color: $hoverbg;
+    opacity: 1;
+}
+
+@media screen and (max-width: 800px) {
+    .sidebar {
+        width: 100px;
+    }
+    .icon, .icon_active {
+        align-self: center;
+        padding: 10px 10px;
+    }
+    .icon p, .icon_active p {
+        display: none;
     }
 }

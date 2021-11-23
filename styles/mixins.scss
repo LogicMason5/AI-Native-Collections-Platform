@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
+@import "variables.scss";
 
 @mixin default_font {
     font-family: 'Poppins', sans-serif;
@@ -32,7 +32,7 @@
     border: none;
     cursor: pointer;
     color: white;
-    border-radius: 1rem;
+    border-radius: .8rem;
     box-shadow: 0px 0px 30px $secondaryblue;
     transition: 0.3s ease-out;
     &:hover {
@@ -40,6 +40,11 @@
     }  
     &:active {
         transform: scale(.90);
+    }
+    &:disabled {
+        box-shadow: none;
+        cursor: not-allowed;
+        opacity: .5;
     }
 }
 

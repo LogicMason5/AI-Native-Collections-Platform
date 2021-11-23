@@ -1,0 +1,103 @@
+@import '../variables';
+@import '../mixins';
+
+.parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.profilebox {
+    position: relative;
+    background-color: $secondarybg;
+    height: 700px;
+    width: 700px;
+    border-radius: 1rem;
+}
+
+.uppersection {
+    gap: 20px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    & h1 {
+        z-index: 2;
+    }
+}
+.banner {
+    position: absolute;
+    border-radius: 1rem 1rem 0rem 0rem;
+    width: 700px;
+}
+
+.avatar {
+    z-index: 1;
+    margin-left: 50px;
+
+}
+
+.address {
+    gap: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.801);
+}
+
+.copy {
+    cursor: pointer;
+    transition: .2s ease;
+    &:active {
+        transform: scale(.80)
+    }
+}
+
+.bio {
+    position: relative;
+    height: 15%;
+    & > h2 {
+        margin-left: 20px;
+        color: $secondaryStroke;
+    }
+    & p {
+        margin-left: 20px;
+        color: white;
+    }
+    & hr {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+    }
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    & p {
+        margin: 10px;
+    }
+}
+
+.activity {
+    & > h2 {
+        color: white;
+        margin: 10px;
+    }
+}
+.transaction {
+    padding: 0px 5px;
+    font-size: .9rem;
+    display: flex;
+    color: white;
+    background-color: #171B28;
+    margin: 10px;
+    border-radius: 10px;
+    & > p{
+        margin-left: 10px;
+    }
+}

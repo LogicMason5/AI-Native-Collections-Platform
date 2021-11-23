@@ -1,193 +1,143 @@
 @import "../variables";
 @import "../mixins";
 
-.index_body {
+.index {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(10, .2fr);
- }
-
-.heading {
-    font-size: calc(1vw + 1.5rem);
-    grid-column: 2/5;
-    grid-row: 2;
-    justify-self: center;
-    max-width: 35vw;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 10px;
+    padding: 0px 10px;
 }
 
-.description { 
-    color: $primarygrey;
-    font-size: calc(.2vw + 1rem);
-    grid-column: 2/5;
-    grid-row: 3;
-    justify-self: center;
-    max-width: 35vw;
+.ladderImage {
+    grid-column: 1;
+    grid-row: 2;
+}
 
+.left {
+    z-index: 2;
+    gap: 60px;
+    justify-self: end;
+    grid-column: 2/6;
+    grid-row: 2/6;
+    display: flex;
+    flex-flow: column wrap;
+    & > h1 {
+        font-size: calc(1vw + 20px);
+        max-width: 90%;
+    }
+    & p {
+        color: #B6B6B6;
+        max-width: 90%;
+        @include medium_font;
+    }
 }
 
 .button {
     @include button;
-    font-size: 1.2rem;
-    grid-column: 2/4;
-    grid-row: 4;
-    justify-self: start;
-    align-self: center;
-    height: 4rem;
-    width: 18rem;
-    margin-left: 5%;
+    height: 60px;
+    font-size: 1.1rem;
+    width: 40%;
+    @include medium_font
 }
 
-.insights_image {
-    border:  1px solid $secondarygrey;
-    grid-column: 5/8;
-    grid-row: 2/5;
-    justify-self: start;
-    align-self: center;
-    width: 796px;
-    height: 450px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 100px #104eaa40;
+.centerSeperator {
+    grid-column: 6/7;
+    grid-row: 1/7;
+    height: 100%;
+    border: none;
+    width: 2px;
+    background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(56,60,81,1) 65%);
 }
 
-.features {
-    color: $primarygrey;
+.curves {
+    width: 101.3%;
+    position: relative;
+    z-index: 0;
+    grid-column: 1/6;
+    grid-row: 3/7;
+    align-self: center;
+}
+
+.right {
+    margin-left: 20px;
+    margin-top: 10px;
+    grid-column: 6/10;
+    grid-row: 1/7;
+    align-self: center;
+    justify-self: end;
+}
+
+.one, .two, .three {
+    display: flex;
+    flex-flow: column;
     margin-top: 50px;
-    grid-column: 3/7;
-    grid-row: 5;
-    justify-self: center;
-    text-align: center;
-    & > h2 {
-        @include head_text($primaryblue);
-    }
-}
-
-.pricing {
-    color: $primarygrey;
-    grid-column: 2/8;
-    grid-row: 7;
-    justify-self: center;
-    text-align: center;
-    & > h2 {
-        @include head_text($orange)
-    }
-}
-
-.boxes1 {
-    @include landingPage_boxes($secondaryblue, #104EAA60);
-    & > div {
-        min-width: 350px;
-    } & > div p {
-        font-size: 1rem;
-    }
-    & > div ul li{
-        margin: 20px;
-        text-align: left;
-    }
-}
-
-@mixin baseBox2 ($bg){
-    @include landingPage_boxes($orange, $bg);
-    text-align: left;
-    & > div {
-        min-width: 300px;
-        & > h3 {
-            margin-left: 20px;
+    > h2 {
+        font-size: 1.3em;
+        @include medium_font;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: #7585AE;
+        > p {
+            color: white;
+            background-color: #47577E;
+            width: fit-content;
+            padding: 5px 15px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 30px #47477E;
         }
     }
-    & > div ul li{
-        font-size: 1rem;
-        margin: 20px 50px 20px 0px;
-        text-align: left;
+    > p {
+        @include default_font;
+        color: white;
+        font-size: .9em;
     }
-
-}
-.boxes2 {
-    @include baseBox2(#CC6B2560);
-}
-.boxes2_ {
-    @include baseBox2(#c7351b60);
 }
 
-.payment_button {
-    background-color: #CC6B2520;
-    border: none;
-    color: white;
-    cursor: pointer;
+.one h2 p{
+    padding: 5px 18px;
+}
+
+.dashboardImage {
+    margin-top: 60px;
+    border: 2px solid $secondaryStroke;
     border-radius: 10px;
-    padding: 10px 8px;
-    font-size: 1rem;
-    margin-top: 20px;
-    transition: .2s ease-out;
-    @include default_font;
-    &:active {
-        background-color: #CC6B2530;
-    }
+    box-shadow: 0px 0px 20px $secondaryStroke;
 }
-.get_started {
-    color: $primarygrey;
-    grid-column: 2/8;
-    grid-row: 9;
-    justify-self: center;
-    text-align: center;
-    & > h2 {
-        @include head_text(white)
+
+@media screen and (max-width: 1300px) {
+    .right {
+        margin-top: 40px;
     }
-    & > button {
-        margin-top: 30px;
+    .button {
+        font-size: .95em;
+        width: 60%;
     }
 }
 
-@media screen and (max-width: 1050px) {
-    .insights_image {
+@media screen and (max-width: 900px ) {
+    .button {
+        width: 70%;
+    }
+    .centerSeperator {
         display: none;
     }
-
-    .heading {
-        text-align: center;
-        grid-column: 2/8;
-        grid-row: 2;
-        max-width: 90vw;
+    .index {
+        grid-template-rows: repeat(10, .2fr);
     }
-
-    .description {
+    .left {
+        height: 500px;
         text-align: center;
-        grid-column: 2/8;
-        grid-row: 2/4;
-        align-self: center;
-        max-width: 90vw;
-    }
-
-    .button {
-        grid-column: 2/8;
-        grid-row: 3/5;
-        align-self: center;
+        justify-content: center;
+        align-items: center;
+        grid-column: 2/10;
         justify-self: center;
-        margin-left: 0;
-        max-width: 50vw;
-    }
-
-    .features {
-        margin-top: -50px;
-    }
-}
-
-@media screen and (max-width:800px) {
-    .heading {
-        grid-row: 1/3;
         align-self: center;
+        grid-row: 2/4;
     }
-
-    .description {
-        grid-row: 1/4;
-        margin-top: 100px;
+    .right {
+        grid-row: 5/10;
+        grid-column: 1/10;
     }
-
-    .button {
-        grid-row: 3/4;
-        align-self: center;
-    }
-
-    .features {
-        margin-top: -200px;
-    } 
 }
