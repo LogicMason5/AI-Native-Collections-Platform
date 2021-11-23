@@ -7,16 +7,16 @@ import styles from '@/styles/modules/RegisterModal.module.scss'
 
 export const RegisterModal = (props: any) => { 
     const pricing: any = {
-                        "Starter - $1/year": 1, 
+                        "Basic - $1/year": 1, 
                         "Pro - $5/year": 5,
-                        "Starter - $5": 5,
-                        "Pro - $15": 15
+                        "Basic - $5/forever": 5,
+                        "Pro - $15/forever": 15
                       }
     const itemLabels = [
-      { label: "Starter - $1/year", value: "Starter - $1/year"},
+      { label: "Basic - $1/year", value: "Basic - $1/year"},
       { label: "Pro - $5/year", value: "Pro - $5/year" },
-      { label: "Starter - $5", value: "Starter - $5" },
-      { label: "Pro - $15", value: "Pro - $15" }
+      { label: "Basic - $5/forever", value: "Basic - $5/forever" },
+      { label: "Pro - $15/forever", value: "Pro - $15/forever" }
     ]
 
     const [name, setName] = useState<string>("")   
@@ -37,7 +37,7 @@ export const RegisterModal = (props: any) => {
               <h1>{selectedPlan}</h1>
               <select onChange={e => setSelectedPlan(e.currentTarget.value)} value={selectedPlan}>
                 {itemLabels.map(item => (
-                  <option
+                  <option className={item.value.endsWith("forever") ? styles.forever : styles.subs}
                     key={item.value}
                     value={item.value}
                   >

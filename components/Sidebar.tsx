@@ -30,10 +30,10 @@ export const Sidebar = () => {
     <nav className={styles.sidebar}>
         <ul className={styles.links}>
         <SidebarIcon icon={Bargraph} link="Dashboard"/>
-        <SidebarIcon icon={Edit} link="Edit Profile"/>
+        {/* <SidebarIcon icon={Edit} link="Edit Profile"/> */}
         <SidebarIcon icon={Piechart} link="Insights"/>
-        <SidebarIcon icon={History} link="History"/>
-        <SidebarIcon icon={Settings} link="Settings"/>
+        {/* <SidebarIcon icon={History} link="History"/>
+        <SidebarIcon icon={Settings} link="Settings"/> */}
         </ul>
     </nav>
     )
