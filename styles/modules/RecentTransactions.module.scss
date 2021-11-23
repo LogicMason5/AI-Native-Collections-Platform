@@ -1,0 +1,48 @@
+@import '../variables';
+@import '../mixins';
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 0.6fr 1.9fr 0.1fr 1.7fr 0.3fr;
+    grid-template-rows: 1fr 1fr 1.6fr 0.4fr 1fr 1fr 1fr 1fr;
+    gap: 30px 30px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . . . . . ."
+      "chart chart chart chart transactions transactions ."
+      "chart chart chart chart transactions transactions ."
+      "chart chart chart chart transactions transactions ."
+      "bookmarks bookmarks coming coming transactions transactions ."
+      "bookmarks bookmarks coming coming insights insights ."
+      "bookmarks bookmarks coming coming . . ."
+      ". . . . . . .";
+  }
+  
+  .chart { grid-area: chart; }
+  
+  .transactions { grid-area: transactions; }
+  
+  .coming { grid-area: coming; }
+  
+  .insights { grid-area: insights; }
+  
+  .bookmarks { grid-area: bookmarks; }
+  
+.transaction {
+    width: 95%;
+    padding: 20px 10px;
+    font-size: 1rem;
+    display: flex;
+    color: white;
+    background-color: #23252C;
+    margin: 10px;
+    border-radius: 10px;
+    transition: .2s ease-out;
+    & > p{
+        margin-left: 10px;
+    }
+    &:hover {
+        background-color: #2c2f38;
+        cursor: pointer;
+    }
+}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
-import { Navbar } from '@/components/Navbar'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet';
 import { TransactionChart, TransactionRatioChart } from '@/components/Charts'
@@ -29,7 +28,6 @@ export default function Dashboard() {
   return (
     <>
     <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-    <Navbar/>
     <Sidebar/>
     <div className={styles.dashboard}>
         <div className={styles.chart}>

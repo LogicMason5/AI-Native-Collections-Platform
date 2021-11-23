@@ -12,31 +12,27 @@ export const ViewChart = ({ chartData }: any) => {
                 data: values,
                 fill: true,
                 backgroundColor: '#104EAA10',
-                borderColor: '#104EAA',
+                borderColor: '#5196FD',
+                tension: .5,
+                borderWidth: 1,
             }
         ],
-        borderWidth: 1,
     }
     const options = {
         responsive: true,
-        aspectRatio: 6/2,
+        aspectRatio: 5/2,
         layout: {padding: 15},
         plugins: {
-            title: {
-              display: true,
-              text: "Profile views for this month",
-              color: "#0085FF",
-            },
             legend: {display: false,},
         },
         scales: {
           y : {
-              title: {display: true,text: "Views",color: "#0085FF"},
+              title: {display: true,text: "Views",color: "#889FCD"},
               ticks: {color: "#FFFFFF",},
               grid: {color: "#282E4290"},
           },
           x: {
-              title: {display: true,text: "Dates",color: "#0085FF"
+              title: {display: true,text: "Dates",color: "#889FCD"
             },
               ticks: {color: "#FFFFFF"},
               grid: {color: "#282E4290"},

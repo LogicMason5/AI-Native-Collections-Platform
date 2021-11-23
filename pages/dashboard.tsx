@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
-import { Navbar } from '@/components/Navbar'
+import Link from 'next/link'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
+import { RecentTransactions } from '@/components/RecentTransactions'
 
 import styles from '@/styles/modules/Dashboard.module.scss'
 
@@ -19,7 +20,6 @@ export default function Dashboard() {
             }
             const result = await fetch(API_URL + "/fetch/views/" + public_key.toString())
             const data = await result.json()
-            console.log(data)
             setViews(data)
         }
         fetchData()
@@ -28,12 +28,17 @@ export default function Dashboard() {
   return (
     <>
     <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-    <Navbar/>
     <Sidebar/>
     <div className={styles.dashboard}>
+        <h1 className={styles.heading}>Dashboard</h1>
         <div className={styles.chart}>
             <ViewChart chartData={views} />
         </div>
+        
+        <div className={styles.recentTransactions}>
+            <RecentTransactions/>
+        </div>
+        <Link href="/insights"><a className={styles.insights}>View insights</a></Link>
     </div>
 
     </>

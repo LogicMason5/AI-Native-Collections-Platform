@@ -6,7 +6,6 @@ import Received from '@/images/Received.svg'
 
 
 export const ProfileBox = ({ user, activity }: any) => {
-    console.log(activity)
     const joined = user.joined_on.substring(0, 10)
     const months: any = {
         1: "January",

@@ -73,7 +73,7 @@
     flex-flow: column wrap;
     justify-content: center;
     & > p {
-        color: $primarygrey;
+        color: $primaryStroke;
     }
     & > h1 {
         font-size: 1.5rem;
@@ -85,7 +85,7 @@
         padding: 10px;
         color: white;
         background: none;
-        border: 1px solid $primarygrey;
+        border: 1px solid $primaryStroke;
         border-radius: 5px;
         transition: .1s ease-in;
         height: 40px;

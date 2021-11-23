@@ -1,8 +1,39 @@
+@import "../mixins";
+
 .dashboard {
-    width: 83vw;
-    margin-left: 300px;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+}
+
+.heading {
+    grid-column: 4/6;
+    grid-row: 1/2;
+    align-self: center;
+}
+.chart {
+    width: 900px;
+    grid-column: 4/6;
+    grid-row: 2/6;
+}
+
+.recentTransactions {
+    width: 600px;
+    grid-column: 13/16;
+    grid-row: 2/10;
+    align-self: start;
+}
+
+.insights {
+    font-size: 1.5rem;
+    grid-column: 15/17;
+    align-self: center;
+    grid-row: 10;
+    text-align: center;
+    color: #7585AE;
+    @include bold_font;
+    transition: .2s ease-out;
+    &:hover {
+        filter: brightness(1.5);
+    }
 }

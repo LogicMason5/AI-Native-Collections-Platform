@@ -1,8 +1,8 @@
 @import '../mixins';
+@import '../variables';
 
 .viewchart {
-    width: 70vw;
-    background-color: rgb(15,18,29);
-    border-radius: 10px;
-    border: 1px solid rgb(85, 85, 85);
+    background-color: $secondarybg;
+    border-radius: 20px;
+    border: 1px solid $primaryStroke;
 }
