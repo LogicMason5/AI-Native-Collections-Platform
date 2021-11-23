@@ -24,6 +24,6 @@ class Webhook:
 
         client = AsyncClient()
         await client.post(self.webhook_url, json=content)
-        client.close()
+        await client.close()
 
 
