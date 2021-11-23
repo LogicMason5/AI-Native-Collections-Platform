@@ -108,7 +108,15 @@ export const registerWallet = async (event: any, username: string, usd: number) 
           })
         }
       } else {
-            res.json().then(json => toast.error(json.error))
+            res.json().then(json => 
+              {
+                if (json.error == "Public key already registered") {
+                  toast.info(`${json.error}\nRedirecting to dashboard...`, {autoClose: 3000})
+                  setTimeout(() => Router.push("/dashboard"), 3000)
+                  
+                }
+            
+              })
           }
         })
 }

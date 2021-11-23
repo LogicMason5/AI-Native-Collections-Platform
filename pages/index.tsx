@@ -28,7 +28,8 @@ export default function Index() {
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
         <Navbar/>
-        <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true}/>
+        <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false}/>
+        
         <main className={styles.index_body}>
           <h1 className={styles.heading}>Get more out of your Solana wallet.</h1>
           <p className={styles.description}>Create your wallet profile to know about each other more. Get visual representation with graphs about your transactions and activity in seconds.</p>
