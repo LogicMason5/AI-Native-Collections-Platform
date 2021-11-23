@@ -5,6 +5,7 @@ import { Navbar } from '@/components/Navbar'
 import { ToastContainer } from 'react-toastify'
 import Dashboard from '@/images/Dashboard.svg'
 import Ladder from '@/images/Ladder.svg'
+import Curves from '@/images/Curves.svg'
 import styles from '@/styles/modules/Index.module.scss'
 import { RegisterModal } from '@/components/RegisterModal'
 
@@ -40,7 +41,9 @@ export default function Index() {
             <p>NodeAir let's you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds. </p>
             <button className={styles.button} onClick={toggleModal}>Create your profile</button>
           </div>
-
+          <div className={styles.curves}>
+            <Image src={Curves}/>
+          </div>
           <hr className={styles.centerSeperator}/>
           
           <div className={styles.right}>

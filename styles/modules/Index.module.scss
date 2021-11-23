@@ -15,6 +15,7 @@
 }
 
 .left {
+    z-index: 2;
     gap: 70px;
     justify-self: end;
     grid-column: 2/6;
@@ -22,11 +23,10 @@
     display: flex;
     flex-flow: column wrap;
     & > h1 {
-        font-size: 3rem;
+        font-size: calc(2vw + 10px);
         max-width: 90%;
     }
     & p {
-        font-size: 1.2rem;
         color: #B6B6B6;
         max-width: 90%;
         @include medium_font;
@@ -36,7 +36,7 @@
 .button {
     @include button;
     height: 60px;
-    font-size: 1.3rem;
+    font-size: calc(.5vw + .6rem);
     width: 40%;
 }
 
@@ -49,7 +49,18 @@
     background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(56,60,81,1) 65%);
 }
 
+.curves {
+    width: 101.3%;
+    position: relative;
+    z-index: 0;
+    grid-column: 1/6;
+    grid-row: 3/7;
+    align-self: center;
+}
+
 .right {
+    margin-left: 20px;
+    margin-top: 10px;
     grid-column: 6/10;
     grid-row: 1/7;
     align-self: center;
@@ -60,6 +71,7 @@
     flex-flow: column;
     margin-top: 50px;
     > h2 {
+        font-size: 1.3em;
         @include medium_font;
         display: flex;
         align-items: center;
@@ -69,7 +81,7 @@
             color: white;
             background-color: #47577E;
             width: fit-content;
-            padding: 5px 18px;
+            padding: 5px 15px;
             border-radius: 50%;
             box-shadow: 0px 0px 30px #47477E;
         }
@@ -77,13 +89,14 @@
     > p {
         @include default_font;
         color: white;
+        font-size: .9em;
     }
 }
 
 
 .dashboardImage {
-    margin-top: 20px;
+    margin-top: 60px;
     border: 2px solid $secondaryStroke;
-    border-radius: 1rem;
+    border-radius: 10px;
     box-shadow: 0px 0px 20px $secondaryStroke;
 }
