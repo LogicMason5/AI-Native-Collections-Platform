@@ -18,7 +18,7 @@
     background-color: $secondarybg;
     width: 700px;
     height: 450px;
-    border-radius: 1rem;
+    border-radius: 20px;
     & > hr {
         color: $primaryblue;
     }
@@ -44,9 +44,9 @@
 }
 
 .change_plan {
+    gap: 30px;
     padding: 10px 30px;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
     & > h1 {
         font-size: 1.5rem;
@@ -54,30 +54,33 @@
     }
     & > select {
         cursor: pointer;
-        background-color: rgb(3, 27, 43);
+        background-color: $hoverbg;
         border: none;
         outline: none;
-        border-radius: 10px;
+        border-radius: 5px;
         color: white;
         text-align: center;
         height: 40px;
+        width: 200px;
         @include bold_font;
-
     }
 }
 
 
 .form {
-    padding: 10px 30px;
+    padding: 50px 30px;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
     & > p {
-        color: $primaryStroke;
+        color: rgb(170, 170, 170);
     }
     & > h1 {
-        font-size: 1.5rem;
-        @include medium_font;
+        color: rgb(179, 177, 177);
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+        @include bold_font;
     }
     & > input {
         @include default_font;
@@ -97,7 +100,21 @@
         @include button;
         width: 30%;
         height: 40px;
-        font-size: 1.1rem;
+        font-size: 1rem;
         margin-top: 40px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .change_plan h1{
+        font-size: 1rem;
+        width: 80%;
+    }
+    .change_plan select {
+        width: 150px;
+        font-size: .7rem;
+    }
+    .form button {
+        width: 60%;
     }
 }

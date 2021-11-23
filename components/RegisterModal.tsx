@@ -33,7 +33,7 @@ export const RegisterModal = (props: any) => {
         <div className={styles.main}>
             <span className={styles.close} onClick={handleclose}>&times;</span>
             <div className={styles.change_plan}>
-              <Image className={styles.img} src={Money} height="60" width="60"/>
+              <Image className={styles.img} src={Money} height="50" width="50"/>
               <h1>{selectedPlan}</h1>
               <select onChange={e => setSelectedPlan(e.currentTarget.value)} value={selectedPlan}>
                 {itemLabels.map(item => (
