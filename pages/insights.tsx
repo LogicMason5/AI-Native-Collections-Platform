@@ -34,12 +34,22 @@ export default function Dashboard() {
         <h1 className={styles.heading}>Insights</h1>
         <div className={styles.distributionChart}>
             <DistributionChart chartData={ratio} />
-            <div><div></div> 25% Received</div>
-            <div><div></div> 75% sent</div>
+            <div className={styles.labels}>
+            <div className={styles.sent}>
+                <div></div> 
+                25% Received
+            </div>
+            <div className={styles.rec}>
+                <div></div> 
+                75% sent
+            </div>
+            </div>
         </div>
+
         <div className={styles.numbers}>
             <Image src={Curves}></Image>
         </div>
+
         <div className={styles.transactionChart}>
             <TransactionChart chartData={transactions} />
         </div>
