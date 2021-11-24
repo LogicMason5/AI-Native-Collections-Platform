@@ -34,7 +34,9 @@ export default function Dashboard() {
         <div className={styles.chart}>
             <ViewChart chartData={views} />
         </div>
-        
+        <div className={styles.bookmarks}>
+            
+        </div>
         <div className={styles.recentTransactions}>
             <RecentTransactions/>
         </div>

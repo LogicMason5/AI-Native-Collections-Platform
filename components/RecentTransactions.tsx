@@ -11,12 +11,13 @@ export const RecentTransactions = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        let public_key = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
+        let public_key = window.solana._publicKey
         if (window.solana._publicKey == null){
-            public_key = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
+            public_key = await connectWallet(false)
         }
-        const result = await fetch(`http://localhost:8000/profile/activity/${public_key.toString()}?limit=6`)
+        const result = await fetch(`http://localhost:8000/fetch/activity/${public_key.toString()}?limit=6&&split_message=true`)
         const data = await result.json()
+        console.log(data)
         setData(data)
       }
       fetchData()
@@ -28,7 +29,7 @@ export const RecentTransactions = () => {
             {data ? (data.map((a: any) => (
                     <div className={styles.transaction}>
                         <Image src={(a['type'] == "sent") ? Sent : Received} width="60" /> 
-                        <p>{a["message"]}</p>
+                        <p>{a['type']} {a['amount']} SOLs</p>
                     </div>
                     ))
                     )  : null

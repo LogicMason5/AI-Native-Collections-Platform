@@ -1,34 +1,37 @@
 @import "../mixins";
 
 .dashboard {
+    padding: 10px 10px;
     display: grid;
-    grid-template-columns: repeat(18, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(15, 1fr);
+    grid-column-gap: 20px;
 }
 
 .heading {
-    grid-column: 4/6;
+    grid-column: 3/7;
     grid-row: 1/2;
     align-self: center;
 }
+
 .chart {
-    width: 900px;
-    grid-column: 4/6;
-    grid-row: 2/6;
+    grid-column: 3/7;
+    grid-row: 2/7;
+    width: 1000px;
 }
 
 .recentTransactions {
-    width: 600px;
-    grid-column: 13/16;
-    grid-row: 2/10;
-    align-self: start;
+    width: 400px;
+    grid-column: 8/11;
+    grid-row: 2/9;
+    justify-self: center;
 }
 
 .insights {
     font-size: 1.5rem;
-    grid-column: 15/17;
-    align-self: center;
     grid-row: 10;
+    grid-column: 8/11;
+    align-self: center;
     text-align: center;
     color: #7585AE;
     @include bold_font;
