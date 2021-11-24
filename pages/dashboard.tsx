@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
+import { Bookmarks } from '@/components/Bookmarks'
 import { RecentTransactions } from '@/components/RecentTransactions'
 
 import styles from '@/styles/modules/Dashboard.module.scss'
@@ -35,7 +36,7 @@ export default function Dashboard() {
             <ViewChart chartData={views} />
         </div>
         <div className={styles.bookmarks}>
-            
+        <Bookmarks/>
         </div>
         <div className={styles.recentTransactions}>
             <RecentTransactions/>
