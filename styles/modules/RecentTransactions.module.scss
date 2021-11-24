@@ -4,7 +4,7 @@
 .recentTransactions {
     height: 60vh;
     background-color: $secondarybg;
-    padding: 10px 10px;
+    padding: 10px 20px;
     border-radius: 20px;
     border: 1px solid $primaryStroke;
     & h2 {
@@ -16,11 +16,11 @@
 .transaction {
     cursor: pointer;
     text-transform: capitalize;
-    padding: 20px 10px;
+    padding: 12px 10px;
     font-size: 1rem;
     display: flex;
     background-color: $hoverbg;
-    margin: 10px;
+    margin-top: 10px;
     border-radius: 10px;
     align-items: center;
     transition: .2s ease-out;

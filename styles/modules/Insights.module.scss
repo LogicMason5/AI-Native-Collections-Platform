@@ -8,10 +8,9 @@
 }
 
 .insights {
-    padding: 10px 10px;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     grid-column-gap: 40px;
 
 }
@@ -25,24 +24,37 @@
 
 .distributionChart {
     grid-column: 1/5;
-    grid-row: 2/5;
+    grid-row: 2/4;
     margin-left: 270px;
-    width: 32vw;
-    padding-right: 18vw;
+    width: 34vw;
+    padding-right: 22vw;
     display: flex;
     align-items: center;
 }
 
 .numbers {
+    grid-column: 5/10;
+    grid-row: 2/4;
+    display: flex;
+    padding: 30px;
     border: 1px solid $primaryStroke;
     border-radius: 20px;
-    grid-column: 5/10;
-    justify-self: center;
-    grid-row: 2/5;
-    width: 28vw;
+    width: 34vw;
     background-color: $secondarybg;
-    & img {
-        rotate: 20deg;
+    & h2 {
+        color: grey;
+    }
+    & h1 {
+        width: 150%;
+        font-size: calc(.8vw + 5px);
+        margin-top: 30px;
+        display: flex;
+        gap: 20px;
+        color: #7585AE;
+        & p {
+            @include medium_font;
+            color: white;
+        }
     }
 }
 
@@ -50,23 +62,24 @@
     margin-top: 10px;
     margin-left: 270px;
     grid-column: 1/8;
-    grid-row: 5/9;
-    align-self: center;
+    grid-row: 4/7;
+
     width: 70vw;
 }
 
 
 .labels {
+    font-size: calc(.5vw + 10px);
     color: white;
     div {
         align-items: center;
-        width: 100%;
+        width: 200%;
         display: flex;
         gap: 10px;
         margin: 20px;
         div {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             border-radius: 5px;
         }
     }
@@ -76,4 +89,43 @@
 }
 .sent div{
     background-color: $primaryblue;
+}
+
+
+@media screen and (max-width:1000px) {
+    .insights {
+        grid-template-rows: repeat(10, .5fr);
+    }
+
+    .heading {
+        margin-left: 150px;
+        grid-row: 1;
+        align-self: start;
+        margin-top: 20px;
+    }
+
+    .distributionChart {
+        justify-self: center;
+        margin-left: 0;
+        grid-column: 1/11;
+        grid-row: 2/4;
+        margin: 0px;
+        width: 60vw;
+        padding-right: 40vw;
+    }
+    .numbers {
+        width: 70vw;
+        grid-row: 3/9;
+        margin-top: 0px;
+        align-self: center;
+        grid-column: 1/11;
+        justify-self: center;
+    }
+    .transactionChart {
+        width: 70vw;
+        grid-column: 1/11;
+        align-self: center;
+        justify-self: center;
+        grid-row: 7/10;
+    }
 }

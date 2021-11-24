@@ -11,7 +11,7 @@ export const RecentTransactions = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        let public_key = window.solana._publicKey
+        let public_key ="8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
         if (window.solana._publicKey == null){
             public_key = await connectWallet(false)
         }
