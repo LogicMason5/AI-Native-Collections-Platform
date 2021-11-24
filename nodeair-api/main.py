@@ -5,6 +5,7 @@ from aioredis import from_url
 from routes import user
 from routes import checks
 from routes import fetch
+from routes import transactions
 from dotenv import load_dotenv
 from core.db import engine, Base
 from fastapi.param_functions import Depends
@@ -25,7 +26,7 @@ app.add_middleware(
 app.include_router(user.router)
 app.include_router(checks.router)
 app.include_router(fetch.router)
-# app.include_router(signature.router)
+app.include_router(transactions.router)
 
 
 @app.on_event("startup")
