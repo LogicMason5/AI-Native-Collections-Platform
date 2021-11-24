@@ -60,7 +60,7 @@ export default function Index() {
               <p>Get the best experience with beautiful charts and clean dashboard UI.</p>              
             </div>
             <div className={styles.dashboardImage}>
-              <Image src={Dashboard} height="400" width="700"/>
+              <Image src={Dashboard} height="380" width="700"/>
             </div>
 
           </div>
