@@ -1,5 +1,5 @@
 import { Line, Bar, Doughnut } from "react-chartjs-2"
-import styles from '@/styles/modules/Charts.module.scss'
+
 
 export const ViewChart = ({ chartData }: any) => {
     const values = Object.values(chartData)
@@ -40,12 +40,10 @@ export const ViewChart = ({ chartData }: any) => {
     }}
 
     return (
-        <div className={styles.viewchart}>
         <Line
           data={data}
           options={options}
         />
-      </div>
     )
 }
 
@@ -66,13 +64,13 @@ export const TransactionChart = ({ chartData }: any) => {
         datasets: [
             {
                 label: "Received",
-                backgroundColor: '#CC6B25',
+                backgroundColor: '#0059DE',
                 data: received,
             },
             {
                 label: "Sent",
                 data: sent,
-                backgroundColor: '#0059DE',
+                backgroundColor: '#FFFFFF',
             }
         ],
         borderWidth: 1,
@@ -101,16 +99,14 @@ export const TransactionChart = ({ chartData }: any) => {
     }}
 
     return (
-        <div className={styles.viewchart}>
         <Bar
           data={data}
           options={options}
         />
-      </div>
     )
 }
 
-export const TransactionRatioChart = ({ chartData }: any) => {
+export const DistributionChart = ({ chartData }: any) => {
 
     const data = {
         labels: ["Sent", "Received"],
@@ -119,7 +115,7 @@ export const TransactionRatioChart = ({ chartData }: any) => {
                 data: chartData,
                 fill: true,
                 hoverOffset: 5,
-                backgroundColor: ['#CC6B25','#0059DE'],
+                backgroundColor: ['#FFFFFF','#0059DE'],
                 borderWidth: 1
             }
         ],
@@ -127,21 +123,18 @@ export const TransactionRatioChart = ({ chartData }: any) => {
     }
     const options = {
         responsive: true,
-        aspectRatio: 5,
-        layout: {padding: 10},
+        aspectRatio: 1,
         plugins: {
-            title: {display: true,text: "Sent vs Received proportion",color: "#0085FF",},
+            title: {display: true,text: "Distribution",color: "#0085FF",},
             legend: {display: false,},
         },
     }
 
     return (
-        <div className={styles.viewchart}>
         <Doughnut
           data={data}
           options={options}
         />
-      </div>
     )
 }
 

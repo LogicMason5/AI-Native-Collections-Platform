@@ -1,0 +1,56 @@
+@import "../variables";
+@import "../mixins";
+
+.insights {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(7, .2fr);
+}
+
+.heading {
+    margin-left: 270px;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+}
+
+
+.transactionChart, .distributionChart {
+    background-color: $secondarybg;
+    border-radius: 20px;
+    border: 1px solid $primaryStroke;
+}
+
+
+.distributionChart {
+    align-items: center;
+    padding-right: 200px;
+    background-color: $secondarybg;
+    display: flex;
+    width: 80%;
+    margin-left: 300px;
+    grid-column: 1/3;
+    grid-row: 2/3;
+    color: white;
+}
+
+.numbers {
+    border-radius: 20px;
+    border: 1px solid $primaryStroke;
+    align-items: center;
+    padding-right: 200px;
+    background-color: $secondarybg;
+    display: flex;
+    width: 100%;
+    grid-column: 5/9;
+    grid-row: 2/3;
+    color: white;
+}
+
+.transactionChart {
+    margin-top: 30px;
+    grid-column: 1/9;
+    grid-row: 3/8;
+    margin-left: 300px;
+    width: 90%;
+}

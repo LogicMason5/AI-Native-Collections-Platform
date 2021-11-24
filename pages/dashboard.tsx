@@ -32,7 +32,7 @@ export default function Dashboard() {
     <Sidebar/>
     <div className={styles.dashboard}>
         <h1 className={styles.heading}>Dashboard</h1>
-        <div className={styles.chart}>
+        <div className={styles.viewChart}>
             <ViewChart chartData={views} />
         </div>
         <div className={styles.bookmarks}>
@@ -41,7 +41,7 @@ export default function Dashboard() {
         <div className={styles.recentTransactions}>
             <RecentTransactions/>
         </div>
-        <Link href="/insights"><a className={styles.insights}>View insights</a></Link>
+        <Link href="/insights"><a className={styles.insights}>View insights {'>'} </a></Link>
     </div>
 
     </>

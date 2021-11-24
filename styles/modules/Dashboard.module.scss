@@ -1,5 +1,16 @@
 @import "../mixins";
 
+.viewChart{
+    background-color: $secondarybg;
+    border-radius: 20px;
+    border: 1px solid $primaryStroke;
+    margin-left: 270px;
+    grid-column: 1/7;
+    grid-row: 2/7;
+    width: 1000px;
+}
+
+
 .dashboard {
     padding: 10px 10px;
     display: grid;
@@ -16,12 +27,6 @@
     align-self: center;
 }
 
-.chart {
-    margin-left: 270px;
-    grid-column: 1/7;
-    grid-row: 2/7;
-    width: 1000px;
-}
 
 .bookmarks {
     margin-left: 270px;
