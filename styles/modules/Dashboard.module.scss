@@ -45,11 +45,10 @@
 }
 
 .insights {
+    width: 20vw;
     font-size: 1.5rem;
     grid-row: 9;
-    width: 25vw;
-    grid-column: 8/12;
-    align-self: center;
+    grid-column: 8/10;
     text-align: center;
     color: #7585AE;
     @include bold_font;

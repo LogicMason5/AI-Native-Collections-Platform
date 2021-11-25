@@ -3,7 +3,8 @@ import styles from '@/styles/modules/ProfileBox.module.scss'
 import Copy from '@/images/icons/Copy.svg'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
-
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
@@ -23,10 +24,16 @@ export const ProfileBox = ({ user, activity }: any) => {
     }
     const split = joined.split("-")
     const month = months[split[1]]
-    const joined_on = split[0] + " " + month + " " + split[2]
+    const joined_on = split[2] + " " + month + " " + split[0]
+
+    const copyAddress  = () => {
+        const x = document.querySelector(".pubkey")
+        navigator.clipboard.writeText(x.textContent)
+        toast.success("Copied address to clipboard!")
+    }
+        
     return (
         <div className={styles.parent}>
-
             <div className={styles.profilebox}>
 
                 <div className={styles.uppersection}>
@@ -36,8 +43,8 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
 
                 <div className={styles.address}>
-                    <p>{user.public_key}</p>
-                    <Image className={styles.copy} src={Copy} alt="copy" height="30" width="30" />
+                    <p className="pubkey">{user.public_key}</p>
+                    <Image className={styles.copy} src={Copy} onClick={copyAddress} alt="copy" height="25" width="25" />
                 </div>
 
                 <div className={styles.bio}>
@@ -45,34 +52,36 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <p>{user.bio}</p>
                     <hr />
                 </div>
+                
                 <div className={styles.activity}>
                     <h2>Recent activity</h2>
                     {activity ? (activity.map((a: any) => (
-                            <div className={styles.transaction}>
+                            <a href={"https://solscan.io/tx/"+a['tx']}>
+                                <div className={styles.transaction}>
                                 <Image src={(a['type'] == "sent") ? Sent : Received} width="40" /> 
                                 <p>{a["message"]}</p>
-                            </div>
+                                </div>
+                            </a>
                             
                             ))
                             )  : <>
                                 <div className={styles.transaction}>
-                                    <p></p>
+                                    <p className={styles.placeholderBox}></p>
                                 </div>
                                 <div className={styles.transaction}>
-                                    <p></p>
+                                    <p className={styles.placeholderBox}></p>
                                 </div>
                                 <div className={styles.transaction}>
-                                    <p></p>
+                                    <p className={styles.placeholderBox}></p>
                                 </div>
                                 <div className={styles.transaction}>
-                                    <p></p>
+                                    <p className={styles.placeholderBox}></p>
                                 </div>
                                 </>
                                 }
                 </div>
                 <div className={styles.bottom}>
-                    <a href={user.social}>Hi</a>
-                    <p>{joined_on}</p>
+                    <p>Joined on {joined_on}</p>
                 </div>
 
             </div>

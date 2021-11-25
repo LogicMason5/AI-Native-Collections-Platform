@@ -27,14 +27,17 @@ export const RecentTransactions = () => {
         <div className={styles.recentTransactions}>
             <h2>Recent SOL transactions</h2>
             {data ? (data.map((a: any) => (
-                    <div className={styles.transaction}>
+                    <a href={"https://solscan.io/tx/"+a['tx']}>
+                      <div className={styles.transaction}>
                         <Image src={(a['type'] == "sent") ? Sent : Received} width="60" /> 
                         <p>{a['type']} {a['amount']} SOLs</p>
-                    </div>
+                      </div>
+                    </a>
                     ))
                     )  : null
                         }
         </div>
+        
     )
   }
   

@@ -14,13 +14,13 @@ export const RegisterModal = (props: any) => {
                       }
     const itemLabels = [
       { label: "Basic - $1/year", value: "Basic - $1/year"},
-      { label: "Pro - $5/year", value: "Pro - $5/year" },
-      { label: "Basic - $5/forever", value: "Basic - $5/forever" },
-      { label: "Pro - $15/forever", value: "Pro - $15/forever" }
+      // { label: "Pro - $5/year", value: "Pro - $5/year" },
+      // { label: "Basic - $5/forever", value: "Basic - $5/forever" },
+      { label: "Pro - $5/forever", value: "Pro - $5/forever" }
     ]
 
     const [name, setName] = useState<string>("")   
-    const [selectedPlan, setSelectedPlan] = useState<string>("Starter - $1/year");
+    const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $1/year");
     let amount = 0
     useEffect(() => {amount = pricing[selectedPlan] })
 
