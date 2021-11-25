@@ -24,19 +24,20 @@ async def activity(public_key: str,  request: Request, limit: int = 4, split_mes
     data = resp.json()["data"]["tx"]["transactions"]
     filtered_data = []
     for i in data:
+
         sols = lamport_to_sol(i["lamport"])
         if i["src"] == public_key:
             if split_message:
-                d = {"type": "sent", "amount": sols, "to": i['dst']}
+                d = {"type": "sent", "amount": sols, "to": i['dst'], "tx": i["txHash"]}
             else:
-                d = {"type": "sent", "message": f"Sent {sols} SOLs to {i['dst']}"}
+                d = {"type": "sent", "message": f"Sent {sols} SOLs to {i['dst']}", "tx": i["txHash"]}
                 
             filtered_data.append(d)
         else:
             if split_message:
-                d = {"type": "received", "amount": sols, "from": i['src']}
+                d = {"type": "received", "amount": sols, "from": i['src'], "tx": i["txHash"]}
             else:
-                d = {"type": "received", "message": f"Received {sols} SOLs from {i['dst']}"}
+                d = {"type": "received", "message": f"Received {sols} SOLs from {i['dst']}", "tx": i["txHash"]}
             filtered_data.append(d)
 
 
