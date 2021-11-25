@@ -69,14 +69,14 @@
 
 
 .labels {
-    font-size: calc(.5vw + 10px);
+    font-size: calc(.6vw + 8px);
     color: white;
     div {
         align-items: center;
         width: 200%;
         display: flex;
         gap: 10px;
-        margin: 20px;
+        margin: 10px;
         div {
             width: 30px;
             height: 30px;
@@ -94,38 +94,44 @@
 
 @media screen and (max-width:1000px) {
     .insights {
-        grid-template-rows: repeat(10, .5fr);
+        grid-template-rows: repeat(10, 1fr);
     }
 
     .heading {
-        margin-left: 150px;
-        grid-row: 1;
-        align-self: start;
-        margin-top: 20px;
+        margin-left: 40px;
+        grid-row: 1/2;
+        grid-column: 2/5;
+        font-size: 1.5rem;        
     }
 
     .distributionChart {
-        justify-self: center;
-        margin-left: 0;
-        grid-column: 1/11;
-        grid-row: 2/4;
-        margin: 0px;
-        width: 60vw;
+        margin-left: 15px;
+        grid-column: 3/6;
+        width: 65vw;
+        padding-bottom: 20px;
         padding-right: 40vw;
     }
+    .labels div {
+        margin: 5px;
+    }
+    .labels div div{
+        width: 20px;
+        height: 20px;
+    }
     .numbers {
-        width: 70vw;
-        grid-row: 3/9;
-        margin-top: 0px;
-        align-self: center;
-        grid-column: 1/11;
-        justify-self: center;
+        margin-left: 15px;
+        grid-column: 3/6;
+        width: 65vw;
+        grid-row: 4/6;
+        margin-top: 10px;
     }
     .transactionChart {
-        width: 70vw;
-        grid-column: 1/11;
-        align-self: center;
+        grid-row: 6/9;
+        grid-column: 2/12;
+        width: 80%;
+        margin-left: 0px;
         justify-self: center;
-        grid-row: 7/10;
+        height: 70%;
+        margin-top: 10px;
     }
 }

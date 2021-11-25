@@ -20,8 +20,8 @@ export const ViewChart = ({ chartData }: any) => {
     }
     const options = {
         responsive: true,
-        aspectRatio: 5/2,
-        layout: {padding: 15},
+
+        layout: {padding: 10},
         plugins: {
             legend: {display: false,},
         },
@@ -114,7 +114,6 @@ export const DistributionChart = ({ chartData }: any) => {
             {
                 data: chartData,
                 fill: true,
-                hoverOffset: 5,
                 backgroundColor: ['#FFFFFF','#0059DE'],
                 borderWidth: 1
             }
