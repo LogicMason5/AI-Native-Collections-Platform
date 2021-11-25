@@ -20,8 +20,8 @@ export const ViewChart = ({ chartData }: any) => {
     }
     const options = {
         responsive: true,
-
-        layout: {padding: 10},
+        aspectRatio: 5/2,
+        layout: {padding: 15},
         plugins: {
             legend: {display: false,},
         },
