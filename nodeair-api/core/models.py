@@ -4,5 +4,8 @@ class RegisterUser(BaseModel):
     public_key: str
     username: str
 
-class Signature(BaseModel):
-    signature: str
+
+class BookmarkCreate(BaseModel):
+    owner_public_key: str
+    signature: dict
+    user_public_key: str

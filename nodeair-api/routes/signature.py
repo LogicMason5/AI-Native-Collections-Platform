@@ -1,30 +1,63 @@
-from solana.publickey import PublicKey as PK
-from starlette.requests import Request
+import uuid
+from solana.publickey import PublicKey
 from core.db import get_db
 from sqlalchemy.orm import Session
 from core.ratelimit import Limit
 from fastapi.responses import JSONResponse
-from fastapi import APIRouter, Depends
-from nacl.signing import VerifyKey
-from nacl.public import PublicKey
-from nacl.signing import VerifyKey
+from fastapi import APIRouter, Depends, Request
+from core.schemas import Signature
 
-router = APIRouter()
+router = APIRouter(prefix="/signature")
 
-@router.post("/signature", 
-            dependencies=[Depends(Limit(times=20, seconds=5))],
+# @router.post("/verify", 
+#             dependencies=[Depends(Limit(times=1, seconds=5))],
+#             status_code=200
+#             )
+# async def verify(
+#                 request: Request, db: Session=Depends(get_db)
+#                 ) -> JSONResponse:
+
+#     json = await request.json()
+#     try:
+#         message = bytes(uuid.uuid4.hex(), encoding="utf8")
+#         signature = bytes(json["signature"]["data"])
+#         public_key = bytes(PublicKey(json["public_key"]))
+#         vk = VerifyKey(public_key)
+#         vk.verify(message, signature)
+#         return {"message": "Success"}
+#     except Exception:
+#         return {"error": "Signature verification failed"}
+
+
+@router.post("/create", 
+            dependencies=[Depends(Limit(times=1, seconds=5))],
             status_code=200
             )
-async def signature(
+async def create(
                 request: Request, db: Session=Depends(get_db)
                 ) -> JSONResponse:
 
-    pk = bytes(PK("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"))
-    msg = b"hi"
-    x = await request.json()
-    print(x)
+    json = await request.json()
+    random_hash = uuid.uuid4().hex
+    signature = Signature(public_key=json["public_key"], hash=random_hash)
+    db.add(signature)
+    db.commit()
+    return {"hash": random_hash}
 
-    vk = VerifyKey(pk)
-    r = vk.verify(msg, x)
-    print(r)
-    return True
+
+@router.get("/get", 
+            dependencies=[Depends(Limit(times=10, seconds=5))],
+            status_code=200
+            )
+async def get(
+                public_key: str, db: Session=Depends(get_db)
+                ) -> JSONResponse:
+
+    signature = db.query(Signature).filter_by(public_key=public_key)
+    if not signature.first():
+        return {"error": "Message not signed"}
+    else:
+        random_hash = signature.first().hash
+        signature.delete()
+        db.commit()
+        return {"hash": random_hash}

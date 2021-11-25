@@ -43,6 +43,13 @@ class Bookmark(Base):
 
     user = relationship("User", back_populates="bookmarks")
 
+class Signature(Base):
+    __tablename__ = "signatures"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    public_key = Column(String(length=44), nullable=False)
+    hash = Column(String(length=44), nullable=False)
+
 
 class View(Base):
     __tablename__ = "views"

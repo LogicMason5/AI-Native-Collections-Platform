@@ -22,8 +22,7 @@ class Webhook:
         if kwargs.get("embed"):
             content.update({"embeds": [kwargs["embed"]]})
 
-        client = AsyncClient()
-        await client.post(self.webhook_url, json=content)
-        await client.close()
+        async with AsyncClient() as client:
+            await client.post(self.webhook_url, json=content)
 
 
