@@ -3537,6 +3537,11 @@ tweetnacl@^1.0.0:
   resolved "https://registry.npmjs.org/tweetnacl/-/tweetnacl-1.0.3.tgz"
   integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
+tweetnacljs@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/tweetnacljs/-/tweetnacljs-0.9.1.tgz#2be47d09bbe37ef46b84d38d42f6db98e3fdd8ef"
+  integrity sha1-K+R9CbvjfvRrhNONQvbbmOP92O8=
+
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz"

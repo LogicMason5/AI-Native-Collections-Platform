@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { registerWallet } from './Wallet'
+import { registerWallet, signMessage } from './Wallet'
 import Money from '@/images/icons/Money.svg'
 import styles from '@/styles/modules/RegisterModal.module.scss'
 

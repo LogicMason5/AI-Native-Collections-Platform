@@ -6,7 +6,7 @@ import Router from 'next/router';
 export const connectWallet = async (showToast: boolean) => {
   if ("solana" in window) {
     let res
-    try{
+    try {
       res = await window.solana.connect({ onlyIfTrusted: true })
     } catch {
       res = await window.solana.connect()
@@ -14,23 +14,23 @@ export const connectWallet = async (showToast: boolean) => {
     const button = document.querySelector(".Navbar_connect_button__32n_j")
     if (button != null) {
       const pubKey = res.publicKey.toString()
-      let start =pubKey.substring(0, 5)
+      let start = pubKey.substring(0, 5)
       let end = pubKey.substring(39, 44)
       button.innerHTML = start + "..." + end
     }
-    if (showToast){toast.success('Connected to wallet!');}
+    if (showToast) { toast.success('Connected to wallet!'); }
     return res.publicKey;
-  } 
-    window.open("https://phantom.app/", "_blank");
   }
+  window.open("https://phantom.app/", "_blank");
+}
 
 
-export const usdToSol = async (usd: number ) => {
+export const usdToSol = async (usd: number) => {
   let price;
   const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
   price = await res.json()
-  price = price.price 
-  return usd/price
+  price = price.price
+  return usd / price
 }
 
 
@@ -42,13 +42,13 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   const network = "https://api.devnet.solana.com";
   const connection = new Connection(network);
   const transaction = new Transaction()
-  .add(
-    SystemProgram.transfer({
-      fromPubkey: publicKey,
-      toPubkey: to,
-      lamports: Number(sol) * 1000000000
-    })
-  );
+    .add(
+      SystemProgram.transfer({
+        fromPubkey: publicKey,
+        toPubkey: to,
+        lamports: Number(sol) * 1000000000
+      })
+    );
   const { blockhash } = await connection.getRecentBlockhash();
   transaction.recentBlockhash = blockhash;
   transaction.feePayer = publicKey;
@@ -77,18 +77,18 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     pubKey = await connectWallet(false)
   }
   const data = {
-      public_key: pubKey.toString(),
-      username: username
-    }
+    public_key: pubKey.toString(),
+    username: username
+  }
 
-    fetch(`${API_URL}/check`, {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST"
-    })
-    .then (async res => {
+  fetch(`${API_URL}/check`, {
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST"
+  })
+    .then(async res => {
       if (res.ok) {
         const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
         if (payment) {
@@ -99,51 +99,47 @@ export const registerWallet = async (event: any, username: string, usd: number) 
             },
             method: "POST"
           })
-          .then (async res => {
-            if (res.ok) {
-              Router.push("/dashboard")
-            } else {
-              toast.error("Uh oh something went wrong!")
-            }
-          })
+            .then(async res => {
+              if (res.ok) {
+                Router.push("/dashboard")
+              } else {
+                toast.error("Uh oh something went wrong!")
+              }
+            })
         }
       } else {
-            res.json().then(json => 
-              {
-                if (json.error == "Public key already registered") {
-                  toast.info(`${json.error}\nRedirecting to dashboard...`, {autoClose: 3000})
-                  setTimeout(() => Router.push("/dashboard"), 3000)
-                  
-                }
-            
-              })
+        res.json().then(json => {
+          if (json.error == "Public key already registered") {
+            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000 })
+            setTimeout(() => Router.push("/dashboard"), 3000)
+
           }
+
         })
+      }
+    })
 }
 
 
-// export const signMessage = async (e: any, message: string) => {
-//   e.preventDefault();
-//   await connectWallet(false)
-//   const data = new TextEncoder().encode(message);
-//   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
+export const signMessage = async (e: any) => {
+  e.preventDefault();
+  const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
+  const publicKey = await connectWallet(false);
+  const res = await fetch(`${API_URL}/signature/create`, {
+      body: JSON.stringify({ public_key: publicKey.toString() }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+  });
+  if (res.ok) {
+      const json = await res.json();
+      const message = new TextEncoder().encode(json.hash);
+      const sig = await window.solana.signMessage(message, "utf8");
+      return sig.signature;
+  } else {
+      toast.error("Uh oh, something went wrong.");
+  }
 
-//   const res = await window.solana.signMessage(data, "utf8");
-//   const sig = res.signature
-  
-//   fetch(`${API_URL}/signature`, {
-//     body: res,
-//     headers: {"Content-Type": "application/json"},
-//     method: "POST"
-//   }
-//   )
-//   }
+};
 
 
-/*
-- Generate a random hash in the backend and save it in db
-- Get it signed from the wallet in frontend
 
-- Send the signed signature to backend
-- Backend verifies the hash from the db using signautre from frontend
-*/

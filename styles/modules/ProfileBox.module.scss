@@ -63,7 +63,22 @@
 .bio {
     position: relative;
     height: 15%;
-    & > h2 {
+    display: flex;
+    flex-flow: column;
+    & hr {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+    }
+}
+
+.upper {
+    padding: 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    & h2 {
         margin-left: 20px;
         width: fit-content;
         color: grey;
@@ -73,14 +88,13 @@
         color: white;
     }
     & img {
-        z-index: 0;
-    }
-    & hr {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        margin: 0;
+        cursor: pointer;
+        transition: .2s ease-in;
+        padding: 5px 15px !important;
+        border-radius: 50%;
+        &:hover {
+            background-color: $secondaryblue;
+        }
     }
 }
 

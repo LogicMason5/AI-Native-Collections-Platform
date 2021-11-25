@@ -3,8 +3,11 @@ import styles from '@/styles/modules/ProfileBox.module.scss'
 import Copy from '@/images/icons/Copy.svg'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
+import Bookmark from '@/images/Bookmark.svg'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { connectWallet, signMessage } from '@/components/Wallet'
+
 
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
@@ -26,12 +29,35 @@ export const ProfileBox = ({ user, activity }: any) => {
     const month = months[split[1]]
     const joined_on = split[2] + " " + month + " " + split[0]
 
+    
     const copyAddress  = () => {
         const x = document.querySelector(".pubkey")
         navigator.clipboard.writeText(x.textContent)
         toast.success("Copied address to clipboard!")
     }
         
+    const addBookmark = async (e: any) => {
+        const signature = await signMessage(e)
+        const data = {
+            owner_public_key: window.solana._publicKey.toString(),
+            signature: signature,
+            user_public_key: user.public_key
+        }
+        fetch("http://localhost:8000/bookmark/add", {
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+        })
+        .then(async res => {
+            if (res.ok) {
+                toast.success("Added bookmark")
+            } else {
+                toast.error("Something went wrong. Try contacting support.")
+            }
+            
+        })
+    }
+
     return (
         <div className={styles.parent}>
             <div className={styles.profilebox}>
@@ -48,7 +74,10 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
 
                 <div className={styles.bio}>
-                    <h2>Bio</h2>
+                    <div className={styles.upper}>
+                        <h2>Bio</h2>
+                        <Image src={Bookmark} onClick={(e) => addBookmark(e)}/>
+                    </div>
                     <p>{user.bio}</p>
                     <hr />
                 </div>
