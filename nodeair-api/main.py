@@ -47,7 +47,7 @@ async def startup() -> None:
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await RateLimiter.close()
-    await app.request_client.close()
+    await app.request_client.aclose()
 
 
 @app.get("/", dependencies=[Depends(Limit(times=20, seconds=1))])

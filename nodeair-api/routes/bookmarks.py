@@ -49,7 +49,42 @@ async def add(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
         db.add(bm)
         db.commit()
         return {"message": "Successfully added bookmark"}
+
+
+@router.post("/remove", 
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200)
+async def remove(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
+    owner_public_key = bookmark.owner_public_key
+    profile_public_key = bookmark.profile_public_key
+    signature = bookmark.signature["data"]
+
+    signature_obj = db.query(Signature).filter_by(public_key=owner_public_key)
+
+    if not signature_obj.first():
+        return {"error": "Message not signed"}
+
+    verify = verify_signature(signature_obj[-1].hash, signature, owner_public_key)
+    if not verify:
+        return JSONResponse(
+            status_code=400, 
+            content={"error": "Error verifying signature"}
+            )
+    else:
+        owner = db.query(User).filter_by(public_key=owner_public_key).first()
         
+        if not profile_public_key in [x.profile_public_key for x in owner.bookmarks]:
+            return JSONResponse(
+                status_code=400, 
+                content={"error": "Profile not bookmarked"}
+            )
+
+        bookmark_obj = db.query(Bookmark).filter_by(profile_public_key=profile_public_key, owner=owner)
+        signature_obj.delete()
+        bookmark_obj.delete()
+        db.commit()
+        return {"message": "Successfully removed bookmark"}   
+
 
 @router.get("/get/{public_key}", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
@@ -89,3 +124,15 @@ async def find(bookmarkfind: BookmarkFind, db: Session=Depends(get_db)) -> dict:
                 "public_key": user.public_key}
 
     return JSONResponse(status_code=400, content={"error": "Bookmark not found"})
+
+
+@router.get("/check/{owner_publicKey}/{profile_publicKey}", 
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200)
+async def check(owner_publicKey: str, profile_publicKey: str, db: Session=Depends(get_db)) -> dict:
+    owner = db.query(User).filter_by(public_key=owner_publicKey).first()
+    bookmark = db.query(Bookmark).filter_by(profile_public_key=profile_publicKey, owner=owner).first()
+    if bookmark:
+        return {"bookmarked": True}
+    else:
+        return {"bookmarked": False}

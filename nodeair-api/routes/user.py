@@ -6,8 +6,8 @@ from core.webhook import Webhook
 from sqlalchemy.orm import Session
 from core.schemas import User, View
 from core.models import RegisterUser
-from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, Request
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ router = APIRouter()
             status_code=201
             )
 async def register(
-                user: RegisterUser, db: Session=Depends(get_db)
+                user: RegisterUser, request: Request, db: Session=Depends(get_db)
                 ) -> Union[JSONResponse, User]:
 
     if " " in user.username:
@@ -40,15 +40,20 @@ async def register(
                 )    
  
     else:
+        print(request.client.host)
         db_user = User(public_key=user.public_key, username=user.username, name=user.username)
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
         webhook = Webhook(os.getenv("WEBHOOK_SECRET"))
         embed = Webhook.embed(
-            f"New registration!", 
-            f"**{db_user.public_key}** registered with the name **{db_user.name}**"
-            )
+            "New registration",
+            fields = [
+                    ("Profile", f"[NodeAir.io/{db_user.username}](https://nodeair.io/{user.username})"),
+                    ("Public Key", db_user.public_key),
+                    ("Country", "IN"),
+                    ]
+        )
         await webhook.send(embed=embed)
         return db_user
 
