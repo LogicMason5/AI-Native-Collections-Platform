@@ -38,24 +38,28 @@ export const ProfileBox = ({ user, activity }: any) => {
         
     const addBookmark = async (e: any) => {
         const signature = await signMessage(e)
-        const data = {
-            owner_public_key: window.solana._publicKey.toString(),
-            signature: signature,
-            user_public_key: user.public_key
-        }
-        fetch("http://localhost:8000/bookmark/add", {
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-        })
-        .then(async res => {
-            if (res.ok) {
-                toast.success("Added bookmark")
-            } else {
-                toast.error("Something went wrong. Try contacting support.")
+        if (signature != undefined) {
+            const data = {
+                owner_public_key: window.solana._publicKey.toString(),
+                signature: signature,
+                user_public_key: user.public_key
             }
-            
-        })
+            fetch("http://localhost:8000/bookmark/add", {
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" },
+                method: "POST",
+            })
+            .then(async res => {
+                if (res.ok) {
+                    toast.success("Added bookmark")
+                } else {
+                    const json = await res.json()
+                    toast.error(json.error)
+                }
+                
+            })
+        }
+
     }
 
     return (

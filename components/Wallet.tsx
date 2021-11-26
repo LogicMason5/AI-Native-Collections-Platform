@@ -136,7 +136,7 @@ export const signMessage = async (e: any) => {
       const sig = await window.solana.signMessage(message, "utf8");
       return sig.signature;
   } else {
-      toast.error("Uh oh, something went wrong.");
+      toast.error("You are being rate limited");
   }
 
 };
