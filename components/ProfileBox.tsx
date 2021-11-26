@@ -4,10 +4,11 @@ import Copy from '@/images/icons/Copy.svg'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import Bookmark from '@/images/Bookmark.svg'
+import BookmarkActive from '@/images/BookmarkActive.svg'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { connectWallet, signMessage } from '@/components/Wallet'
-
+import { useState, useEffect } from 'react'
 
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
@@ -29,7 +30,21 @@ export const ProfileBox = ({ user, activity }: any) => {
     const month = months[split[1]]
     const joined_on = split[2] + " " + month + " " + split[0]
 
-    
+    const [bookmarked, setBookmarked] = useState(false)
+
+    useEffect(() => {
+        const fetchData = async () => {
+          let public_key = window.solana._publicKey
+          if (window.solana._publicKey == null){
+              public_key = await connectWallet(false)
+          }
+          const result = await fetch(`http://localhost:8000/bookmark/check/${public_key.toString()}/${user.public_key}`)
+          const data = await result.json()
+          setBookmarked(data.bookmarked)
+        }
+        fetchData()
+      }, []);
+
     const copyAddress  = () => {
         const x = document.querySelector(".pubkey")
         if (x != null && x.textContent != null) {
@@ -37,6 +52,7 @@ export const ProfileBox = ({ user, activity }: any) => {
         }
         toast.success("Copied address to clipboard!")
     }
+
     const addBookmark = async (e: any) => {
         const signature = await signMessage(e)
         if (signature != undefined) {
@@ -45,15 +61,18 @@ export const ProfileBox = ({ user, activity }: any) => {
                 signature: signature,
                 profile_public_key: user.public_key
             }
-            console.log(data)
-            fetch("http://localhost:8000/bookmark/add", {
+
+            const hmm = bookmarked ? "remove" : "add"
+            fetch(`http://localhost:8000/bookmark/${hmm}`, {
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
             })
             .then(async res => {
                 if (res.ok) {
-                    toast.success("Added bookmark")
+                    const json = await res.json()
+                    toast.success(json.message)
+                    setBookmarked(!bookmarked)
                 } else {
                     const json = await res.json()
                     toast.error(json.error)
@@ -82,7 +101,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                 <div className={styles.bio}>
                     <div className={styles.upper}>
                         <h2>Bio</h2>
-                        <Image src={Bookmark} onClick={(e) => addBookmark(e)}/>
+                        <Image src={bookmarked ? BookmarkActive : Bookmark } onClick={(e) => addBookmark(e)} width="40" height="20"/>
                     </div>
                     <p>{user.bio}</p>
                     <hr />

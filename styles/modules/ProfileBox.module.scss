@@ -75,11 +75,12 @@
 }
 
 .upper {
-    padding: 0px 10px;
+    padding: 10px 10px;
     display: flex;
     justify-content: space-between;
     & h2 {
-        margin-left: 20px;
+        margin-left: 5px;
+        font-size: 1.3rem;
         width: fit-content;
         color: grey;
     }
@@ -89,11 +90,14 @@
     }
     & img {
         cursor: pointer;
+        padding: 8px 0px !important;
         transition: .2s ease-in;
-        padding: 5px 15px !important;
         border-radius: 50%;
         &:hover {
-            background-color: $secondaryblue;
+            background-color: rgba(0, 153, 255, 0.13);
+        }
+        &:active {
+            background-color: rgba(0, 153, 255, 0.521);
         }
     }
 }

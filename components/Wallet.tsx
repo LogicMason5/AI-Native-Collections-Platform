@@ -116,6 +116,8 @@ export const registerWallet = async (event: any, username: string, usd: number) 
             toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000 })
             setTimeout(() => Router.push("/dashboard"), 3000)
 
+          } else {
+            toast.error(json.error)
           }
 
         })
