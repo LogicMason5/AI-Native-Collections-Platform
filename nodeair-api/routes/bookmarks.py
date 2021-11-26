@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends
 from core.schemas import Signature, Bookmark, User
 from utils import verify_signature
 from core.models import BookmarkCreate
+from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/bookmark")
 
@@ -21,22 +22,46 @@ async def add(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
 
     result = verify_signature(signature[-1].hash, bookmark.signature["data"], owner_public_key)
     if not result:
-        return {"error": "Error verifying signature"}
+        return JSONResponse(
+            status_code=400, 
+            content={"error": "Error verifying signature"}
+            )
     else:
+        owner = db.query(User).filter_by(public_key=owner_public_key).first()
+        if not owner:
+            return JSONResponse(
+                    status_code=400,
+                    content={"error": "You need to register your wallet in order to add bookmarks"}
+                    )
+        
+        if bookmark.user_public_key in [x.public_key for x in owner.bookmarks]:
+            return JSONResponse(
+                status_code=400, 
+                content={"error": "Profile already bookmarked"}
+            )
+
         bm = Bookmark(public_key=bookmark.user_public_key, 
-                    user=db.query(User).filter_by(public_key=owner_public_key).first())
+                    owner=owner)
         signature.delete()
         db.add(bm)
-        print(bm)
         db.commit()
+        return {"message": "Successfully added bookmark"}
         
-@router.get("/get", 
+@router.get("/get/{public_key}", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def get(public_key: str, db: Session=Depends(get_db)) -> dict:
+async def get(public_key: str, limit: int = 5, db: Session=Depends(get_db)) -> dict:
     user = db.query(User).filter_by(public_key=public_key).first()
     if not user:
         return {"error": "User does not exist"}
-    return user.bookmarks
+    
+    public_keys = [x.public_key for x in user.bookmarks[:limit]]
+    profiles = [db.query(User).filter_by(public_key=x) for x in public_keys]
+    data = [{"username": x.first().username, 
+            "avatar": x.first().avatar, 
+            "public_key": x.first().public_key} 
+            for x in profiles]
+
+    return data
 
 
