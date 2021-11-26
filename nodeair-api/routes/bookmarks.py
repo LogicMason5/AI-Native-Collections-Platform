@@ -5,7 +5,7 @@ from core.ratelimit import Limit
 from fastapi import APIRouter, Depends
 from core.schemas import Signature, Bookmark, User
 from utils import verify_signature
-from core.models import BookmarkCreate
+from core.models import BookmarkCreate, BookmarkFind
 from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/bookmark")
@@ -64,4 +64,24 @@ async def get(public_key: str, limit: int = 5, db: Session=Depends(get_db)) -> d
 
     return data
 
+@router.post("/find", 
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200)
+async def find(bookmarkfind: BookmarkFind, db: Session=Depends(get_db)) -> dict:
+    user_bookmarks = db.query(Bookmark).filter_by(owner=db.query(User).filter_by(public_key=bookmarkfind.public_key).first())
 
+    public_key_search = user_bookmarks.filter_by(public_key=bookmarkfind.username_or_public_key).first()
+    
+    if public_key_search:
+        found = db.query(User).filter_by(public_key=bookmarkfind.username_or_public_key).first()
+        return {"username": found.username,
+                "avatar": found.avatar,
+                "public_key": found.public_key}
+    
+    user = db.query(User).filter_by(username=bookmarkfind.username_or_public_key).first()
+    if user is not None and user_bookmarks.filter_by(public_key=user.public_key).first():
+        return {"username": user.username,
+                "avatar": user.avatar,
+                "public_key": user.public_key}
+
+    return JSONResponse(status_code=400, content={"error": "Bookmark not found"})
