@@ -8,7 +8,7 @@ class RegisterUser(BaseModel):
 class BookmarkCreate(BaseModel):
     owner_public_key: str
     signature: dict
-    user_public_key: str
+    profile_public_key: str
 
 class BookmarkFind(BaseModel):
     public_key: str
