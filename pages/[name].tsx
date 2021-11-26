@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { ProfileBox } from '@/components/ProfileBox'
+import { Sidebar } from '@/components/Sidebar'
 import { Navbar } from '@/components/Navbar'
+import { DiscoverProfiles } from '@/components/DiscoverProfiles'
 import { ToastContainer } from 'react-toastify'
+import styles from '@/styles/modules/Profile.module.scss'
 
 export default function Profile( {user}: any ) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -10,7 +13,7 @@ export default function Profile( {user}: any ) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch(`http://localhost:8000/fetch/activity/${user.public_key}`)
+      const result = await fetch(`http://localhost:8000/fetch/activity/8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX`)
       const data = await result.json()
       setActivity(data)
     }
@@ -20,9 +23,13 @@ export default function Profile( {user}: any ) {
   return (
     <>
     <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-    <Navbar/>
-    <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false}/>
-    <ProfileBox user={user} activity={activity}/>
+      <Navbar/>
+      <Sidebar/>
+      <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false}/>
+    <div className={styles.profile}>  
+      <ProfileBox user={user} activity={activity}/>
+    </div>
+
     </>
   )
 }

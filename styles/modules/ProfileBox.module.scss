@@ -1,137 +1,99 @@
 @import '../variables';
 @import '../mixins';
 
-.parent {
+.profileBox {
+    border-radius: 20px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    position: relative;
-}
-
-.profilebox {
-    z-index: 1;
-    position: relative;
+    flex-flow: column;
     background-color: $secondarybg;
-    height: 600px;
-    width: 600px;
-    border-radius: 1rem;
-    display: flex;
-    flex-flow: column wrap;
+    height: 750px;
+    width: 700px;
 }
 
-.uppersection {
-    gap: 20px;
+.banner {
+    height: 130px;
+    border-radius: 20px 20px 0px 0px;
+}
+.uppersection{
     display: flex;
-    align-items: center;
-    & h1 {
-        z-index: 2;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.bookmark {
+    transition: .2s ease-out;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 12px 0px !important;
+    &:hover {
+        background-color: #0084ff34;
     }
 }
-.banner {
-    position: absolute;
-    border-radius: 1rem 1rem 0rem 0rem;
-    width: 600px;
+
+.name {
+    margin: 10px;
+    margin-right: auto;
+    h3 {
+        color: $primaryStroke;
+    }
 }
 
 .avatar {
-    z-index: 1;
-    margin-left: 50px;
-
-}
-
-.address {
-    gap: 10px;
-    color: white;
-    display: flex;
-    height: 40px;
-    font-size: .9rem;
-    margin-top: 25px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 2px 20px rgba(3, 3, 3, 0.438);
-}
-
-.copy {
-    cursor: pointer;
-    transition: .2s ease;
-    &:active {
-        transform: scale(.80)
-    }
+    position: relative;
+    bottom: 30px;
+    margin-left: 20px;
 }
 
 .bio {
-    position: relative;
-    height: 15%;
-    display: flex;
-    flex-flow: column;
-    & hr {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        margin: 0;
+    margin-left: 20px;
+    color: $textColor;
+    height: 100px;
+    & p {
+        color: rgb(255, 255, 255);
+        text-overflow: wrap;
     }
 }
 
-.upper {
-    padding: 10px 10px;
+.address {
+    height: 50px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.288);
     display: flex;
-    justify-content: space-between;
-    & h2 {
-        margin-left: 5px;
-        font-size: 1.3rem;
-        width: fit-content;
-        color: grey;
-    }
-    & p {
-        margin-left: 20px;
-        color: white;
-    }
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 20px;
     & img {
         cursor: pointer;
-        padding: 8px 0px !important;
-        transition: .2s ease-in;
         border-radius: 50%;
-        &:hover {
-            background-color: rgba(0, 153, 255, 0.13);
-        }
+        transition: .2s ease-out;
         &:active {
-            background-color: rgba(0, 153, 255, 0.521);
+            transform: scale(90%);
         }
-    }
-}
-
-.bottom {
-    padding: 10px 10px;
-    margin-top: auto;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    & p {
-        margin-left: auto;
     }
 }
 
 .activity {
-    z-index: 1;
+    margin-top: 20px;
     & > h2 {
         color: white;
-        margin: 10px;
+        margin: 10px 30px;
+        font-size: 1.2rem;
     }
 }
 
 .transaction {
     cursor: pointer;
     padding: 0px 5px;
-    font-size: .8rem;
+    font-size: .7rem;
     display: flex;
     align-items: center;
     color: white;
     background-color: $hoverbg;
-    margin: 10px;
-    border-radius: 10px;
+    margin: 10px 30px;
+    border-radius: 5px;
     transition: .2s ease-in;
+    height: 40px;
     & > p{
         margin-left: 10px;
     }
@@ -140,42 +102,12 @@
     }
 }
 
-.placeholderBox {
-    height: 20px;
-}
-
-@media screen and (max-width: 670px) {
-    .avatar {
-        z-index: 1;
-        margin-left: 50px;
-        width: 100px;
-        height: 100px;
-    
-    }
-   .profilebox {
-       width: 90vw;
-   } 
-   .banner {
-    width: 90vw;
-    height: 150px;
-    }
-
-    .address {
-        font-size: .7rem;
-        gap: 5px;
-        & img {
-            width: 20px !important;
-        }
-    }
-    .transaction {
-
-        font-size: .55rem;
-        width: 100%;
-        & img {
-            width: 30px !important;
-        }
-    }
-    .activity {
-        font-size: .8rem;
-    }
+.bottom {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    margin: 10px;
+    font-size: .9rem;
+    color: $textColor;
 }
