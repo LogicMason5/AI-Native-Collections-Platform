@@ -6,6 +6,7 @@ import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
 import { Bookmarks } from '@/components/Bookmarks'
 import { RecentTransactions } from '@/components/RecentTransactions'
+import { ToastContainer } from 'react-toastify'
 
 import styles from '@/styles/modules/Dashboard.module.scss'
 
@@ -29,6 +30,7 @@ export default function Dashboard() {
   return (
     <>
     <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
+    <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false}/>
     <Sidebar/>
     <div className={styles.dashboard}>
         <h1 className={styles.heading}>Dashboard</h1>

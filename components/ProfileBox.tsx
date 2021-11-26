@@ -32,18 +32,20 @@ export const ProfileBox = ({ user, activity }: any) => {
     
     const copyAddress  = () => {
         const x = document.querySelector(".pubkey")
-        navigator.clipboard.writeText(x.textContent)
+        if (x != null && x.textContent != null) {
+            navigator.clipboard.writeText(x.textContent)
+        }
         toast.success("Copied address to clipboard!")
     }
-        
     const addBookmark = async (e: any) => {
         const signature = await signMessage(e)
         if (signature != undefined) {
             const data = {
                 owner_public_key: window.solana._publicKey.toString(),
                 signature: signature,
-                user_public_key: user.public_key
+                profile_public_key: user.public_key
             }
+            console.log(data)
             fetch("http://localhost:8000/bookmark/add", {
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },
