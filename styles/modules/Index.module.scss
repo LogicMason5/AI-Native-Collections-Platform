@@ -15,18 +15,18 @@
 }
 
 .left {
-    z-index: 2;
-    gap: 60px;
-    justify-self: end;
+    z-index: 1;
+    gap: 80px;
     grid-column: 2/6;
     grid-row: 2/6;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column;
     & > h1 {
-        font-size: calc(1vw + 20px);
+        font-size: calc(1vw + 25px);
         max-width: 90%;
     }
     & p {
+        font-size: calc(.5vw + 10px);
         color: #B6B6B6;
         max-width: 90%;
         @include medium_font;
@@ -56,16 +56,16 @@
     z-index: 0;
     grid-column: 1/6;
     grid-row: 3/7;
-    align-self: center;
 }
 
+
 .right {
-    margin-left: 20px;
-    margin-top: 10px;
-    grid-column: 6/10;
+    z-index: 1;
+    margin-left: 40px;
+    grid-column: 6/11;
     grid-row: 1/7;
     align-self: center;
-    justify-self: end;
+    justify-self: center;
 }
 
 .one, .two, .three {
@@ -83,9 +83,9 @@
             color: white;
             background-color: #47577E;
             width: fit-content;
-            padding: 5px 15px;
+            padding: 4px 14px;
             border-radius: 50%;
-            box-shadow: 0px 0px 30px #47477E;
+            box-shadow: 0px 0px 30px #3c3c5e;
         }
     }
     > p {
@@ -96,19 +96,19 @@
 }
 
 .one h2 p{
-    padding: 5px 18px;
+    padding: 4px 17px;
 }
 
 .dashboardImage {
     margin-top: 50px;
     border: 2px solid $secondaryStroke;
     border-radius: 10px;
-    box-shadow: 0px 0px 20px #222530;
+    box-shadow: 0px 0px 30px #222530;
 }
 
 @media screen and (max-width: 1300px) {
     .right {
-        margin-top: 40px;
+        margin-top: 50px;
     }
     .button {
         font-size: .95em;
@@ -117,26 +117,30 @@
 }
 
 @media screen and (max-width: 900px ) {
+    .index {
+        grid-template-rows: repeat(10, .2fr);
+    }
     .button {
-        width: 70%;
+        width: 60%;
     }
     .centerSeperator {
         display: none;
     }
-    .index {
-        grid-template-rows: repeat(10, .2fr);
+    .curves {
+        grid-row: 5/6;
     }
     .left {
+        margin-top: 100px;
         height: 500px;
         text-align: center;
         justify-content: center;
         align-items: center;
         grid-column: 2/10;
-        justify-self: center;
-        align-self: center;
         grid-row: 2/4;
+        align-self: center;
     }
     .right {
+        margin-top: 0;
         grid-row: 5/10;
         grid-column: 1/10;
     }
