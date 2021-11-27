@@ -51,6 +51,7 @@
     & > h1 {
         font-size: 1.5rem;
         width: 50%;
+        color: $textColor;
     }
     & > select {
         border: 1px solid $secondaryStroke;
@@ -77,11 +78,11 @@
     flex-flow: column wrap;
     justify-content: center;
     & > p {
-        color: rgb(170, 170, 170);
+        color: $greyLight;
     }
     & > h1 {
-        color: rgb(179, 177, 177);
-        margin-top: 20px;
+        color: $textColorDark;
+        margin-top: 30px;
         margin-bottom: 5px;
         font-size: 1.2rem;
         @include bold_font;

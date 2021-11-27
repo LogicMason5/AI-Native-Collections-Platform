@@ -38,3 +38,87 @@ h1 {
 .Toastify__toast-theme--dark {
   background-color: $hoverbg !important;
 }
+
+
+.pricingDropdown {
+  width: 200px;
+  & p {
+    cursor: pointer;
+    background-color: $hoverbg;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 5px;
+    transition: 0.3s ease-out;
+    border: 2px solid $secondaryStroke;
+    width: 100%;
+    color: white;
+    &:active {
+      transform: scale(90%);
+    }
+  }
+
+}
+
+
+.dropdown {
+  position: absolute;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: $hoverbg;
+  transition: height .4s ease;
+
+}
+
+.menu-item {
+  cursor: pointer;
+  gap: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 0.5rem;
+  color: white;
+  font-size: .9rem;
+  & h2 {
+    font-size: 1rem;
+    color: $textColor;
+  }
+}
+
+.menu-item:hover {
+  background-color: #262733;
+}
+
+
+/* CSSTransition classes  */
+.menu-primary-enter {
+  position: absolute;
+  transform: translateX(-110%);
+}
+
+.menu-primary-enter-active {
+  transform: translateX(0%);
+  transition: all .4s ease;
+}
+.menu-primary-exit {
+  position: absolute;
+}
+.menu-primary-exit-active {
+  transform: translateX(-110%);
+  transition: all .4s ease;
+}
+
+
+.menu-secondary-enter {
+  transform: translateX(110%);
+}
+.menu-secondary-enter-active {
+  transform: translateX(0%);
+  transition: all .4s ease;
+}
+
+.menu-secondary-exit-active {
+  transform: translateX(110%);
+  transition: all .4s ease;
+}

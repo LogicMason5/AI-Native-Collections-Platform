@@ -18,8 +18,8 @@
     "react-dom": "17.0.2",
     "react-lottie": "^1.2.3",
     "react-toastify": "^8.1.0",
-    "sass": "^1.43.3",
-    "tweetnacljs": "^0.9.1"
+    "react-transition-group": "^4.4.2",
+    "sass": "^1.43.3"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.34",
