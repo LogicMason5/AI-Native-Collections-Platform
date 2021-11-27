@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { registerWallet, signMessage } from '@/components/Wallet'
+import { registerWallet } from '@/components/Wallet'
 import { PriceDropdown } from '@/components/PriceDropdown'
 import styles from '@/styles/modules/RegisterModal.module.scss'
 import Dollar from '@/images/Dollar.svg'
