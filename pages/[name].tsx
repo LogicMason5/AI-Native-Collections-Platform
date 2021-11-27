@@ -12,13 +12,19 @@ export default function Profile({ user, activity }: any) {
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-      <Navbar />
       <Sidebar />
       <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
       <div className={styles.profile}>
-        <ProfileBox user={user} activity={activity} />
+
+        <h1 className={styles.heading}>Profile</h1>
+        <div className={styles.profileBox}>
+          <ProfileBox user={user} activity={activity} />
+        </div>
         <hr className={styles.seperator} />
-        <DiscoverProfiles />
+        <div className={styles.discover}>
+          <DiscoverProfiles />
+        </div>
+
       </div>
 
     </>
@@ -34,6 +40,6 @@ export async function getServerSideProps(context: any) {
 
   const res2 = await fetch(API_URL + "/fetch/activity/" + user.public_key)
   const activity = await res2.json()
-  return { props: { user, activity} }
+  return { props: { user, activity } }
 
 }

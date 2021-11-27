@@ -1,6 +1,6 @@
+import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
-import Link from 'next/link'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify'
 import styles from '@/styles/modules/Dashboard.module.scss'
 
 export default function Dashboard() {
-    const [views, setViews] = useState('')
+    const [views, setViews] = useState()
 
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL

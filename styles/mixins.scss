@@ -28,12 +28,12 @@
 }
 
 @mixin button {
-    background-color: $secondaryBlue;
+    background-color: $blue;
     border: none;
     cursor: pointer;
     color: white;
     border-radius: .8rem;
-    box-shadow: 0px 0px 30px $secondaryBlue;
+    box-shadow: 0px 0px 30px $blue;
     transition: 0.3s ease-out;
     &:active {
         transform: scale(.90);
@@ -80,7 +80,7 @@
         transition: .1s ease-out;
         font-size: .9rem;
         &:focus {
-            border: 1px solid $secondaryBlue;
+            border: 1px solid $blue;
         }
     }
     > button {

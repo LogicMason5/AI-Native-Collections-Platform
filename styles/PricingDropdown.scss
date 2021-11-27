@@ -2,7 +2,7 @@
     width: calc(10vw + 150px);
     & p {
       cursor: pointer;
-      background-color: $hoverbg;
+      background-color: $hoverBg;
       padding: 5px 10px;
       text-align: center;
       border-radius: 5px;
@@ -23,7 +23,7 @@
     overflow: hidden;
     margin-top: 10px;
     border-radius: 10px;
-    background-color: $hoverbg;
+    background-color: $hoverBg;
     transition: height .4s ease;
     width: calc(8vw + 110px);
 
@@ -41,7 +41,7 @@
     font-size: .9rem;
     & h2 {
       font-size: 1rem;
-      color: $textColor;
+      color: $text;
     }
   }
   

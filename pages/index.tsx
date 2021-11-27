@@ -4,9 +4,9 @@ import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { RegisterModal } from '@/components/RegisterModal'
 import { ToastContainer } from 'react-toastify'
-import Dashboard from '@/images/Dashboard.svg'
 import Ladder from '@/images/Ladder.svg'
 import Curves from '@/images/Curves.svg'
+import Dashboard from '@/images/Dashboard.svg'
 import styles from '@/styles/modules/Index.module.scss'
 
 
@@ -51,7 +51,7 @@ export default function Index() {
             <p>Get the best experience with beautiful charts and clean dashboard UI.</p>
           </div>
           <div className={styles.dashboardImage}>
-            <Image src={Dashboard} height="380" width="700" alt="dashboard" />
+            <Image src={Dashboard} width="700" height="400" alt="dashboard" />
           </div>
 
         </div>

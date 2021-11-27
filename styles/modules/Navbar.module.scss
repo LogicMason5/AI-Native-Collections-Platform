@@ -20,7 +20,7 @@
         padding: 10px 2vw;
         margin: 10px;
         &:hover {
-            background-color: $hoverbg;
+            background-color: $hoverBg;
             border-radius: 10px;
         }
     }
@@ -29,7 +29,7 @@
 .connectButton {
     cursor: pointer;
     background-color: transparent;
-    color: $textColor;
+    color: $text;
     border: 2px solid $primaryStroke;
     padding: 10px 2vw;
     border-radius: 10px;

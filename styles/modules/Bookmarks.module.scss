@@ -31,21 +31,21 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    border: .8px solid $hoverbg;
+    border: 1px solid $hoverBg;
     display: flex;
     margin: 2%;
     border-radius: 5px;
     transition: .2s ease-out;
 
     & h3 {
-        color: $greyLight;
+        color: $grey;
         @include light_font;
     }
     & p {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        color: $greyLight;
+        color: $grey;
         margin-left: auto;
         @include light_font;
         margin-left: 20%;

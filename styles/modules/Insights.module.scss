@@ -57,7 +57,7 @@
         margin-top: 30px;
         display: flex;
         gap: 10px;
-        color: $textColor;
+        color: $text;
         & p {
             @include medium_font;
             color: white;
@@ -93,7 +93,7 @@
     background-color: white;
 }
 .sent div{
-    background-color: $primaryBlue;
+    background-color: $blue;
 }
 
 @media screen and (max-width: 1000px) {

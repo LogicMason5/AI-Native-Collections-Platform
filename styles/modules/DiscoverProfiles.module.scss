@@ -3,7 +3,7 @@
 
 .discoverProfiles {
     & h2 {
-        color: white;
+        color: $grey;
         margin: 10px;
     }
     border-radius: 20px;
@@ -14,15 +14,15 @@
 }
 
 .profileBox {
+    border: 1px solid $hoverBg;
     background-color: $secondaryBg;
-    border: 1px solid $secondaryStroke;
     border-radius: 10px;
     margin: 10px;
     display: flex;
     flex-flow: column;
     height: 130px;
     & p {
-        color: $textColor;
+        color: $text;
         margin-left: 20px;
     }
     img {
@@ -30,8 +30,8 @@
     }
     transition: .1s ease-in;
     &:hover {
-        border: 1px solid $primaryStroke;
-        background-color: #191a20;
+        background-color: #191A21;
+        border: 1px solid $secondaryStroke;
     }
     
 }

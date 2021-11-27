@@ -19,11 +19,12 @@
     padding: 2% 2%;
     font-size: calc(.5vw + 5px);
     display: flex;
-    background-color: $hoverbg;
+    background-color: $hoverBg;
     margin-top: 10px;
     border-radius: 10px;
     align-items: center;
     transition: .2s ease-out;
+    border: 1px solid $hoverBg;
     & > p{
         margin-left: 10px;
         color: white;
