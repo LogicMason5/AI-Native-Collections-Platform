@@ -52,7 +52,7 @@ async def find(profilefind: ProfileFind, db: Session=Depends(get_db)) -> dict:
 @router.get("/ext/getrandom", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def getrandom(limit: int = 2, db: Session=Depends(get_db)) -> dict:
+async def getrandom(limit: int = 5, db: Session=Depends(get_db)) -> dict:
     if limit > 100:
         return JSONResponse(
             status_code=400,

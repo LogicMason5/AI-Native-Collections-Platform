@@ -9,28 +9,9 @@ from core.schemas import Signature
 
 router = APIRouter(prefix="/signature")
 
-# @router.post("/verify", 
-#             dependencies=[Depends(Limit(times=1, seconds=5))],
-#             status_code=200
-#             )
-# async def verify(
-#                 request: Request, db: Session=Depends(get_db)
-#                 ) -> JSONResponse:
-
-#     json = await request.json()
-#     try:
-#         message = bytes(uuid.uuid4.hex(), encoding="utf8")
-#         signature = bytes(json["signature"]["data"])
-#         public_key = bytes(PublicKey(json["public_key"]))
-#         vk = VerifyKey(public_key)
-#         vk.verify(message, signature)
-#         return {"message": "Success"}
-#     except Exception:
-#         return {"error": "Signature verification failed"}
-
 
 @router.post("/create", 
-            dependencies=[Depends(Limit(times=1, seconds=5))],
+            dependencies=[Depends(Limit(times=3, seconds=5))],
             status_code=200
             )
 async def create(
@@ -46,7 +27,7 @@ async def create(
 
 
 @router.get("/get", 
-            dependencies=[Depends(Limit(times=10, seconds=5))],
+            dependencies=[Depends(Limit(times=1, seconds=1))],
             status_code=200
             )
 async def get(

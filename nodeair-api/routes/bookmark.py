@@ -89,7 +89,7 @@ async def remove(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) ->
 @router.get("/get/{public_key}", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def get(public_key: str, limit: int = 5, db: Session=Depends(get_db)) -> dict:
+async def get(public_key: str, limit: int = 4, db: Session=Depends(get_db)) -> dict:
     user = db.query(User).filter_by(public_key=public_key).first()
     if not user:
         return {"error": "User does not exist"}
