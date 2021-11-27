@@ -3,7 +3,7 @@
 
 
 .bookmarks {
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: $secondaryBg;
     border: 1px solid $primaryStroke;
     padding: 10px 10px;
@@ -13,6 +13,11 @@
     & h2 {
         color: rgb(190, 190, 190);
         font-size: 1.1rem;
+    }
+    & p {
+        color: $grey;
+        font-size: .8rem;
+        margin-left: 2%
     }
 }
 

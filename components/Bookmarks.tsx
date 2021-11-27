@@ -49,7 +49,7 @@ export const Bookmarks = () => {
           <Image src={Search} width="60" alt="search" />
         </button>
       </form>
-
+      <p>Showing the latest {data.length} bookmarks</p>
       {data ? (data.map((a: any) => (
         
         <Link key={a['username']} href={a['username']}><a>
