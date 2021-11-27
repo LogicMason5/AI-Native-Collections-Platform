@@ -14,7 +14,7 @@
 }
 
 .profileBox {
-    background-color: $secondarybg;
+    background-color: $secondaryBg;
     border: 1px solid $secondaryStroke;
     border-radius: 10px;
     margin: 10px;
@@ -59,41 +59,5 @@
     }
 }
 .search {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    > input {
-        border-radius: 5px;
-        color: white;
-        padding: 0px 5px;
-        height: 35px;
-        width: 300px;
-        background-color: transparent;
-        border: 1px solid $primaryStroke;
-        transition: .2s ease-out;
-        &:focus {
-            border: 1px solid $secondaryblue;
-        }
-    }
-    > button {
-        background-color: transparent;
-        outline: none;
-        border: none;
-        padding: 5px 5px;
-    }
-     img {
-        margin-left: 15px;
-        background-color: transparent;
-        cursor: pointer;
-        outline: none;
-        border: none;
-        border-radius: 50%;
-        transition: .2s ease;
-        transition: .2s ease;
-        border-radius: 50%;
-        &:hover {
-                filter: brightness(200%);
-                background-color: $hoverbg;
-            }
-    }
+    @include search;
 }

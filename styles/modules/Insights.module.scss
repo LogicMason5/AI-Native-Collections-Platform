@@ -2,7 +2,7 @@
 @import "../mixins";
 
 .transactionChart, .distributionChart {
-    background-color: $secondarybg;
+    background-color: $secondaryBg;
     border-radius: 20px;
     border: 1px solid $primaryStroke;
 }
@@ -40,7 +40,7 @@
     border: 1px solid $primaryStroke;
     border-radius: 20px;
     width: 34vw;
-    background-color: $secondarybg;
+    background-color: $secondaryBg;
     & h2 {
         color: grey;
     }
@@ -88,7 +88,7 @@
     background-color: white;
 }
 .sent div{
-    background-color: $primaryblue;
+    background-color: $primaryBlue;
 }
 
 

@@ -28,16 +28,13 @@
 }
 
 @mixin button {
-    background-color: $secondaryblue;
+    background-color: $secondaryBlue;
     border: none;
     cursor: pointer;
     color: white;
     border-radius: .8rem;
-    box-shadow: 0px 0px 30px $secondaryblue;
+    box-shadow: 0px 0px 30px $secondaryBlue;
     transition: 0.3s ease-out;
-    &:hover {
-        box-shadow: 0px 0px 30px $secondaryblue;
-    }  
     &:active {
         transform: scale(.90);
     }
@@ -56,12 +53,48 @@
         font-size: 1.6rem;
     }
     & > * {
-        background-color: $secondarybg;
+        background-color: $secondaryBg;
         border-radius: .8rem;
         margin: 20px;
         padding: 20px 10px;
         flex: 2 0 40%;
         box-shadow: 0px 0px 30px $show_colour;
         border: 1px solid $glow_colour;
+    }
+}
+
+@mixin search() {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    > input {
+        border-radius: 5px;
+        color: white;
+        padding: 0px 5px;
+        height: 40px;
+        width: 300px;
+        background-color: transparent;
+        border: 1px solid $primaryStroke;
+        transition: .1s ease-out;
+        font-size: .9rem;
+        &:focus {
+            border: 1px solid $secondaryBlue;
+        }
+    }
+    > button {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        margin-left: 10px;
+    }
+        img {
+        cursor: pointer;
+        border-radius: 50%;
+        transition: .2s ease;
+        border-radius: 50%;
+        &:hover {
+                filter: brightness(130%);
+                background-color: $secondaryBg;
+            }
     }
 }

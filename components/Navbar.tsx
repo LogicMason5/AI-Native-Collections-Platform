@@ -14,7 +14,7 @@ export const Navbar = () => {
             <Link href="/">Guide</Link> */}
           </ul>
         </nav>
-        <button className={styles.connect_button} onClick={() => connectWallet(true)}>Connect wallet</button>
+        <button className={styles.connectButton} onClick={() => connectWallet(true)}>Connect wallet</button>
       </header>
     )
   }

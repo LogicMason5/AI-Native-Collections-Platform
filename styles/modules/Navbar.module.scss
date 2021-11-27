@@ -3,52 +3,45 @@
 .navbar {
     position: fixed;
     display: flex;
-    background-color: $secondarybg;
-    width: 100vw;
-    padding: 10px 5%;
-    font-size: 1rem;
+    background-color: $secondaryBg;
     justify-content: space-between;
     align-items: center;
+    width: 100vw;
+    padding: 15px 5%;
+    font-size: 1rem;
     z-index: 5;
 }
 
 
 .links {
-    list-style: None;
     color: white;
-    & li {
-        display: inline-block;
-        padding: 0px calc(6vw - 80px);
-    } & a {
-        transition: 0.3s ease-out;
+     & a {
+        transition: 0.2s ease-out;
         padding: 10px 2vw;
+        margin: 10px;
         &:hover {
             background-color: $hoverbg;
-            border-radius: 15px;
+            border-radius: 10px;
         }
     }
 }
 
-.connect_button {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 10px 30px;
+.connectButton {
     cursor: pointer;
+    background-color: transparent;
+    color: $textColor;
+    border: 2px solid $primaryStroke;
+    padding: 10px 2vw;
     border-radius: 10px;
     font-size: 1.2rem;
     transition: 0.3s;
     &:hover {
-        transform: translate(0px, -5px);
-        box-shadow: 0px 5px 20px $hoverbg;
+        transform: scale(95%);
     }
 }
 
-@media screen and (max-width: 600px) {
-    .navbar {
-        border-radius: 0px 0px 1rem 1rem;
-    }
-    .connect_button {
-        display: none;
+@media screen and (max-width: 500px) {
+    .connectButton {
+        visibility: hidden;
     }
 }

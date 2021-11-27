@@ -22,12 +22,11 @@
     display: flex;
     flex-flow: column;
     & > h1 {
-        font-size: calc(1vw + 25px);
-        max-width: 90%;
+        font-size: calc(1.2vw + 25px);
     }
     & p {
         font-size: calc(.5vw + 10px);
-        color: #B6B6B6;
+        color: $greyLight;
         max-width: 90%;
         @include medium_font;
     }
@@ -36,9 +35,9 @@
 .button {
     @include button;
     height: 60px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     width: 40%;
-    @include medium_font
+    @include bold_font
 }
 
 .centerSeperator {

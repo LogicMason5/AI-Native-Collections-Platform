@@ -15,18 +15,18 @@
 }
 
 .main {
-    background-color: $secondarybg;
+    background-color: $secondaryBg;
     width: 700px;
     height: 450px;
     border-radius: 20px;
     & > hr {
-        color: $primaryblue;
+        color: $primaryBlue;
     }
 }
 
 .close{
     cursor: pointer;
-    color: $primaryblue;
+    color: $primaryBlue;
     font-size: 2.5rem;
     font-weight: lighter;
     transition: .2s ease-out;
@@ -97,7 +97,7 @@
         transition: .1s ease-in;
         height: 40px;
         &:focus {
-            border: 1px solid $secondaryblue
+            border: 1px solid $secondaryBlue
         }
     }
     & > button {
