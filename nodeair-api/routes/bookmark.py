@@ -5,7 +5,7 @@ from core.ratelimit import Limit
 from fastapi import APIRouter, Depends
 from core.schemas import Signature, Bookmark, User
 from utils import verify_signature
-from core.models import BookmarkCreate, BookmarkFind
+from core.models import BookmarkCreateDelete, BookmarkFind
 from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/bookmark")
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/bookmark")
 @router.post("/add", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def add(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
+async def add(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) -> dict:
     owner_public_key = bookmark.owner_public_key
     profile_public_key = bookmark.profile_public_key
     signature = bookmark.signature["data"]
@@ -54,7 +54,7 @@ async def add(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
 @router.post("/remove", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def remove(bookmark: BookmarkCreate, db: Session=Depends(get_db)) -> dict:
+async def remove(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) -> dict:
     owner_public_key = bookmark.owner_public_key
     profile_public_key = bookmark.profile_public_key
     signature = bookmark.signature["data"]

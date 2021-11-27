@@ -18,7 +18,7 @@ class User(Base):
     public_key = Column(String(length=44), nullable=False, unique=True)
     username = Column(String(length=15), nullable=False, unique=True)
     name = Column(String(length=25), nullable=False)
-    bio = Column(Text, nullable=True)
+    bio = Column(Text, default="Hey there, I'm new!", nullable=True)
     social = Column(String(100), nullable=True)
     avatar = Column(String(100), default=(
                     "https://res.cloudinary.com/f22/image"

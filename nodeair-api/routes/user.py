@@ -56,29 +56,3 @@ async def register(
         )
         await webhook.send(embed=embed)
         return db_user
-
-
-@router.get("/profile/{username}", 
-            dependencies=[Depends(Limit(times=20, seconds=5))],
-            status_code=200
-            )
-async def profile(
-                username: str, 
-                db: Session=Depends(get_db)
-                ) -> Union[JSONResponse, User]:
-
-    user = db.query(User).filter_by(username=username).first()
-
-    if user: 
-        view = View(public_key=user.public_key)
-        db.add(view)
-        db.commit()
-        db.refresh(user)
-        return user
-    return JSONResponse(
-        status_code=404,
-        content="User not found"
-    )
-
-
-

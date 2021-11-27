@@ -5,11 +5,14 @@ class RegisterUser(BaseModel):
     username: str
 
 
-class BookmarkCreate(BaseModel):
+class BookmarkCreateDelete(BaseModel):
     owner_public_key: str
     signature: dict
     profile_public_key: str
 
 class BookmarkFind(BaseModel):
     public_key: str
+    username_or_public_key: str
+
+class ProfileFind(BaseModel):
     username_or_public_key: str

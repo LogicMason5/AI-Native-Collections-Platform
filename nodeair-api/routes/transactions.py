@@ -37,7 +37,7 @@ async def activity(public_key: str,  request: Request, limit: int = 4, split_mes
             if split_message:
                 d = {"type": "received", "amount": sols, "from": i['src'], "tx": i["txHash"]}
             else:
-                d = {"type": "received", "message": f"Received {sols} SOLs from {i['dst']}", "tx": i["txHash"]}
+                d = {"type": "received", "message": f"Received {sols} SOLs from {i['src']}", "tx": i["txHash"]}
             filtered_data.append(d)
 
 
