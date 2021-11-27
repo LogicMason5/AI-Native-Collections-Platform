@@ -1,7 +1,7 @@
 import { Line, Bar, Doughnut } from "react-chartjs-2"
 
 
-export const ViewChart = ({ chartData }: any) => {
+export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
     const values = Object.values(chartData)
     const labels = Object.keys(chartData)
 

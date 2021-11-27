@@ -85,7 +85,6 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     public_key: pubKey.toString(),
     username: username
   }
-
   fetch(`${API_URL}/check`, {
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },

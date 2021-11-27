@@ -30,7 +30,7 @@
     opacity: .6;
     &:hover {
         opacity: 1;
-        background-color: $hoverbg;
+        background-color: $hoverBg;
     }
     & > a {
         display: flex;
@@ -39,7 +39,7 @@
 }
 
 .icon_active { 
-    background-color: $hoverbg;
+    background-color: $hoverBg;
     opacity: 1;
 }
 
