@@ -40,6 +40,7 @@ export default function Dashboard() {
         <>
             <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
             <Sidebar />
+            <h1 className={styles.note}>Insights is not available on this screen size at the moment.</h1>
             <div className={styles.insights}>
                 <h1 className={styles.heading}>Insights</h1>
                 <div className={styles.distributionChart}>

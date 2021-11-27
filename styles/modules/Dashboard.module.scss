@@ -17,10 +17,7 @@
 }
 
 .heading {
-    grid-column: 1;
-    grid-row: 1;
-    margin: 20px;
-    font-size: 1.8rem;
+    @include pageHeading;
 }
 
 .viewChart{

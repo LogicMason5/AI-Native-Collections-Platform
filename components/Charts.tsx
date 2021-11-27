@@ -76,8 +76,7 @@ export const TransactionChart = ({ chartData }: any) => {
         borderWidth: 1,
     }
     const options = {
-        responsive: true,
-        aspectRatio: 6 / 2,
+        maintainAspectRatio: false,
         layout: { padding: 15 },
         plugins: {
             title: { display: true, text: "SOL transactions for this month", color: "#0085FF", },
@@ -125,8 +124,7 @@ export const DistributionChart = ({ chartData }: any) => {
         borderWidth: 1,
     }
     const options = {
-        responsive: true,
-        aspectRatio: 1,
+        maintainAspectRatio: false,
         plugins: {
             title: { display: true, text: "Distribution", color: "#0085FF", },
             legend: { display: false, },
