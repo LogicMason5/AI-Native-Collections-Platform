@@ -28,6 +28,8 @@ export default function Profile( {user}: any ) {
       <ToastContainer theme="dark" position= "top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false}/>
     <div className={styles.profile}>  
       <ProfileBox user={user} activity={activity}/>
+      <hr className={styles.seperator}/>
+      <DiscoverProfiles/>
     </div>
 
     </>

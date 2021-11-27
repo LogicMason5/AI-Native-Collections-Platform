@@ -1,8 +1,18 @@
+@import '../variables';
+@import '../mixins';
+
 .profile {
     height: 100vh;
-    width: 100vw;
+    width: calc(100vw - 300px);
+    float: right;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0px 50px;
 }
 
+.seperator {
+    height: 100%;
+    width: 2px;
+    color: $primaryStroke;
+}

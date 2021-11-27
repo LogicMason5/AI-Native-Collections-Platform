@@ -108,11 +108,9 @@ export const ProfileBox = ({ user, activity }: any) => {
                 <div className={styles.activity}>
                     <h2>Recent activity</h2>
                     {activity ? (activity.map((a: any) => (
-                            <a href={"https://solscan.io/tx/"+a['tx']}>
-                                <div className={styles.transaction}>
+                            <a href={"https://solscan.io/tx/"+a['tx']} className={styles.transaction}>
                                 <Image src={(a['type'] == "sent") ? Sent : Received} width="35" /> 
                                 <p>{a["message"]}</p>
-                                </div>
                             </a>
                             
                             ))
