@@ -3,7 +3,7 @@ import '@/styles/globals.scss'
 
 declare global {
   interface Window {
-    solana:any;
+    solana: any;
   }
 }
 

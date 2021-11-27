@@ -4,40 +4,40 @@ import styles from '@/styles/modules/RecentTransactions.module.scss'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import { connectWallet } from '@/components/Wallet'
-
+import Link from 'next/link';
 
 export const RecentTransactions = () => {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        let public_key = window.solana._publicKey
-        if (window.solana._publicKey == null){
-            public_key = await connectWallet(false)
-        }
-        const result = await fetch(`http://localhost:8000/fetch/activity/${public_key.toString()}?limit=6&&split_message=true`)
-        const data = await result.json()
-        setData(data)
+  useEffect(() => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const fetchData = async () => {
+      let public_key = window.solana._publicKey
+      if (window.solana._publicKey == null) {
+        public_key = await connectWallet(false)
       }
-      fetchData()
-    }, []);
+      const result = await fetch(API_URL + `/fetch/activity/${public_key.toString()}?limit=6&&split_message=true`)
+      const data = await result.json()
+      setData(data)
+    }
+    fetchData()
+  }, []);
 
-    return (
-        <div className={styles.recentTransactions}>
-            <h2>Recent SOL transactions</h2>
-            {data ? (data.map((a: any) => (
-                    <a href={"https://solscan.io/tx/"+a['tx']}>
-                      <div className={styles.transaction}>
-                        <Image src={(a['type'] == "sent") ? Sent : Received} width="60" /> 
-                        <p>{a['type']} {a['amount']} SOLs</p>
-                      </div>
-                    </a>
-                    ))
-                    )  : null
-                        }
-        </div>
-        
-    )
-  }
-  
-  
+  return (
+    <div className={styles.recentTransactions}>
+      <h2>Recent SOL transactions</h2>
+      {data ? (data.map((a: any) => (
+        <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
+          <div className={styles.transaction}>
+            <Image src={(a['type'] == "sent") ? Sent : Received} width="60" alt="transaction" />
+            <p>{a['type']} {a['amount']} SOLs</p>
+          </div>
+        </a></Link>
+      ))
+      ) : null
+      }
+    </div>
+
+  )
+}
+

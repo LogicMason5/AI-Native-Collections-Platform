@@ -61,12 +61,12 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
     toast.info("Transaction complete!")
     return true
   } catch (error: any) {
-    if(error.code == 4001){
+    if (error.code == 4001) {
       toast.error("Transaction rejected")
     } else {
       toast.error("Insufficient balance")
     }
-    
+
     return false
   }
 }
@@ -88,7 +88,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
 
   fetch(`${API_URL}/check`, {
     body: JSON.stringify(data),
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     method: "POST"
   })
     .then(async res => {
@@ -131,17 +131,17 @@ export const signMessage = async (e: any) => {
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
   const publicKey = await connectWallet(false);
   const res = await fetch(`${API_URL}/signature/create`, {
-      body: JSON.stringify({ public_key: publicKey.toString() }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
+    body: JSON.stringify({ public_key: publicKey.toString() }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
   });
   if (res.ok) {
-      const json = await res.json();
-      const message = new TextEncoder().encode(json.hash);
-      const sig = await window.solana.signMessage(message, "utf8");
-      return sig.signature;
+    const json = await res.json();
+    const message = new TextEncoder().encode(json.hash);
+    const sig = await window.solana.signMessage(message, "utf8");
+    return sig.signature;
   } else {
-      toast.error("You are being rate limited");
+    toast.error("You are being rate limited");
   }
 
 };
