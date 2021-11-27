@@ -3,10 +3,13 @@
 
 
 .bookmarks {
-    padding: 10px 10px;
+    overflow: scroll;
     background-color: $secondaryBg;
     border: 1px solid $primaryStroke;
+    padding: 10px 10px;
     border-radius: 20px;
+    height: 100%;
+    width: 100%;
     & h2 {
         color: rgb(190, 190, 190);
         font-size: 1.1rem;
@@ -18,29 +21,45 @@
 }
 
 .bookmark {
-    padding: 10px 10px;
+    padding: 2%;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
     border: .8px solid $hoverbg;
     display: flex;
-    margin: 20px;
+    margin: 2%;
     border-radius: 5px;
     transition: .2s ease-out;
+
     & h3 {
-        color: rgb(255, 255, 255);
+        color: $greyLight;
         @include light_font;
     }
     & p {
-        color: white;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: $greyLight;
         margin-left: auto;
+        @include light_font;
+        margin-left: 20%;
+        font-size: .9rem;
     }
     & img {
-        width: 20px;
+        width: 40px;
     }
     &:hover {
-        background-color: $hoverbg;
-        box-shadow: 0px 0px 10px $primaryStroke;
+        background-color: #191A21;
+        border: 1px solid $secondaryStroke;
+    }
+}
+
+@media screen and (max-width:1450px) {
+    .bookmark {
+        padding: 1%;
+        & img {
+            width: 30px;
+        }
     }
 }

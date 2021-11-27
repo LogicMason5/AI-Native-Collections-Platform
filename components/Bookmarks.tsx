@@ -44,7 +44,7 @@ export const Bookmarks = () => {
     <div className={styles.bookmarks}>
       <h2>Bookmarks</h2>
       <form className={styles.search} onSubmit={(e) => getBookmark(e)}>
-        <input type="text" placeholder="Search bookmarks by username or public key" name="search" />
+        <input type="text" placeholder="Search by username or public key" name="search" />
         <button type="submit">
           <Image src={Search} width="60" alt="search" />
         </button>
@@ -66,4 +66,3 @@ export const Bookmarks = () => {
 
   )
 }
-

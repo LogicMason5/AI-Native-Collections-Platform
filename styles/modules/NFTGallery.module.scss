@@ -1,0 +1,36 @@
+@import "../variables";
+@import "../mixins";
+
+.nftGallery {
+    background: $secondaryBg; 
+    border: 1px solid $primaryStroke;
+    padding: 10px 10px;
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    transition: .2s ease-out;
+    &:hover {
+        animation: moveBorder 2s ease infinite alternate;
+        filter: brightness(110%);
+        border: 1px solid $secondaryStroke;
+    }
+    &:active {
+        transform: scale(95%);
+    }
+    & h2 {
+        color: rgb(190, 190, 190);
+        font-size: 1.1rem;
+    }
+    & h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    & main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90%;
+        width: 100%;
+    }
+
+}

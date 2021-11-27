@@ -2,7 +2,7 @@
 @import '../mixins';
 
 .recentTransactions {
-    height: 600px;
+    height: 100%;
     background-color: $secondaryBg;
     padding: 10px 20px;
     border-radius: 20px;
@@ -16,7 +16,7 @@
 .transaction {
     cursor: pointer;
     text-transform: capitalize;
-    padding: 10px 10px;
+    padding: 2% 2%;
     font-size: calc(.5vw + 5px);
     display: flex;
     background-color: $hoverbg;
@@ -32,4 +32,3 @@
         background-color: #282935;
     }
 }
-

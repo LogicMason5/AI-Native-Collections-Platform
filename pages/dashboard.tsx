@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
 import { Bookmarks } from '@/components/Bookmarks'
+import { NFTGallery } from '@/components/NFTGallery'
 import { RecentTransactions } from '@/components/RecentTransactions'
 import { ToastContainer } from 'react-toastify'
 
@@ -12,7 +13,7 @@ import styles from '@/styles/modules/Dashboard.module.scss'
 
 export default function Dashboard() {
     const [views, setViews] = useState('')
-    
+
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
@@ -32,6 +33,7 @@ export default function Dashboard() {
             <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
             <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
             <Sidebar />
+            <h1 className={styles.note}>Dashboard is not available on this screen size at the moment.</h1>
             <div className={styles.dashboard}>
                 <h1 className={styles.heading}>Dashboard</h1>
                 <div className={styles.viewChart}>
@@ -39,6 +41,9 @@ export default function Dashboard() {
                 </div>
                 <div className={styles.bookmarks}>
                     <Bookmarks />
+                </div>
+                <div className={styles.comingSoon}>
+                    <NFTGallery />
                 </div>
                 <div className={styles.recentTransactions}>
                     <RecentTransactions />

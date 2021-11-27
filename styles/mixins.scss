@@ -68,11 +68,13 @@
     justify-content: flex-end;
     align-items: center;
     > input {
+        @include light_font;
         border-radius: 5px;
         color: white;
         padding: 0px 5px;
         height: 40px;
-        width: 300px;
+        width: 60%;
+        text-overflow: ellipsis;
         background-color: transparent;
         border: 1px solid $primaryStroke;
         transition: .1s ease-out;
