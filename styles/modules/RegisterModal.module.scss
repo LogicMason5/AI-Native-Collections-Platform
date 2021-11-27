@@ -20,7 +20,8 @@
     height: 450px;
     border-radius: 20px;
     & > hr {
-        color: $primaryBlue;
+        color: $secondaryStroke;
+        width: 100%;
     }
 }
 
@@ -43,7 +44,7 @@
     }
 }
 
-.change_plan {
+.changePlan {
     gap: 30px;
     padding: 10px 30px;
     display: flex;
@@ -52,22 +53,6 @@
         font-size: 1.5rem;
         width: 50%;
         color: $textColor;
-    }
-    & > select {
-        border: 1px solid $secondaryStroke;
-        cursor: pointer;
-        background-color: $hoverbg;
-        outline: none;
-        border-radius: 5px;
-        color: white;
-        text-align: center;
-        height: 40px;
-        width: 200px;
-        transition: .2s ease;
-        @include bold_font;
-        &:focus {
-            border: 1px solid $primaryStroke;
-        }
     }
 }
 
@@ -110,21 +95,10 @@
     }
 }
 
-.forever {
-    color: rgb(184, 184, 184);
-}
-.subs {
-    color: rgb(114, 129, 156);
-}
 
 @media screen and (max-width: 600px) {
-    .change_plan h1{
+    .changePlan h1{
         font-size: 1rem;
-        width: 80%;
-    }
-    .change_plan select {
-        width: 150px;
-        font-size: .7rem;
     }
     .form button {
         width: 60%;

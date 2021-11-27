@@ -28,7 +28,7 @@ export const RegisterModal = (props: any) => {
     <div className={styles.nameModal}>
       <div className={styles.main}>
         <span className={styles.close} onClick={handleclose}>&times;</span>
-        <div className={styles.change_plan}>
+        <div className={styles.changePlan}>
           <Image src={(selectedPlan.endsWith("/year")) ? Dollar : Invoice} width="40" height="40" alt="pricing" />
           <h1>{selectedPlan}</h1>
           <PriceDropdown setSelectedPlan={setSelectedPlan} />
