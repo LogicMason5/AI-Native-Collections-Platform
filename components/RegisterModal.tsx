@@ -8,15 +8,15 @@ import Image from 'next/image'
 
 export const RegisterModal = (props: any) => {
   const pricing: any = {
-    "Basic - $1/year": 1,
-    "Pro - $3/year": 5,
-    "Basic - $5": 5,
+    "Basic - $2/year": 1,
+    "Pro - $5/year": 5,
+    "Basic - $6": 5,
     "Pro - $15": 15
   }
 
   const [name, setName] = useState<string>("")
   const [amount, setAmount] = useState<number>(0)
-  const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $1/year");
+  const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $2/year");
 
   useEffect(() => { setAmount(pricing[selectedPlan]) })
 

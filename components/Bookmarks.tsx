@@ -8,6 +8,8 @@ import Link from 'next/link'
 
 export const Bookmarks = () => {
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState<number>(0);
+  const [rateLimited, setRateLimited] = useState<boolean>(false);
   const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
@@ -19,31 +21,55 @@ export const Bookmarks = () => {
       }
       const result = await fetch(API_URL + `/bookmark/get/${public_key.toString()}`)
       const data = await result.json()
-      setData(data)
+      if (result.ok) {
+        setData(data.bookmarks)
+        setTotal(data.total)
+      } else {
+        const json = await result.json()
+        toast.error(json.error)
+      }
+      
     }
     fetchData()
   }, []);
 
   const getBookmark = async (e: any) => {
     e.preventDefault();
+    if (rateLimited) {
+      return
+    }
     const publicKey = window.solana._publicKey.toString()
     if (e.target.search.value == ""){
-      const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
-      const data = await result.json()
-      setData(data)
+      if (data.length == 1){
+        const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
+        const data = await result.json()
+        setData(data.bookmarks)
+      }
+      return
     } else {
       const res = await fetch(API_URL + "/bookmark/find", {
         method: "POST",
         headers: { "Content-Type": "application/json", },
         body: JSON.stringify({ public_key: publicKey, username_or_public_key: e.target.search.value })
       })
-      const json = await res.json()
-      if (res.ok) {
-        //@ts-ignore
-        setData([json])
+      if (res.status == 429){
+        toast.error("You are being rate limited", {toastId: "to_prevent_duplication"})
+        setRateLimited(true)
+        setTimeout(
+          () => setRateLimited(false), 
+          3000
+        );
+        return
       } else {
-        toast.error(json.error)
+        const json = await res.json()
+        if (res.ok) {
+          //@ts-ignore
+          setData([json])
+        } else {
+          toast.error(json.error)
+        }
       }
+
     }
 
   }
@@ -74,7 +100,11 @@ export const Bookmarks = () => {
       ))
       ) : null
       }
+      <div className={styles.metaData}>
       <p>Showing the latest {data.length} bookmarks</p>
+      <p>Total bookmarks: {total}</p>
+      </div>
+
     </div>
 
   )

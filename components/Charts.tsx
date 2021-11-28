@@ -13,7 +13,7 @@ export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
                 fill: true,
                 backgroundColor: '#104EAA10',
                 borderColor: '#5196FD',
-                tension: .5,
+                tension: .2,
                 borderWidth: 1,
             }
         ],

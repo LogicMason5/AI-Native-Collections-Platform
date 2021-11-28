@@ -3,7 +3,7 @@ import { PageHead } from '@/components/Head'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet';
 import { TransactionChart, DistributionChart } from '@/components/Charts'
-import Curves from '@/images/Curves.svg'
+import Curves2 from '@/images/Curves2.svg'
 import Image from 'next/image'
 import styles from '@/styles/modules/Insights.module.scss'
 
@@ -23,7 +23,12 @@ export default function Dashboard() {
             const result = await fetch(API_URL + "/fetch/transactions/" + public_key.toString())
             const data1 = await result.json()
             setTransactions(data1["transactions"])
-            setRatio(data1["ratio"]);
+            const ratio1 = data1["ratio"][0]
+            const ratio2 = data1["ratio"][1]
+            
+            const received = Math.round(ratio2 / (ratio1 + ratio2) * 100)
+            const sent = Math.round(ratio1 / (ratio1 + ratio2) * 100)
+            setRatio([sent, received])
             const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
             const data2 = await res.json()
             setPrice(data2["price"])
@@ -48,21 +53,21 @@ export default function Dashboard() {
                     <div className={styles.labels}>
                         <div className={styles.sent}>
                             <div></div>
-                            {Math.round(ratio[1] / (ratio[0] + ratio[1]) * 100)}% SOLs received
+                            {ratio[1]}% SOLs received
                         </div>
                         <div className={styles.rec}>
                             <div></div>
-                            {Math.round(ratio[0] / (ratio[0] + ratio[1]) * 100)}% SOLs sent
+                            {ratio[0]}% SOLs sent
                         </div>
                     </div>
                 </div>
                 <div className={styles.numbers}>
-                    <div className="content">
+                    <div className={styles.content}>
                         <h2>Numbers</h2>
                         <h1>Wallet balance<p>${balance * price}</p></h1>
                         <h1>Solana price<p>${price}</p></h1>
                     </div>
-                    <Image className={styles.curves} src={Curves} height="100" width="800" alt="curves" />
+                    <Image className={styles.curves} src={Curves2} alt="curves" />
                 </div>
                 <div className={styles.transactionChart}>
                     <TransactionChart chartData={transactions} />
