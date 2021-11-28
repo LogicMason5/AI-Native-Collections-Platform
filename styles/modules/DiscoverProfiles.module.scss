@@ -2,62 +2,55 @@
 @import "../mixins";
 
 .discoverProfiles {
-    & h2 {
-        color: $grey;
-        margin: 10px;
-    }
-    border-radius: 20px;
     display: flex;
     flex-flow: column;
-    height: 700px;
-    width: 650px;
+    height: 100%;
+}
+
+.search {
+    @include search;
 }
 
 .profileBox {
-    border: 1px solid $hoverBg;
+    border: 1px solid $secondaryStroke;
     background-color: $secondaryBg;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 10px;
-    display: flex;
-    flex-flow: column;
-    height: 130px;
+    height: 100%;
+    transition: .1s ease-in;
+    padding: 0px 20px;
     & p {
         color: $text;
-        margin-left: 20px;
+        margin-left: 50px;
     }
-    img {
-        width: 20px;
-    }
-    transition: .1s ease-in;
     &:hover {
-        background-color: #191A21;
-        border: 1px solid $secondaryStroke;
+        background-color: $hoverBg;
     }
-    
 }
+
 .upper {
-    margin-left: 20px;
-    height: 80px;
+    height: 70%;
     display: flex;
     align-items: center;
-    & img {
-        width: 50px;
-        height: 50px;
-        margin: 10px;
-    }
+    justify-content: space-between;
     & p {
         color: white;
     }
 
 }
+
+.left {
+    display: flex;
+    gap: 10px;
+}
+
 .name {
+    text-align: center;
     h3 {
         color: white;
+        font-size: 1.4rem;
     }
     h4 {
         color: $primaryStroke;
     }
-}
-.search {
-    @include search;
 }

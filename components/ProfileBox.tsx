@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import Copy from '@/images/icons/Copy.svg'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
-import Bookmark from '@/images/Bookmark.svg'
-import BookmarkActive from '@/images/BookmarkActive.svg'
+import Bookmark from '@/images/icons/Bookmark.svg'
+import Bookmarked from '@/images/icons/Bookmarked.svg'
 import styles from '@/styles/modules/ProfileBox.module.scss'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -88,21 +88,22 @@ export const ProfileBox = ({ user, activity }: any) => {
     return (
         <div className={styles.profileBox}>
 
-            <img className={styles.banner} src={user.banner} alt="banner" height="200" />
+            <img className={styles.banner} src={user.banner} height="170" alt="banner"/>
 
             <div className={styles.uppersection}>
-                <img className={styles.avatar} src={user.avatar} alt="avatar" height="140" />
+                <img className={styles.avatar} src={user.avatar} height="125" width="125" alt="avatar"  />
                 <div className={styles.name}>
                     <h1>{user.name}</h1>
                     <h3>@{user.username}</h3>
                 </div>
                 <Image
                     className={styles.bookmark}
-                    width="60%"
-                    height="60%"
-                    src={bookmarked ? BookmarkActive : Bookmark}
+                    src={bookmarked ? Bookmarked : Bookmark}
                     onClick={(e) => addBookmark(e)}
-                    alt="bookmark" />
+                    alt="bookmark" 
+                    height="45"
+                    width="50"
+                    />
             </div>
             <div className={styles.bio}>
                 <h2>Bio</h2>
@@ -110,6 +111,8 @@ export const ProfileBox = ({ user, activity }: any) => {
             </div>
 
             <div className={styles.address}>
+                <hr />
+                <div>
                 <p className="pubkey">{user.public_key}</p>
                 <Image
                     className={styles.copy}
@@ -118,6 +121,8 @@ export const ProfileBox = ({ user, activity }: any) => {
                     alt="copy"
                     height="25"
                     width="25" />
+                </div>
+                <hr />
             </div>
 
             <div className={styles.activity}>

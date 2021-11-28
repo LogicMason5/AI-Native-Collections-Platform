@@ -33,7 +33,7 @@ export const Sidebar = () => {
                 <SidebarIcon icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarIcon icon={InsightsIcon} link="Insights" path="/insights"/>
                {/* <SidebarIcon icon={Edit} link="Edit Profile"/> */}
-                <SidebarIcon icon={DiscoverIcon} link="Discover" path="/bolt"/>
+                <SidebarIcon icon={DiscoverIcon} link="Discover" path="/discover"/>
                 {/* <SidebarIcon icon={History} link="History"/> */}
                 {/* <SidebarIcon icon={Settings} link="Settings"/> */}
             </ul>

@@ -37,25 +37,29 @@ export const DiscoverProfiles = () => {
 
   return (
     <div className={styles.discoverProfiles}>
-      <h2>Discover</h2>
       <form className={styles.search} onSubmit={(e) => getProfile(e)}>
         <input type="text" placeholder="Search profiles by username or public key" name="search" />
         <button type="submit">
-          <Image src={Search} width="60" alt="search" />
+          <Image src={Search} width="20" height="20" alt="search" />
         </button>
       </form>
 
       {data ? (data.map((a: any) => (
-       <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
+        <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
           <div className={styles.upper}>
-            <img src={a['avatar']} />
-            <div className={styles.name}>
-              <h3>{a['name']}</h3>
-              <h4>@{a['username']} </h4>
+            <div className={styles.left}>
+              <Image src={a['avatar']} height="50" width="50" />
+              <div className={styles.name}>
+                <h3>{a['name']}</h3>
+                <h4>@{a['username']} </h4>
+              </div>
             </div>
             <p>{a['public_key']}</p>
           </div>
+          
+          <div className={styles.lower}>
           <p>{a['bio']}</p>
+          </div>
         </a></Link>
       ))
       ) : null

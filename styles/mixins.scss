@@ -65,14 +65,15 @@
 
 @mixin search() {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: center;
     > input {
         @include default_font;
         border-radius: 5px;
         padding: 0px 5px;
         height: 40px;
         width: 60%;
+        margin-right: 10px;
         text-overflow: ellipsis;
         background-color: transparent;
         border: 1px solid $secondaryStroke;
@@ -90,11 +91,9 @@
         background-color: transparent;
         outline: none;
         border: none;
-        margin-left: 10px;
     }
         img {
         cursor: pointer;
-        border-radius: 50%;
         transition: .2s ease;
         border-radius: 50%;
         padding: 10px 10px !important;

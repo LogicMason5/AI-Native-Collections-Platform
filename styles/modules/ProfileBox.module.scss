@@ -6,30 +6,36 @@
     display: flex;
     flex-flow: column;
     background-color: $secondaryBg;
+    height: 100%;
 }
 
 .banner {
-    height: 130px;
     border-radius: 20px 20px 0px 0px;
 }
+
 .uppersection{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-top: 20px;
+    padding-right: 10px;
 }
 
 .bookmark {
     transition: .2s ease-out;
     cursor: pointer;
     border-radius: 50%;
-    padding: 12px 0px !important;
+    padding: 6px !important;
     &:hover {
-        background-color: #0084ff34;
+        background-color: $hoverBg;
+    }
+    &:active {
+        transform: scale(80%);
     }
 }
 
 .name {
-    margin: 10px;
+    margin-left: 10px;
     margin-right: auto;
     h3 {
         color: $primaryStroke;
@@ -44,30 +50,36 @@
 
 .bio {
     margin-left: 20px;
-    color: $text;
+    color: $grey;
     height: 80px;
     & p {
-        color: rgb(255, 255, 255);
+        color: white;
         text-overflow: wrap;
     }
 }
 
 .address {
     height: 50px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.288);
     display: flex;
-    gap: 20px;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
-    color: white;
-    margin-top: 20px;
+    gap: 5px;
     & img {
         cursor: pointer;
-        border-radius: 50%;
         transition: .2s ease-out;
         &:active {
             transform: scale(80%);
         }
+    }
+    & hr {
+        width: 100%;
+        color: $primaryStroke;
+    }
+    & div {
+        display: flex;
+        gap: 10px;
+        color: $text;
     }
 }
 

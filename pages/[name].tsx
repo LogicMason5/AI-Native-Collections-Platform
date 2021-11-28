@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { ProfileBox } from '@/components/ProfileBox'
 import { Sidebar } from '@/components/Sidebar'
-import { Navbar } from '@/components/Navbar'
 import { DiscoverProfiles } from '@/components/DiscoverProfiles'
 import { ToastContainer } from 'react-toastify'
 import styles from '@/styles/modules/Profile.module.scss'
@@ -13,14 +11,15 @@ export default function Profile({ user, activity }: any) {
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
       <Sidebar />
+      
       <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
+      <h1 className={styles.note}>Dashboard is not available on this screen size at the moment.</h1>
       <div className={styles.profile}>
 
-        <h1 className={styles.heading}>Profile</h1>
+        <h1 className={styles.heading}>Discover</h1>
         <div className={styles.profileBox}>
           <ProfileBox user={user} activity={activity} />
         </div>
-        <hr className={styles.seperator} />
         <div className={styles.discover}>
           <DiscoverProfiles />
         </div>

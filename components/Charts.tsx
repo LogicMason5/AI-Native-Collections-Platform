@@ -125,8 +125,9 @@ export const DistributionChart = ({ chartData }: any) => {
     }
     const options = {
         maintainAspectRatio: false,
+        layout: {padding: 20},
         plugins: {
-            title: { display: true, text: "Distribution", color: "#0085FF", },
+            title: { display: true, text: "Distribution", color: "#6C7281", },
             legend: { display: false, },
         },
     }
