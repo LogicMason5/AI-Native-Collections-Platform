@@ -19,10 +19,15 @@ async def register(
                 user: RegisterUser, request: Request, db: Session=Depends(get_db)
                 ) -> Union[JSONResponse, User]:
 
-    if " " in user.username:
+    if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
         return JSONResponse(
             status_code=400,
-            content={"error": "Username must not contain any spaces"}
+            content={"error": "You cannot keep this username"}
+        )
+    if any(i in user.username.lower() for i in tuple('@_!#$%^&*()<>?/\|}{~:')):
+        return JSONResponse(
+            status_code=400,
+            content={"error": "Username can only contain letters, numbers, '_' and '-'"}
         )
 
     get_user = db.query(User).filter(
@@ -36,7 +41,7 @@ async def register(
             field = "Username"             
         return JSONResponse(
                 status_code=400, 
-                content={"error": f"{field} already registered"}
+                content={"error": f"{field} already registered", "username": user.username}
                 )    
  
     else:
