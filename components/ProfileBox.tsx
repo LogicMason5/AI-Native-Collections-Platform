@@ -10,9 +10,9 @@ import Bookmark from '@/images/icons/Bookmark.svg'
 import Bookmarked from '@/images/icons/Bookmarked.svg'
 import styles from '@/styles/modules/ProfileBox.module.scss'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 export const ProfileBox = ({ user, activity }: any) => {
+    console.log(user)
     const joined = user.joined_on.substring(0, 10)
     const months: any = {
         1: "January",
@@ -88,10 +88,10 @@ export const ProfileBox = ({ user, activity }: any) => {
     return (
         <div className={styles.profileBox}>
 
-            <img className={styles.banner} src={user.banner} height="170" alt="banner"/>
+            <Image className={styles.banner} src={user.banner} width="100%" height="170" alt="banner"/>
 
             <div className={styles.uppersection}>
-                <img className={styles.avatar} src={user.avatar} height="125" width="125" alt="avatar"  />
+                <img className={styles.avatar} src={user.avatar} width="125" height="125" alt="avatar"  />
                 <div className={styles.name}>
                     <h1>{user.name}</h1>
                     <h3>@{user.username}</h3>
@@ -160,3 +160,40 @@ export const ProfileBox = ({ user, activity }: any) => {
     )
 }
 
+export const ProfileBoxNotFound = ({username}: any) => {
+    return (
+        <div className={styles.profileBox}>
+
+        <div className={styles.banner_} />
+
+        <div className={styles.uppersection}>
+            <div className={styles.avatar_} />
+            <div className={styles.name}>
+                <h3>@{username}</h3>
+            </div>
+        </div>
+
+        <div className={styles.address}>
+            <h1>User not found</h1>
+            <hr />
+        </div>
+
+        <div className={styles.activity}>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+        </div>
+
+    </div>
+
+)
+}

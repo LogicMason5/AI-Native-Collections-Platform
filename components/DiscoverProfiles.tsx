@@ -47,12 +47,10 @@ export const DiscoverProfiles = () => {
       {data ? (data.map((a: any) => (
         <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
           <div className={styles.upper}>
-            <div className={styles.left}>
               <Image src={a['avatar']} height="50" width="50" />
               <div className={styles.name}>
                 <h3>{a['name']}</h3>
                 <h4>@{a['username']} </h4>
-              </div>
             </div>
             <p>{a['public_key']}</p>
           </div>

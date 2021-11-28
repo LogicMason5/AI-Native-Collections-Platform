@@ -22,6 +22,9 @@
     & p {
         color: $text;
         margin-left: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     &:hover {
         background-color: $hoverBg;
@@ -46,6 +49,8 @@
 
 .name {
     text-align: center;
+    margin-right: auto;
+    margin-left: 20px;
     h3 {
         color: white;
         font-size: 1.4rem;
