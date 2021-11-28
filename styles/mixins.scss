@@ -68,19 +68,22 @@
     justify-content: flex-end;
     align-items: center;
     > input {
-        @include light_font;
+        @include default_font;
         border-radius: 5px;
-        color: white;
         padding: 0px 5px;
         height: 40px;
         width: 60%;
         text-overflow: ellipsis;
         background-color: transparent;
-        border: 1px solid $primaryStroke;
+        border: 1px solid $secondaryStroke;
         transition: .1s ease-out;
         font-size: .9rem;
+        color: white;
+        &::placeholder {
+            color: $grey;
+        }
         &:focus {
-            border: 1px solid $blue;
+            border: 1px solid $primaryStroke;
         }
     }
     > button {
@@ -94,6 +97,7 @@
         border-radius: 50%;
         transition: .2s ease;
         border-radius: 50%;
+        padding: 10px 10px !important;
         &:hover {
                 filter: brightness(130%);
                 background-color: $secondaryBg;

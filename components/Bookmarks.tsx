@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Search from '@/images/Search.svg'
+import Search from '@/images/icons/Search.svg'
 import styles from '@/styles/modules/Bookmarks.module.scss'
 import { useEffect, useState } from 'react'
 import { connectWallet } from './Wallet'
@@ -46,10 +46,9 @@ export const Bookmarks = () => {
       <form className={styles.search} onSubmit={(e) => getBookmark(e)}>
         <input type="text" placeholder="Search by username or public key" name="search" />
         <button type="submit">
-          <Image src={Search} width="60" alt="search" />
+          <Image src={Search} width="25" height="25" alt="search" />
         </button>
       </form>
-      <p>Showing the latest {data.length} bookmarks</p>
       {data ? (data.map((a: any) => (
         
         <Link key={a['username']} href={a['username']}><a>
@@ -62,6 +61,7 @@ export const Bookmarks = () => {
       ))
       ) : null
       }
+      <p>Showing the latest {data.length} bookmarks</p>
     </div>
 
   )

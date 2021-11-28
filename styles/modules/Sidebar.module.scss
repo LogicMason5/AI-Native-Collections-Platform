@@ -6,42 +6,57 @@
     display: flex;
     border-right: 2px solid $secondaryStroke;
     height: 100vh;
-    width: 300px;
+    width: 350px;
     z-index: 1;
     justify-content: center;
 }
 
 .links {
+    width: 80%;
     font-size: 1.3rem;
     display: flex;
     flex-flow: column;
-    gap: 40px;
+    gap: 30px;
     margin-top: 40%;
-    @include light_font;
+    float: left;
+    @include medium_font;
 }
 
 
-.icon, .icon_active { 
+.icon { 
     cursor: pointer;
-    color: white;
-    transition: .2s ease-out;
     border-radius: 10px;
-    padding: 10px 25px;
-    opacity: .6;
-    &:hover {
-        opacity: 1;
-        background-color: $hoverBg;
+    padding: 15px 20px;
+    transition: .2s ease-out;
+    color: grey;
+    & a img {
+        filter: grayscale(1);
     }
     & > a {
         display: flex;
         gap: 20px;
     }
+    &:hover {
+        background-color: $hoverBg;
+        color: white;
+        & a img {
+            filter: contrast(100);
+        }
+    }
 }
 
 .icon_active { 
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 15px 20px;
+    & > a {
+        display: flex;
+        gap: 20px;
+    }
+    color: $text;
     background-color: $hoverBg;
-    opacity: 1;
 }
+
 
 @media screen and (max-width: 1000px) {
     .sidebar {

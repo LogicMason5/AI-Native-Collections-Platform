@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Search from '@/images/Search.svg'
+import Search from '@/images/icons/Search.svg'
 import styles from '@/styles/modules/DiscoverProfiles.module.scss'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -30,7 +30,6 @@ export const DiscoverProfiles = () => {
     if (res.ok) {
       //@ts-ignore
       setData([json])
-      console.log(json)
     } else {
       toast.error(json.error)
     }
