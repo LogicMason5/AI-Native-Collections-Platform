@@ -1,16 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import styles from '@/styles/modules/PricingDropdown.module.scss'
 import Image from 'next/image'
 import Dollar from '@/images/Dollar.svg'
 import Invoice from '@/images/Invoice.svg'
+import Up from '@/images/icons/Up.svg'
+import Down from '@/images/icons/Down.svg'
 
 export const PriceDropdown = ({ setSelectedPlan }: any) => {
     const [open, setOpen] = useState(false);
 
     return (
         <div className="pricingDropdown">
-            <p onClick={(e) => setOpen(!open)} >Select plan {'>'}</p>
+            <p onClick={(e) => setOpen(!open)} >Select plan <Image src={open ? Down : Up} width="30" height="30"/></p>
             {open && <Dropdown setSelectedPlan={setSelectedPlan} />}
         </div>
     );
@@ -60,7 +61,7 @@ const Dropdown = ({ setSelectedPlan }: any) => {
                     <a className="menu-item" onClick={() => "main" && setActiveMenu("main")}>
                         <Image src={Dollar} alt="dollar" /> <h2> Subscription based</h2>
                     </a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $1/year</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $2/year</a>
                     <a className="menu-item" onClick={(e) => update(e)}>Pro - $5/year</a>
                 </div>
             </CSSTransition>
@@ -75,7 +76,7 @@ const Dropdown = ({ setSelectedPlan }: any) => {
                     <a className="menu-item" onClick={(e) => "main" && setActiveMenu("main")}>
                         <Image src={Invoice} alt="invoice" /> <h2>One time payment</h2>
                     </a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $3</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $5</a>
                     <a className="menu-item" onClick={(e) => update(e)}>Pro - $15</a>
                 </div>
             </CSSTransition>

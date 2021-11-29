@@ -29,14 +29,19 @@
     &:hover {
         background-color: $hoverBg;
     }
+    &:active {
+        transform: scale(98%)
+    }
 }
 
 .reload {
     &:active {
-        transform: scale(80%);
+        transform: scale(90%);
     }
 }
-
+.gap {
+    width: 30px;
+}
 .upper {
     height: 70%;
     display: flex;

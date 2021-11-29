@@ -21,23 +21,25 @@ export const DiscoverProfiles = () => {
     fetchData()
   }, []);
 
-  const getProfiles = async (e: any) => {
+  const getProfiles = async (e: any, reload: boolean = false) => {
     e.preventDefault();
     if (rateLimited) {
       return
     }
     if (e.target.search == undefined  || e.target.search.value == ""){
-      const result = await fetch(API_URL + `/profile/ext/getrandom`)
-      const data = await result.json()
-      if (result.status == 429) {
-        toast.error("You are being rate limited", {toastId: "to_prevent_duplication"})
-        setRateLimited(false)
-        setTimeout(
-          () => setRateLimited(false), 
-          3000
-        );
-      } else {
-        setData(data)
+      if (reload) {
+        const result = await fetch(API_URL + `/profile/ext/getrandom`)
+        const data = await result.json()
+        if (result.status == 429) {
+          toast.error("You are being rate limited", {toastId: "to_prevent_duplication"})
+          setRateLimited(false)
+          setTimeout(
+            () => setRateLimited(false), 
+            3000
+          );
+        } else {
+          setData(data)
+        }
       }
       
     } else {
@@ -60,7 +62,8 @@ export const DiscoverProfiles = () => {
     <div className={styles.discoverProfiles}>
 
       <form className={styles.search} onSubmit={(e) => getProfiles(e)}>
-        <Image className={styles.reload} src={Reload} width="30" height="30" onClick={(e) => getProfiles(e)}/>
+        <Image className={styles.reload} src={Reload} width="30" height="30" onClick={(e) => getProfiles(e, true)}/>
+        <div className={styles.gap}></div>
         <input type="text" placeholder="Search profiles by username or public key" name="search" />
         <button type="submit">
           <Image src={Search} width="20" height="20" alt="search" />

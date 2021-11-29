@@ -13,7 +13,7 @@ export default function Profile({ user, activity }: any) {
       <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
       <Sidebar />
-
+      <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
       <h1 className={styles.note}>Dashboard is not available on this screen size at the moment.</h1>
       <div className={styles.profile}>
 

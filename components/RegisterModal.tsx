@@ -10,7 +10,7 @@ export const RegisterModal = (props: any) => {
   const pricing: any = {
     "Basic - $2/year": 1,
     "Pro - $5/year": 5,
-    "Basic - $6": 5,
+    "Basic - $5": 5,
     "Pro - $15": 15
   }
 
