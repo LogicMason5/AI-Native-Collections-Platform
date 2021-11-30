@@ -27,6 +27,8 @@ class Webhook:
                     } for i in kwargs["fields"]
                     ]
                 })
+        if "thumbnail" in kwargs:
+            embed.update({"thumbnail": {"url": kwargs["thumbnail"]}})
         return embed 
 
     async def send(self, content: str = "** **", **kwargs) -> None:

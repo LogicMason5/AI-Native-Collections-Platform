@@ -16,7 +16,7 @@ router = APIRouter()
             status_code=201
             )
 async def register(
-                user: RegisterUser, request: Request, db: Session=Depends(get_db)
+                user: RegisterUser, db: Session=Depends(get_db)
                 ) -> Union[JSONResponse, User]:
 
     if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
@@ -45,7 +45,6 @@ async def register(
                 )    
  
     else:
-        print(request.client.host)
         db_user = User(public_key=user.public_key, username=user.username, name=user.username)
         db.add(db_user)
         db.commit()
@@ -54,10 +53,10 @@ async def register(
         embed = Webhook.embed(
             "New registration",
             fields = [
-                    ("Profile", f"[NodeAir.io/{db_user.username}](https://nodeair.io/{user.username})"),
+                    ("Profile", f"[NodeAir.io/{db_user.username}](https://nodeair.io/{db_user.username})"),
                     ("Public Key", db_user.public_key),
-                    ("Country", "IN"),
-                    ]
+                    ],
+            thumbnail=db_user.avatar
         )
         await webhook.send(embed=embed)
         return db_user
