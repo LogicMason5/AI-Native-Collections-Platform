@@ -27,7 +27,7 @@ async def check(
             field = "Username"             
         return JSONResponse(
                 status_code=400, 
-                content={"error": f"{field} already registered", "username": user.username}
+                content={"error": f"{field} already registered", "username": get_user.username}
                 )    
  
     else:
