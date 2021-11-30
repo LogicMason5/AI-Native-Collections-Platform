@@ -9,23 +9,21 @@ import { CircleSpinner } from "react-spinners-kit";
 
 export default function Profile({ name }: any) {
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<object>();
+  const [userData, setUserData] = useState<any>({});
 
   useEffect(() => {   
     const fetchData = async () => {
       setLoading(true)
       const API_URL = process.env.NEXT_PUBLIC_API_URL
-      console.log("Start")
       const res = await fetch(API_URL + "/profile/" + name)
       console.log("Done fetching")
       let data
       if (res.ok) {
         data = await res.json()
       } else {
-        data = "Not found"
+        data = false
       }
       setUserData(data)
-      console.log(data)
       setLoading(false)
     }
     fetchData()
@@ -40,7 +38,8 @@ export default function Profile({ name }: any) {
         <div className={styles.profile}>
           <h1 className={styles.heading}>Discover</h1>
           <div className={loading? styles.loading : styles.profileBox}>
-            {loading ?  <CircleSpinner size={60} color="#869ACE"/> : <ProfileBox user={userData.user} activity={userData.recent_activity} />}
+            {loading ?  <CircleSpinner size={60} color="#869ACE"/> : 
+            userData ? <ProfileBox user={userData.user} activity={userData.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
           </div>
           <div className={styles.discover}>
             <DiscoverProfiles />

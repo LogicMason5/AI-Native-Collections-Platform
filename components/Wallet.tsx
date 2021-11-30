@@ -59,7 +59,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
     await connection.confirmTransaction(txid);
     toast.dismiss(loadingToastId)
     toast.info("Transaction complete!")
-    return true
+    return txid
   } catch (error: any) {
     if (error.code == 4001) {
       toast.error("Transaction rejected")
@@ -81,19 +81,24 @@ export const registerWallet = async (event: any, username: string, usd: number) 
   if (pubKey == null) {
     pubKey = await connectWallet(false)
   }
-  const data = {
+  const checkData = {
     public_key: pubKey.toString(),
     username: username
   }
   fetch(`${API_URL}/check`, {
-    body: JSON.stringify(data),
+    body: JSON.stringify(checkData),
     headers: { "Content-Type": "application/json" },
     method: "POST"
   })
     .then(async res => {
       if (res.ok) {
-        const payment = true || await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
+        const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
         if (payment) {
+          const data = {
+            public_key: pubKey.toString(),
+            username: username,
+            signature: payment
+          }
           fetch(`${API_URL}/register`, {
             body: JSON.stringify(data),
             headers: {
