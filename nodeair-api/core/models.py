@@ -3,7 +3,11 @@ from pydantic import BaseModel
 class RegisterUser(BaseModel):
     public_key: str
     username: str
+    signature: str
 
+class CheckUser(BaseModel):
+    public_key: str
+    username: str
 
 class BookmarkCreateDelete(BaseModel):
     owner_public_key: str

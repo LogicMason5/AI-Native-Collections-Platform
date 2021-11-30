@@ -14,7 +14,7 @@ from core.db import engine, Base
 from fastapi.param_functions import Depends
 from core.ratelimit import RateLimiter, Limit
 from fastapi.middleware.cors import CORSMiddleware
-
+from solana.rpc.async_api import AsyncClient
 
 load_dotenv()
 
@@ -44,12 +44,13 @@ async def startup() -> None:
     await RateLimiter.init(redis)
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
-
+    app.solana_client = AsyncClient("https://api.devnet.solana.com")
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await RateLimiter.close()
     await app.request_client.aclose()
+    await app.solana_client.close()
 
 
 @app.get("/", dependencies=[Depends(Limit(times=20, seconds=1))])

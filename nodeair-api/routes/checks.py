@@ -2,7 +2,7 @@ from core.db import get_db
 from core.schemas import User
 from core.ratelimit import Limit
 from sqlalchemy.orm import Session
-from core.models import RegisterUser
+from core.models import CheckUser
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
@@ -13,7 +13,7 @@ router = APIRouter()
             status_code=200
             )
 async def check(
-                user: RegisterUser, db: Session=Depends(get_db)
+                user: CheckUser, db: Session=Depends(get_db)
                 ) -> JSONResponse:
 
     get_user = db.query(User).filter(
