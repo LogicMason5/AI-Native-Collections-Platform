@@ -4,3 +4,4 @@ venv
 __pycache__
 db.sql
 dump.rdb
+app.yaml

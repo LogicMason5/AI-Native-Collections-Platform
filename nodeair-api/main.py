@@ -21,7 +21,7 @@ load_dotenv()
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://nodeair.io"],
+    allow_origins=["http://localhost:3000", "https://nodeair.io", "https://www.nodeair.io"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
