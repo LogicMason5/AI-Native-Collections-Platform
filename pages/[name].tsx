@@ -39,7 +39,7 @@ export default function Profile({ name }: any) {
           <h1 className={styles.heading}>Discover</h1>
           <div className={loading? styles.loading : styles.profileBox}>
             {loading ?  <CircleSpinner size={60} color="#869ACE"/> : 
-            userData ? <ProfileBox user={userData.user} activity={userData.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
+            userData ? <ProfileBox user={userData!.user} activity={userData!.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
           </div>
           <div className={styles.discover}>
             <DiscoverProfiles />
