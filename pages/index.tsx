@@ -3,12 +3,10 @@ import { useState } from 'react'
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { RegisterModal } from '@/components/RegisterModal'
-import { ToastContainer } from 'react-toastify'
 import Ladder from '@/images/Ladder.svg'
 import Curves from '@/images/Curves.svg'
 import Dashboard from '@/images/Dashboard.svg'
 import styles from '@/styles/modules/Index.module.scss'
-
 
 export default function Index() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -21,7 +19,6 @@ export default function Index() {
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
       <Navbar />
-      <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
 
       <main className={styles.index}>
         <div className={styles.ladderImage}>

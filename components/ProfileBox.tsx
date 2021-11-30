@@ -12,7 +12,6 @@ import styles from '@/styles/modules/ProfileBox.module.scss'
 import Link from 'next/link'
 
 export const ProfileBox = ({ user, activity }: any) => {
-    console.log(user)
     const joined = user.joined_on.substring(0, 10)
     const months: any = {
         1: "January",

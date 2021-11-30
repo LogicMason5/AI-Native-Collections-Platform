@@ -1,5 +1,6 @@
 import { ComponentType } from 'react';
 import '@/styles/globals.scss'
+import { ToastContainer } from 'react-toastify'
 
 declare global {
   interface Window {
@@ -13,7 +14,12 @@ type Props = {
 }
 
 function App({ Component, pageProps }: Props) {
-  return <Component {...pageProps} />
+  return (
+    <>
+    <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
+    <Component {...pageProps} />
+    </>
+  )
 }
 
 export default App

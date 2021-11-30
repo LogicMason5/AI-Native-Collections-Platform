@@ -69,4 +69,7 @@
     .icon p, .icon_active p {
         display: none;
     }
+    .icon a, .icon_active a {
+        padding: 0;
+    }
 }

@@ -113,7 +113,6 @@ export const registerWallet = async (event: any, username: string, usd: number) 
         res.json().then(json => {
           if (json.error == "Public key already registered") {
             toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000, toastId: "to_prevent_duplication"})
-            console.log(json)
             localStorage.setItem("username", json.username)
             setTimeout(() => Router.push("/dashboard"), 3000)
 
