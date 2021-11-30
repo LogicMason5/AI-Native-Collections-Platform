@@ -59,6 +59,11 @@ async def getrandom(limit: int = 5, db: Session=Depends(get_db)) -> dict:
             content={"error": "Requested too many profiles at once"}
         )
 
-    random_range = random.sample(range(db.query(User).count()), limit )
+    r = range(db.query(User).count())
+    try:
+        random_range = random.sample(r, limit)
+    except ValueError:
+        random_range = random.sample(r, len(r))
+
     users = [db.query(User)[i] for i in random_range]
     return users
