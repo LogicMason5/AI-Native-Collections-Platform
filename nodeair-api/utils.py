@@ -16,7 +16,7 @@ def verify_signature(hash, signature, public_key) -> bool:
 
 def get_random_avatar():
     base_url = "https://res.cloudinary.com/f22/image/upload/v1638256420/NodeAir/"
-    options = ("red","green", "orange", "yellow", "blue")
+    options = ("red.png","green.png", "orange.png", "yellow.png", "blue.png")
 
     if random.randint(1, 100) == 50:
         return base_url + "rare.png"

@@ -30,9 +30,8 @@ async def register(
             content={"error": "Username can only contain letters, numbers, '_' and '-'"}
         )
 
-    get_user = db.query(User).filter(
-                                    (User.username == user.username) |
-                                    (User.public_key == user.public_key)
+    get_user = db.query(User).filter((User.public_key == user.public_key) |
+                                    (User.username == user.username)
                                     ).first()
     if get_user:
         if get_user.public_key == user.public_key:
