@@ -31,7 +31,7 @@ export default function Profile({ name }: any) {
 
     return (
       <>
-        <PageHead title={'NodeAir |@'+  name}/>
+        <PageHead title={'NodeAir | @'+  name}/>
         <Sidebar />
         <h1 className={styles.note}>Profile/Discovery is not available on this screen size at the moment.</h1>
   

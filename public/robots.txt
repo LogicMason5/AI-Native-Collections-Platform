@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://nodeair.io
+
+# Sitemaps
+Sitemap: https://nodeair.io/sitemap.xml
