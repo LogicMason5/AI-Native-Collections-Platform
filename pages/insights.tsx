@@ -14,7 +14,7 @@ export default function Dashboard() {
     const [ratio, setRatio] = useState([0, 0])
     const [balance, setBalance] = useState(0)
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)
-    const [monthNow, setMonthNow] = useState(new Date().getMonth() + 1)
+    const [monthNow] = useState(new Date().getMonth() + 1)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +35,7 @@ export default function Dashboard() {
             const data2 = await res.json()
             setPrice(data2["price"])
     
-            const r = await fetch(`https://api.solscan.io/account?address=${publicKey.toString()}`)
+            const r = await fetch(`https://api.solscan.io/account?address=${publicKey.toString()}`, {headers: {"Access-Control-Allow-Origin": "*"}})
             const data3 = await r.json()
             //@ts-ignore
             setBalance(data3["data"]["lamports"] / 1000000000)

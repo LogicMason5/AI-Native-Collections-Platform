@@ -39,6 +39,7 @@
     font-size: 1.5rem;
     color: $text;
     & span {
+        vertical-align: middle;
         font-size: 2rem;
         margin: 10px;
         cursor: pointer;
