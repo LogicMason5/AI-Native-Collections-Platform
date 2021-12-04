@@ -27,6 +27,29 @@
 .heading {
     @include pageHeading;
 }
+.top {
+    grid-column: 1/11;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.month {
+    font-size: 1.5rem;
+    color: $text;
+    & span {
+        font-size: 2rem;
+        margin: 10px;
+        cursor: pointer;
+        padding: 0px 15px;
+        border-radius: 50%;
+        transition: .2s ease-out;
+        &:hover {
+            background-color: $hoverBg;
+        }
+    }
+}
 
 .distributionChart {
     grid-column: 1/5;

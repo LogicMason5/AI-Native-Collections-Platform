@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { connectWallet, signMessage } from '@/components/Wallet'
+import { GetMonth } from '@/components/Utils'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Copy from '@/images/icons/Copy.svg'
@@ -13,22 +14,8 @@ import Link from 'next/link'
 
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
-    const months: any = {
-        1: "January",
-        2: "February",
-        3: "March",
-        4: "April",
-        5: "May",
-        6: "June",
-        7: "July",
-        8: "August",
-        9: "September",
-        10: "October",
-        11: "November",
-        12: "December"
-    }
     const split = joined.split("-")
-    const month = months[split[1]]
+    const month = GetMonth(split[1])
     const joined_on = split[2] + " " + month + " " + split[0]
     const [bookmarked, setBookmarked] = useState(false)
     
