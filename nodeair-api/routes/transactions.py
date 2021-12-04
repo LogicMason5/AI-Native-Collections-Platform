@@ -58,6 +58,9 @@ async def transactions(public_key: str, request: Request,  month_now: Optional[i
                 ("https://api.solscan.io/account/soltransfer/txs?"
                 f"address={public_key}&offset=0&limit=500")
                 )
+    if (resp.status_code == 429):
+        return JSONResponse(status_code=429, content={"error": "You are being rate limited"})
+
     transactions = resp.json()["data"]["tx"]["transactions"]
     t = [
         i for i in transactions if 
@@ -88,5 +91,5 @@ async def transactions(public_key: str, request: Request,  month_now: Optional[i
             data.update({i: {"sent": sum(sent), "received": sum(received)}})
             ratio[0] += sum(sent)
             ratio[1] += sum(received)
-
+    
     return {"transactions": data, "ratio": ratio}
