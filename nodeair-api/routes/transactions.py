@@ -6,7 +6,7 @@ from fastapi import APIRouter
 from core.ratelimit import Limit
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
-
+from typing import Optional
 
 router = APIRouter(prefix="/fetch")
 
@@ -48,9 +48,11 @@ async def activity(public_key: str,  request: Request, limit: int = 4, split_mes
 @router.get("/transactions/{public_key}",
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def transactions(public_key: str, request: Request) -> dict:
-    time_now = datetime.utcnow()
-    amount_of_days = monthrange(2021, time_now.month)[1]
+async def transactions(public_key: str, request: Request,  month_now: Optional[int] = None) -> dict:
+    if not month_now:
+        month_now = datetime.utcnow().month
+
+    amount_of_days = monthrange(2021, month_now)[1]
 
     resp = await request.app.request_client.get(
                 ("https://api.solscan.io/account/soltransfer/txs?"
@@ -60,11 +62,11 @@ async def transactions(public_key: str, request: Request) -> dict:
     t = [
         i for i in transactions if 
         datetime.fromtimestamp(i["blockTime"]).month == 
-        time_now.month
+        month_now
         ]
         
     days = [datetime.fromtimestamp(i["blockTime"]).day for i in t 
-            if datetime.fromtimestamp(i["blockTime"]).month == time_now.month]
+            if datetime.fromtimestamp(i["blockTime"]).month == month_now]
 
     def get_sent(day):
         sent = [lamport_to_sol(i["lamport"]) for i in t 

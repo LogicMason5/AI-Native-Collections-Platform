@@ -5,11 +5,12 @@ from fastapi import Request
 from core.db import get_db
 from core.ratelimit import Limit
 from sqlalchemy.orm import Session
-from core.schemas import User, View
-from core.models import ProfileFind
+from core.schemas import User, View, Signature
+from core.models import ProfileFind, UpdateProfile
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends
-from utils import lamport_to_sol
+from utils import lamport_to_sol, verify_signature
+
 
 router = APIRouter(prefix="/profile")
 
@@ -52,11 +53,49 @@ async def profile(
                 filtered_data.append(d)
 
         return {"user": user, "recent_activity": filtered_data}
-        
+
     return JSONResponse(
         status_code=404,
         content={"error": "User not found"}
     )
+
+
+@router.get("/update",
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200
+            )
+async def update_profile(
+    data: UpdateProfile,
+    db: Session = Depends(get_db),
+    ) -> Union[JSONResponse, User]:
+
+    signature = data.signature["data"]
+    public_key = data.public_key
+    signature_obj = db.query(Signature).filter_by(public_key=public_key)
+
+    if not signature_obj.first():
+        return {"error": "Message not signed"}
+
+    verify = verify_signature(
+        signature_obj[-1].hash, signature, public_key)
+    if not verify:
+        return JSONResponse(
+            status_code=400,
+            content={"error": "Error verifying signature"}
+        )
+    else:
+        user = db.query(User).filter_by(public_key=public_key).first()
+        if not user:
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "error": "You need to register your wallet in order to update profile"}
+            )
+
+        print(data.username)
+        
+        db.commit()
+        return {"message": "Successfully added bookmark"}
 
 
 @router.post("/ext/find",
