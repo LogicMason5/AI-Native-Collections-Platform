@@ -11,13 +11,6 @@ export const connectWallet = async (showToast: boolean) => {
     } catch {
       res = await window.solana.connect()
     }
-    const button = document.querySelector(".Navbar_connect_button__32n_j")
-    if (button != null) {
-      const pubKey = res.publicKey.toString()
-      let start = pubKey.substring(0, 5)
-      let end = pubKey.substring(39, 44)
-      button.innerHTML = start + "..." + end
-    }
     if (showToast) { toast.success('Connected to wallet!'); }
     return res.publicKey;
   }

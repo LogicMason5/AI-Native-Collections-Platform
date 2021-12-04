@@ -1,25 +1,31 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 import { PageHead } from '@/components/Head'
 import { Sidebar } from '@/components/Sidebar'
-import { connectWallet } from '@/components/Wallet'
 import { ViewChart } from '@/components/Charts'
 import { Bookmarks } from '@/components/Bookmarks'
+import { connectWallet } from '@/components/Wallet'
 import { NFTGallery } from '@/components/NFTGallery'
 import { RecentTransactions } from '@/components/RecentTransactions'
-import styles from '@/styles/modules/Dashboard.module.scss'
+import styles from '@/styles/pages/Dashboard.module.scss'
 
 
 export default function Dashboard() {
     const [views, setViews] = useState()
-    // Need to do error handling
+
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
             const publicKey = await connectWallet(false)
             const result = await fetch(API_URL + "/fetch/views/" + publicKey.toString())
-            const data = await result.json()
-            setViews(data)
+            if (result.ok) {
+                const data = await result.json()
+                setViews(data)
+            } else {
+                const json = await result.json()
+                toast.error(json.error)
+            }
         }
         fetchData()
     }, []);
@@ -50,4 +56,3 @@ export default function Dashboard() {
         </>
     )
 }
-

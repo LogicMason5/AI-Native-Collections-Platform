@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import Link from 'next/link';
 import Image from 'next/image'
-import styles from '@/styles/modules/RecentTransactions.module.scss'
+import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import { connectWallet } from '@/components/Wallet'
-import Link from 'next/link';
+import styles from '@/styles/modules/RecentTransactions.module.scss'
+
 
 export const RecentTransactions = () => {
   const [data, setData] = useState([]);
@@ -12,13 +14,17 @@ export const RecentTransactions = () => {
   useEffect(() => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const fetchData = async () => {
-      let public_key = window.solana._publicKey
-      if (window.solana._publicKey == null) {
-        public_key = await connectWallet(false)
-      }
+
+      const public_key = await connectWallet(false)
       const result = await fetch(API_URL + `/fetch/activity/${public_key.toString()}?limit=6&&split_message=true`)
-      const data = await result.json()
-      setData(data)
+      if (result.ok) {
+        const data = await result.json()
+        setData(data)
+      } else {
+        const json = await result.json()
+        toast.error(json.error)
+      }
+
     }
     fetchData()
   }, []);

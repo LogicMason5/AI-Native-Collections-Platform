@@ -67,7 +67,7 @@
     justify-self: center;
 }
 
-.one, .two, .three {
+.right div{
     display: flex;
     flex-flow: column;
     margin-top: 50px;
@@ -77,7 +77,7 @@
         display: flex;
         align-items: center;
         gap: 20px;
-        color: #7585AE;
+        color: $text;
         > p {
             color: white;
             background-color: #47577E;

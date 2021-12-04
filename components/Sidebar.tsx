@@ -25,7 +25,7 @@ export const Sidebar = () => {
             <ul className={styles.links}>
                 <SidebarItem icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarItem icon={InsightsIcon} link="Insights" path="/insights"/>
-                <SidebarItem icon={DiscoverIcon} link="Discover" path={name ? name : "bolt"}/>
+                <SidebarItem icon={DiscoverIcon} link="Discover" path={name ? "/" + name : "/bolt"}/>
             </ul>
         </nav>
     )

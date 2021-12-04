@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { toast } from 'react-toastify'
 import { PageHead } from '@/components/Head'
 import { ProfileBox, ProfileBoxNotFound } from '@/components/ProfileBox'
 import { Sidebar } from '@/components/Sidebar'
@@ -16,11 +16,12 @@ export default function Profile({ name }: any) {
       setLoading(true)
       const API_URL = process.env.NEXT_PUBLIC_API_URL
       const res = await fetch(API_URL + "/profile/" + name)
-      console.log("Done fetching")
       let data
       if (res.ok) {
         data = await res.json()
       } else {
+        const json = await res.json()
+        toast.error(json.error)
         data = false
       }
       setUserData(data)

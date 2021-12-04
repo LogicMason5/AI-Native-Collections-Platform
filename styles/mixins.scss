@@ -29,12 +29,15 @@
 
 @mixin button {
     background-color: $blue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     cursor: pointer;
-    color: white;
     border-radius: .8rem;
     box-shadow: 0px 0px 30px $blue;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
     &:active {
         transform: scale(.90);
     }

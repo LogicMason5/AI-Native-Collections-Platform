@@ -31,12 +31,21 @@
     background-color: transparent;
     color: $text;
     border: 2px solid $primaryStroke;
-    padding: 10px 2vw;
+    padding: 10px 1.5vw;
     border-radius: 10px;
     font-size: 1.2rem;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     &:hover {
         transform: scale(95%);
+    }
+    & div {
+        background-color: rgb(99, 123, 189);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
     }
 }
 
