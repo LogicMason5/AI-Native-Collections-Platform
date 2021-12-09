@@ -3,33 +3,41 @@ import { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
 import { RegisterModal } from '@/components/RegisterModal'
+import { connectWallet } from '@/components/Wallet'
 import Ladder from '@/images/Ladder.svg'
 import Curves from '@/images/Curves.svg'
 import Dashboard from '@/images/Dashboard.svg'
 import styles from '@/styles/pages/Index.module.scss'
 
 
+
 export default function Index() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [isRegistered, setIsRegistered] = useState<boolean>(false)
+
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen)
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      if (window.solana._publicKey){
-        setLoggedIn(true)
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const check = async () => {
+      const publicKey = await connectWallet(false)
+      if (publicKey) {
+        const res = await fetch(API_URL + "/check/user/" + publicKey)
+        if (res.ok) {
+          setIsRegistered(true)
+        }
       }
-    }, 500)
-
+    }
+    setTimeout(check, 500)
   }, [])
 
-  
+
   return (
     <>
       <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-      <Navbar />
+      <Navbar isRegistered={isRegistered}/>
 
       <main className={styles.index}>
         <div className={styles.ladderImage}>
@@ -39,9 +47,9 @@ export default function Index() {
         <div className={styles.left}>
           <h1>Get more out of your Solana wallet.</h1>
           <p>NodeAir lets you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds.</p>
-          {loggedIn ?
-          <a className={styles.button} href="/dashboard">Go to dashboard</a>
-          :<button className={styles.button} onClick={toggleModal}>Create profile</button>
+          {isRegistered ?
+            <a className={styles.button} href="/dashboard">Go to dashboard</a>
+            : <button className={styles.button} onClick={toggleModal}>Create profile</button>
           }
         </div>
 

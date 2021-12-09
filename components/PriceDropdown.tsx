@@ -12,12 +12,12 @@ export const PriceDropdown = ({ setSelectedPlan }: any) => {
     return (
         <div className="pricingDropdown">
             <p onClick={(e) => setOpen(!open)} >Select plan <Image src={open ? Down : Up} width="30" height="30"/></p>
-            {open && <Dropdown setSelectedPlan={setSelectedPlan} />}
+            {open && <Dropdown setSelectedPlan={setSelectedPlan} setOpen={setOpen}/>}
         </div>
     );
 }
 
-const Dropdown = ({ setSelectedPlan }: any) => {
+const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
 
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
@@ -30,6 +30,7 @@ const Dropdown = ({ setSelectedPlan }: any) => {
 
     const update = (e: any) => {
         setSelectedPlan(e.target.text)
+        setOpen(false)
     }
 
     return (

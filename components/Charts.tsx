@@ -13,7 +13,7 @@ export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
                 fill: true,
                 backgroundColor: '#104EAA10',
                 borderColor: '#5196FD',
-                tension: .2,
+                lineTension: .5,
                 borderWidth: 1,
             }
         ],
@@ -47,16 +47,16 @@ export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
     )
 }
 
-export const TransactionChart = ({ chartData }: any) => {
+export const TransactionChart = ({ chartData= {1: 1}}: any ) => {
     const labels: any = Object.keys(chartData)
     const values: any = Object.values(chartData)
 
-    const received = new Array
-    const sent = new Array
+    const received = new Array()
+    const sent = new Array()
 
     for (const i of values) {
-        received.push(i["received"])
-        sent.push(i["sent"])
+        received.push(i.received)
+        sent.push(i.sent)
     }
 
     const data = {

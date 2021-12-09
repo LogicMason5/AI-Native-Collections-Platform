@@ -4,27 +4,21 @@ import { useState, useEffect } from 'react'
 import { connectWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/Navbar.module.scss'
 
-export const Navbar = () => {
 
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
-  const [publicKey, setPublicKey] = useState<string>('')
+export const Navbar = (props: any) => {
+  const [publicKey, setPublicKey] = useState<string>(props.publicKey)
 
-  const handleConnect = async() => {
-    try{
-      const res = await window.solana.connect({ onlyIfTrusted: true })
-      setLoggedIn(true)
-      let start = res.publicKey.toString().substring(0, 5)
-      let end = res.publicKey.toString().substring(39, 44)
-      setPublicKey(start + "..." + end)
-    } catch {
-      return
-    }
+  const handleButtonChange = async() => {
+    const pubKey = await connectWallet(publicKey ? false : true)
+    setPublicKey(pubKey.replace(pubKey.slice(5,40), "..."))
   }
-
+  
   useEffect(() => {
-    handleConnect()
-  }, []);
-
+    setTimeout(() => {
+      const pubKey = window.solana._publicKey
+      {pubKey ? setPublicKey(pubKey.toString().replace(pubKey.toString().slice(5,40), "...")) : null}
+    }, 1000)
+  }, [])
 
   return (
     <header className={styles.navbar}>
@@ -36,9 +30,9 @@ export const Navbar = () => {
           {/* <Link href="/">Pricing</Link> */}
         </ul>
       </nav>
-      {loggedIn ?
+      {props.isRegistered?
       <button className={styles.connectButton} onClick={() => Router.push("/dashboard")}><div></div>{publicKey}</button>:
-      <button className={styles.connectButton} onClick={() => handleConnect()}>Connect wallet</button>
+      <button className={styles.connectButton} onClick={() => handleButtonChange()}>{publicKey ? <> <div></div> {publicKey} </> : "Connect wallet"}</button>
       }
     </header>
   )
