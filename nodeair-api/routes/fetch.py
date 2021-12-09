@@ -15,16 +15,19 @@ router = APIRouter(prefix="/fetch")
             status_code=200)
 async def views(public_key: str, db: Session=Depends(get_db)) -> dict:
 
-    views = db.query(View).filter_by(public_key=public_key)
-    current_month = datetime.utcnow().month
-    month_data = [x.viewed_on for x in views if x.viewed_on.month == current_month]
-    amount_of_days = monthrange(2021, current_month)[1]
+    views_obj = db.query(View).filter_by(public_key=public_key)
+    today = datetime.utcnow()
+    views_data = [
+        x.viewed_on for x in views_obj if 
+        x.viewed_on.month == today.month and 
+        x.viewed_on.day <= today.month
+        ]
     data = {}
-    for i in range(1, amount_of_days + 1):
-        if i not in [x.day for x in month_data]:
+    for i in range(1, today.day + 1):
+        if i not in [x.day for x in views_data]:
             data.update({i: 0})
         else:
-            for d in month_data:
+            for d in views_data:
                 if d.day in data.keys():
                     data[d.day] += 1
                 else:

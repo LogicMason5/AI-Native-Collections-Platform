@@ -6,9 +6,9 @@ from core.models import CheckUser
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/check")
 
-@router.post("/check", 
+@router.post("/", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200
             )
@@ -33,4 +33,18 @@ async def check(
     else:
         return JSONResponse(
             content={"valid": True}
+        )
+
+@router.get("/user/{public_key}", 
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200
+            )
+async def check(public_key: str, db: Session=Depends(get_db)
+                ) -> JSONResponse:
+
+    get_user = db.query(User).filter_by(public_key=public_key).first()
+    if not get_user:
+        return JSONResponse(
+            content={"exists": False},
+            status_code=404
         )
