@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { Navbar } from '@/components/Navbar'
@@ -48,7 +49,7 @@ export default function Index() {
           <h1>Get more out of your Solana wallet.</h1>
           <p>NodeAir lets you create your public wallet profile to find each other easily and get statistics with graphs about your transactions and activity in seconds.</p>
           {isRegistered ?
-            <a className={styles.button} href="/dashboard">Go to dashboard</a>
+            <Link href="/dashboard"><a className={styles.button} >Go to dashboard </a></Link>
             : <button className={styles.button} onClick={toggleModal}>Create profile</button>
           }
         </div>

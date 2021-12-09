@@ -11,7 +11,7 @@ export const PriceDropdown = ({ setSelectedPlan }: any) => {
 
     return (
         <div className="pricingDropdown">
-            <p onClick={(e) => setOpen(!open)} >Select plan <Image src={open ? Down : Up} width="30" height="30"/></p>
+            <p onClick={(e) => setOpen(!open)} >Select plan <Image src={open ? Down : Up} width="30" height="30" alt="UpOrDown"/></p>
             {open && <Dropdown setSelectedPlan={setSelectedPlan} setOpen={setOpen}/>}
         </div>
     );
