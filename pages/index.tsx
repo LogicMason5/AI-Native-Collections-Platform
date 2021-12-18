@@ -31,14 +31,14 @@ export default function Index() {
         }
       }
     }
-    setTimeout(check, 500)
+    check()
   }, [])
 
 
   return (
     <>
-      <PageHead title={'NodeAir - Easier, faster & insightful Solana wallet experience.'} />
-      <Navbar isRegistered={isRegistered}/>
+      <PageHead />
+      <Navbar isRegistered={isRegistered} />
 
       <main className={styles.index}>
         <div className={styles.ladderImage}>

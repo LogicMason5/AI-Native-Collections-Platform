@@ -8,8 +8,7 @@ export const connectWallet = async (showToast = true, onlyIfTrusted = false) => 
     let res
     try {
       res = await window.solana.connect({ onlyIfTrusted: onlyIfTrusted })
-    } catch (e) {
-      console.log("Error", e)
+    } catch {
       return
     }
     if (showToast) { toast.success('Connected to wallet!'); }
