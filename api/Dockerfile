@@ -1,8 +1,8 @@
 FROM python:3
 
-COPY /nodeair-api /root
+COPY /src /api
 
-WORKDIR /root
+WORKDIR /api
 
 RUN pip install fastapi uvicorn sqlalchemy psycopg2 aioredis python-dotenv httpx pynacl solana
 
