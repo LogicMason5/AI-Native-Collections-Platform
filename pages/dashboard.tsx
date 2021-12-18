@@ -17,7 +17,7 @@ export default function Dashboard() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false)
+            const publicKey = await connectWallet(false, false)
             const result = await fetch(API_URL + "/fetch/views/" + publicKey.toString())
             if (result.ok) {
                 const data = await result.json()

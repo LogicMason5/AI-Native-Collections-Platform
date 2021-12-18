@@ -3,13 +3,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js'
 import Router from 'next/router';
 
-export const connectWallet = async (showToast: boolean) => {
+export const connectWallet = async (showToast = true, onlyIfTrusted = false) => {
   if ("solana" in window) {
     let res
     try {
-      res = await window.solana.connect({ onlyIfTrusted: true })
-    } catch {
-      res = await window.solana.connect()
+      res = await window.solana.connect({ onlyIfTrusted: onlyIfTrusted })
+    } catch (e) {
+      console.log("Error", e)
+      return
     }
     if (showToast) { toast.success('Connected to wallet!'); }
     return res.publicKey;
@@ -107,12 +108,12 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       } else {
         res.json().then(json => {
           if (json.error == "Public key already registered") {
-            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000, toastId: "to_prevent_duplication"})
+            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000, toastId: "to_prevent_duplication" })
             localStorage.setItem("username", json.username)
             setTimeout(() => Router.push("/dashboard"), 3000)
 
           } else {
-            toast.error(json.error, {toastId: "to_prevent_duplication"})
+            toast.error(json.error, { toastId: "to_prevent_duplication" })
           }
 
         })

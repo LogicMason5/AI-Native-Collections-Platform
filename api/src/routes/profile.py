@@ -30,7 +30,6 @@ async def profile(
         db.add(view)
         db.commit()
         db.refresh(user)
-
         resp = await request.app.request_client.get(
             ("https://api.solscan.io/account/"
              f"soltransfer/txs?address={user.public_key}&offset=0&limit={4}")

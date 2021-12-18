@@ -23,7 +23,7 @@ export default function Index() {
   useEffect(() => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const check = async () => {
-      const publicKey = await connectWallet(false)
+      const publicKey = await connectWallet(false, true)
       if (publicKey) {
         const res = await fetch(API_URL + "/check/user/" + publicKey)
         if (res.ok) {

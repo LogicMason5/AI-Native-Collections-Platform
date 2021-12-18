@@ -967,15 +967,10 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chart.js@^3.6.0:
+chart.js@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.6.2.tgz#47342c551f688ffdda2cd53b534cb7e461ecec33"
   integrity sha512-Xz7f/fgtVltfQYWq0zL1Xbv7N2inpG+B54p3D5FSvpCdy3sM+oZhbqa42eNuYXltaVvajgX5UpKCU2GeeJIgxg==
-
-chartjs@^0.3.24:
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/chartjs/-/chartjs-0.3.24.tgz#3addeb5ae3606b3e89e346c27d52ca158416e93d"
-  integrity sha1-Ot3rWuNgaz6J40bCfVLKFYQW6T0=
 
 chokidar@3.5.1:
   version "3.5.1"
@@ -2946,14 +2941,6 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
 react@^16.12.0:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
@@ -2962,6 +2949,14 @@ react@^16.12.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
+
+react@^17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 readable-stream@^3.5.0, readable-stream@^3.6.0:
   version "3.6.0"

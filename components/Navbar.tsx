@@ -10,7 +10,7 @@ export const Navbar = (props: any) => {
 
   const handleButtonChange = async() => {
     const pubKey = await connectWallet(publicKey ? false : true)
-    setPublicKey(pubKey.replace(pubKey.slice(5,40), "..."))
+    setPublicKey(pubKey.toString().replace(pubKey.toString().slice(5,40), "..."))
   }
   
   useEffect(() => {
