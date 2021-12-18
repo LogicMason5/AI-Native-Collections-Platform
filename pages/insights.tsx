@@ -25,7 +25,7 @@ type Transaction = {
 
 export default function Dashboard() {
     const [transactions, setTransactions] = useState<object>()
-    const [currentMonth, setCurrentMonth] = useState<Date>(new Date().getMonth())
+    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [price, setPrice] = useState<number>(0)
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
     const [balance, setBalance] = useState<number>(0)
