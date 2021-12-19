@@ -40,13 +40,11 @@ async def profile(
         for i in data:
             sols = lamport_to_sol(i["lamport"])
             if i["src"] == user.public_key:
-                d = {
-                    "type": "sent", "message": f"Sent {sols} SOLs to {i['dst']}", "tx": i["txHash"]}
+                d = {"type": "sent", "amount": sols, "to": i['dst'], "tx": i["txHash"]}
 
                 filtered_data.append(d)
             else:
-                d = {"type": "received",
-                     "message": f"Received {sols} SOLs from {i['src']}", "tx": i["txHash"]}
+                d = {"type": "received", "amount": sols, "from": i['src'], "tx": i["txHash"]}
                 filtered_data.append(d)
 
         return {"user": user, "recent_activity": filtered_data}
