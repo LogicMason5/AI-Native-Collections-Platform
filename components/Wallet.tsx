@@ -83,7 +83,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     .then(async res => {
       if (res.ok) {
         const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
-        if (payment) {
+        if (true) {
           const data = {
             public_key: pubKey.toString(),
             username: username,

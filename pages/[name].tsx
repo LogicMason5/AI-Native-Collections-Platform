@@ -42,6 +42,7 @@ export default function Profile({ name }: any) {
             {loading ?  <CircleSpinner size={60} color="#869ACE"/> : 
             userData ? <ProfileBox user={userData!.user} activity={userData!.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
           </div>
+        <hr className={styles.seperator} />
           <div className={styles.discover}>
             <DiscoverProfiles />
           </div>

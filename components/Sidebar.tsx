@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useRouter } from "next/router"
 import DashboardIcon from '@/images/sidebar/DashboardIcon.svg'
 import InsightsIcon from '@/images/sidebar/InsightsIcon.svg'
-import DiscoverIcon from '@/images/sidebar/DiscoverIcon.svg'
+import ProfileIcon from '@/images/sidebar/ProfileIcon.svg'
 import styles from '@/styles/modules/Sidebar.module.scss'
 import { useEffect, useState } from 'react'
 
@@ -25,7 +25,7 @@ export const Sidebar = () => {
             <ul className={styles.links}>
                 <SidebarItem icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarItem icon={InsightsIcon} link="Insights" path="/insights"/>
-                <SidebarItem icon={DiscoverIcon} link="Discover" path={name ? "/" + name : "/bolt"}/>
+                <SidebarItem icon={ProfileIcon} link="Profile" path={name ? "/" + name : "/bolt"}/>
             </ul>
         </nav>
     )

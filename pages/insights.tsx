@@ -80,7 +80,7 @@ export default function Dashboard() {
                     }
                     return null
                 }).filter(x => x != null)
-
+                
                 const received = transactions.map(t => {
                     let date = new Date(t.blockTime * 1000)
                     if (date.getDate() == day && t.dst == publicKey) {
@@ -89,6 +89,7 @@ export default function Dashboard() {
                     return null
                 }).filter(x => x != null)
 
+        
                 return [sent, received]
             }
 
@@ -111,7 +112,7 @@ export default function Dashboard() {
 
                 }
             }
-
+            
             setTransactions(data)
             let sent = 0
             let received = 0
@@ -140,11 +141,11 @@ export default function Dashboard() {
                     <h1 className={styles.heading} >Insights</h1>
                     <p className={styles.month} style={delay ? { opacity: "50%" } : { opacity: "100%" }}>
                         <span style={
-                            currentMonth == 0 || delay ? { cursor: "default" } :
+                            currentMonth == 0 || delay ? { cursor: "default", opacity: "50%" } :
                                 { cursor: "pointer" }} onClick={currentMonth == 0 || delay ? () => null : () => setCurrentMonth(currentMonth - 1)}>{'<'}</span>
                         {GetMonth(currentMonth)}
                         <span style={
-                            currentMonth == new Date().getMonth() || delay ? { cursor: "default" } :
+                            currentMonth == new Date().getMonth() || delay ? { cursor: "default", opacity: "50%"} :
                                 { cursor: "pointer" }} onClick={currentMonth == new Date().getMonth() || delay ? () => null : () => setCurrentMonth(currentMonth + 1)}>{'>'}</span>
                     </p>
                 </div>

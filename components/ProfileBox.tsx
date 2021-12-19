@@ -15,10 +15,10 @@ import Link from 'next/link'
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
     const split = joined.split("-")
-    const month = GetMonth(split[1])
+    const month = GetMonth(split[1] - 1)
     const joined_on = split[2] + " " + month + " " + split[0]
     const [bookmarked, setBookmarked] = useState(false)
-    
+
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
@@ -33,15 +33,6 @@ export const ProfileBox = ({ user, activity }: any) => {
         fetchData()
     }, [user]);
 
-    const copyAddress = () => {
-        const x = document.querySelector(".pubkey")
-        if (x != null && x.textContent != null) {
-            navigator.clipboard.writeText(x.textContent)
-        } else {
-            toast.error("Uh oh, something went wrong while copying.")
-        }
-        toast.success("Copied address to clipboard!")
-    }
 
     const addBookmark = async (e: any) => {
         const signature = await signMessage(e)
@@ -74,49 +65,52 @@ export const ProfileBox = ({ user, activity }: any) => {
     return (
         <div className={styles.profileBox}>
 
-            <Image className={styles.banner} src={user.banner} width="100%" height="170" alt="banner"/>
+            <Image className={styles.banner} src={user.banner} width="100%" height="200" alt="banner" />
 
             <div className={styles.uppersection}>
-                <img className={styles.avatar} src={user.avatar} width="125" height="125" alt="avatar"  />
+                <img className={styles.avatar} src={user.avatar} width="160" height="160" alt="avatar" />
                 <div className={styles.name}>
                     <h1>{user.name}</h1>
                     <h3>@{user.username}</h3>
                 </div>
+                <div className={styles.topmeta}>
+                <button className={styles.pubKey} id="pubKey" onClick={() => navigator.clipboard.writeText(user.public_key)}>Copy address</button>
                 <Image
                     className={styles.bookmark}
                     src={bookmarked ? Bookmarked : Bookmark}
                     onClick={(e) => addBookmark(e)}
-                    alt="bookmark" 
+                    alt="bookmark"
                     height="45"
-                    width="50"
-                    />
+                    width="45"
+                />
+                </div>
+
             </div>
             <div className={styles.bio}>
                 <h2>Bio</h2>
                 <p>{user.bio}</p>
+                <h4>Joined on {joined_on}</h4>
             </div>
-
-            <div className={styles.address}>
-                <hr />
-                <div>
-                <p className="pubkey">{user.public_key}</p>
-                <Image
-                    className={styles.copy}
-                    src={Copy}
-                    onClick={copyAddress}
-                    alt="copy"
-                    height="25"
-                    width="25" />
-                </div>
-                <hr />
-            </div>
-
+            < hr className={styles.activitySeperator} />
             <div className={styles.activity}>
                 <h2>Recent activity</h2>
+                <div className={styles.labels}>
+                    <p className={styles.amountl}>Amount(SOL)</p>
+                    <p className={styles.fromTol}>From/To</p>
+                </div>
                 {activity ? (activity.map((a: any) => (
-                    <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a className={styles.transaction}>
-                        <Image src={(a['type'] == "sent") ? Sent : Received} width="35" alt="transaction" />
-                        <p>{a["message"]}</p>
+                    <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a >
+                        <div className={styles.transaction}>
+                            <div className={styles.type}>
+                                <Image src={(a['type'] == "sent") ? Sent : Received} width="35" alt="transaction" />
+                                {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
+                            </div>
+                            <div className={styles.metadata}>
+                                <p className={styles.amount}>{a['amount']}</p>
+                                <p className={styles.fromTo}>{a['to'] || a['from']}</p>
+                            </div>
+                        </div>
+                        <hr className={styles.transactionSeperator} />
                     </a></Link>
 
                 ))
@@ -136,50 +130,46 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </>
                 }
             </div>
-            <div className={styles.bottom}>
-                <p>{user.social}</p>
-                <p>Joined on {joined_on}</p>
-            </div>
 
         </div>
 
     )
 }
 
-export const ProfileBoxNotFound = ({username}: any) => {
+export const ProfileBoxNotFound = ({ username }: any) => {
     return (
         <div className={styles.profileBox}>
 
-        <div className={styles.banner_} />
+            <div className={styles.banner_} />
 
-        <div className={styles.uppersection}>
-            <div className={styles.avatar_} />
-            <div className={styles.name}>
-                <h3>@{username}</h3>
+            <div className={styles.uppersection}>
+                <div className={styles.avatar_} />
+                <div className={styles.name}>
+                    <h3>@{username}</h3>
+                </div>
             </div>
+
+            <div className={styles.address}>
+                <h1>User not found</h1>
+                <hr />
+            </div>
+
+            <div className={styles.activity}>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+                <div className={styles.transaction}>
+                    <p className={styles.placeholderBox}></p>
+                </div>
+            </div>
+
         </div>
 
-        <div className={styles.address}>
-            <h1>User not found</h1>
-            <hr />
-        </div>
-
-        <div className={styles.activity}>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-        </div>
-
-    </div>
-
-)
+    )
 }

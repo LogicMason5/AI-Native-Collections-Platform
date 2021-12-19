@@ -2,30 +2,29 @@
 @import '../mixins';
 
 .profileBox {
-    border-radius: 20px;
     display: flex;
     flex-flow: column;
-    background-color: $secondaryBg;
     height: 100%;
 }
 
-.banner {
-    border-radius: 20px 20px 0px 0px;
-}
 
 .uppersection{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 20px;
-    padding-right: 10px;
+    padding: 0px 40px;
 }
-
+.topmeta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 .bookmark {
-    transition: .2s ease-out;
+    transition: .1s ease-out;
     cursor: pointer;
     border-radius: 20%;
-    padding: 10px !important;
+    padding: 5px !important;
     &:hover {
         background-color: $hoverBg;
     }
@@ -34,7 +33,25 @@
     }
 }
 
+.pubKey {
+    background-color: $hoverBg;
+    border: none;
+    color: white;
+    padding: 10px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .1s ease-out;
+    &:active {
+        transform: scale(.95);
+    }
+    &:hover {
+        filter: brightness(120%);
+    }
+}
 .name {
+    position: relative;
+    bottom: 15px !important;
+    font-size: 1.3rem;
     margin-left: 10px;
     margin-right: auto;
     h3 {
@@ -44,17 +61,24 @@
 
 .avatar {
     position: relative;
-    bottom: 30px !important;
-    margin-left: 20px;
+    bottom: 50px !important;
+    border: 3px solid $bg;
+    border-radius: 50%;
 }
 
 .bio {
+    position: relative;
+    bottom: 20px !important;
     margin-left: 20px;
     color: $grey;
     height: 80px;
     & p {
         color: white;
         text-overflow: wrap;
+        font-size: 1.1rem;
+    }
+    & h4 {
+        margin-left: 75%;
     }
 }
 
@@ -83,6 +107,21 @@
     }
 }
 
+.activitySeperator {
+    border: none;
+    background: $secondaryStroke;
+    height: 2px;
+
+}
+.sent {
+    @include medium_font;
+    color: #EC5656;
+}
+.received {
+    @include medium_font;
+    color: #72BF65;
+}
+
 .activity {
     margin-top: 20px;
     & > h2 {
@@ -90,41 +129,76 @@
         margin: 10px 30px;
         font-size: 1.2rem;
     }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .transaction {
     cursor: pointer;
-    padding: 0px 5px;
-    font-size: .7rem;
     display: flex;
     align-items: center;
-    color: white;
-    background-color: $hoverBg;
-    margin: 10px 30px;
-    border-radius: 5px;
+    padding: 30px 10px;
     transition: .2s ease-in;
     height: 40px;
     & > p{
         margin-left: 10px;
     }
     &:hover {
-        background-color: #282935;
+        background-color: $secondaryBg;
     }
 }
 
-.bottom {
-    color: white;
+.type {
     display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-    margin: 10px;
-    font-size: .9rem;
-    color: $text;
 }
+.labels {
+    display: flex;
+    color: $text;
+    width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.amountl {
+    margin-left: 120px !important;
+}
+.fromTol {
+    margin-left: 200px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.metadata {
+    font-size: .9rem;
+    display: flex;
+    color: rgb(166, 191, 207);
+    width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.amount {
+    margin-left: 40px !important;
+}
+.fromTo {
+    margin-left: 100px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.transactionSeperator {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 2px;
+    background-color: $secondaryStroke;
+}
+
 
 .banner_ {
     width: 100%;
-    height: 170px;
+    height: 200px;
     background-color: $hoverBg;
 }
 .avatar_ {
