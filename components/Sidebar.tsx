@@ -20,6 +20,21 @@ export const Sidebar = () => {
         }
       }, []);
 
+      const SidebarItem = ({ icon, link, path }: { icon: any, link: string, path: string }) => {
+        const router = useRouter()
+        return (
+            <div className={(link == "Profile" && router.pathname == "/[name]") ? styles.icon_active : router.pathname == path ? styles.icon_active : styles.icon}>
+                <Link href={path}>
+                    <a>
+                        <Image src={icon} alt="icon" height="30" width="30"/>
+                        <p>{link}</p>
+                    </a>
+                </Link>
+            </div>
+        )
+    }
+    
+    
     return (
         <nav className={styles.sidebar}>
             <ul className={styles.links}>
@@ -31,16 +46,3 @@ export const Sidebar = () => {
     )
 }
 
-const SidebarItem = ({ icon, link, path }: { icon: any, link: string, path: string }) => {
-    const router = useRouter()
-    return (
-        <div className={router.pathname == path ? styles.icon_active : styles.icon}>
-            <Link href={path}>
-                <a>
-                    <Image src={icon} alt="icon" height="30" width="30"/>
-                    <p>{link}</p>
-                </a>
-            </Link>
-        </div>
-    )
-}
