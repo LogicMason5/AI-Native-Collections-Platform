@@ -1,12 +1,12 @@
 from datetime import datetime
-from calendar import monthrange
 from core.db import get_db
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from sqlalchemy.orm import Session
 from core.ratelimit import Limit
 from fastapi import APIRouter, Depends
 from core.schemas import View
-
+from solana.rpc.types import TokenAccountOpts
+import json
 
 router = APIRouter(prefix="/fetch")
 
@@ -34,4 +34,20 @@ async def views(public_key: str, db: Session=Depends(get_db)) -> dict:
                     data.update({d.day: 1})
 
     return data
+
+@router.get("/tokens/{public_key}", 
+            dependencies=[Depends(Limit(times=20, seconds=5))],
+            status_code=200)
+async def views(request: Request, public_key: str) -> dict:
+    tokens = await request.app.solana_client.get_token_accounts_by_owner(
+        public_key, 
+        TokenAccountOpts(
+            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA', 
+            encoding="jsonParsed"), 
+        "max")
+    public_keys =  [i["account"]["data"]["parsed"]["info"]["mint"] for i in tokens["result"]["value"]]
+    with open("assets/tokens.json", "r", encoding='utf-8') as f:
+        token_data = json.loads(f.read())
+        print([(i["symbol"], i["address"]) for i in token_data if i["address"] in public_keys])
+
 
