@@ -16,10 +16,11 @@ type Props = {
 function App({ Component, pageProps }: Props) {
   return (
     <>
-    <ToastContainer theme="dark" position="top-center" autoClose={5000} closeOnClick={true} pauseOnHover={false} />
+    <ToastContainer theme="dark" position="bottom-left" autoClose={5000} closeOnClick={true} pauseOnHover={false} pauseOnFocusLoss={false}/>
     <Component {...pageProps} />
     </>
   )
 }
 
 export default App
+

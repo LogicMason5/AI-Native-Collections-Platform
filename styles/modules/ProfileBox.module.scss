@@ -4,22 +4,22 @@
 .profileBox {
     display: flex;
     flex-flow: column;
-    height: 100%;
 }
 
 
 .uppersection{
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     margin-top: 20px;
     padding: 0px 40px;
 }
+
 .topmeta {
     display: flex;
     align-items: center;
     gap: 20px;
 }
+
 .bookmark {
     transition: .1s ease-out;
     cursor: pointer;
@@ -48,6 +48,7 @@
         filter: brightness(120%);
     }
 }
+
 .name {
     position: relative;
     bottom: 15px !important;
@@ -62,7 +63,7 @@
 .avatar {
     position: relative;
     bottom: 50px !important;
-    border: 3px solid $bg;
+    border: 5px solid $bg;
     border-radius: 50%;
 }
 
@@ -113,21 +114,12 @@
     height: 2px;
 
 }
-.sent {
-    @include medium_font;
-    color: #EC5656;
-}
-.received {
-    @include medium_font;
-    color: #72BF65;
-}
 
 .activity {
-    margin-top: 20px;
     & > h2 {
-        color: white;
-        margin: 10px 30px;
-        font-size: 1.2rem;
+        color: $grey;
+        margin: 15px 25px 25px;
+        font-size: 1.3rem;
     }
     overflow: hidden;
     text-overflow: ellipsis;
@@ -139,59 +131,62 @@
     display: flex;
     align-items: center;
     padding: 30px 10px;
-    transition: .2s ease-in;
     height: 40px;
-    & > p{
-        margin-left: 10px;
-    }
+    width: 100%;
+    transition: .1s ease-out;
     &:hover {
         background-color: $secondaryBg;
     }
 }
+.sent {
+    @include medium_font;
+    color: #EC5656;
+}
+.received {
+    @include medium_font;
+    color: #72BF65;
+}
+
+.labels {
+    display: flex;
+    color: $grey;
+    @include bold_font;
+    gap: 230px;
+    margin-left: 150px;
+}
 
 .type {
     display: flex;
-}
-.labels {
-    display: flex;
-    color: $text;
-    width: 80%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.amountl {
-    margin-left: 120px !important;
-}
-.fromTol {
-    margin-left: 200px !important;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    min-width: 120px;
 }
 
 .metadata {
-    font-size: .9rem;
     display: flex;
-    color: rgb(166, 191, 207);
-    width: 80%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: hidden;
 }
+.amount, .toFrom {
+    color: $grey;
+}
+
 .amount {
-    margin-left: 40px !important;
+    text-align: center;
+    min-width: 150px;
+    text-align: center;
 }
-.fromTo {
-    margin-left: 100px !important;
+
+.toFrom {
+    width: 500px;
+    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
+
 .transactionSeperator {
     border: none;
     outline: none;
     width: 100%;
-    height: 2px;
+    height: 1px;
     background-color: $secondaryStroke;
 }
 

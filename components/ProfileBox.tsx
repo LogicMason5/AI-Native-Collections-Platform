@@ -4,7 +4,6 @@ import { connectWallet, signMessage } from '@/components/Wallet'
 import { GetMonth } from '@/components/Utils'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Copy from '@/images/icons/Copy.svg'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import Bookmark from '@/images/icons/Bookmark.svg'
@@ -62,6 +61,11 @@ export const ProfileBox = ({ user, activity }: any) => {
             })
     }
 
+    const copyAddress = () => {
+        navigator.clipboard.writeText(user.public_key)
+        toast.info("Copied address to clipboard")
+    }
+
     return (
         <div className={styles.profileBox}>
 
@@ -74,15 +78,15 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <h3>@{user.username}</h3>
                 </div>
                 <div className={styles.topmeta}>
-                <button className={styles.pubKey} id="pubKey" onClick={() => navigator.clipboard.writeText(user.public_key)}>Copy address</button>
-                <Image
-                    className={styles.bookmark}
-                    src={bookmarked ? Bookmarked : Bookmark}
-                    onClick={(e) => addBookmark(e)}
-                    alt="bookmark"
-                    height="45"
-                    width="45"
-                />
+                    <button className={styles.pubKey} id="pubKey" onClick={copyAddress}>Copy address</button>
+                    <Image
+                        className={styles.bookmark}
+                        src={bookmarked ? Bookmarked : Bookmark}
+                        onClick={(e) => addBookmark(e)}
+                        alt="bookmark"
+                        height="45"
+                        width="45"
+                    />
                 </div>
 
             </div>
@@ -95,21 +99,24 @@ export const ProfileBox = ({ user, activity }: any) => {
             <div className={styles.activity}>
                 <h2>Recent activity</h2>
                 <div className={styles.labels}>
-                    <p className={styles.amountl}>Amount(SOL)</p>
-                    <p className={styles.fromTol}>From/To</p>
+                    <p>Amount(SOL)</p>
+                    <p>From/To</p>
                 </div>
                 {activity ? (activity.map((a: any) => (
-                    <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a >
+                    <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
+
                         <div className={styles.transaction}>
                             <div className={styles.type}>
                                 <Image src={(a['type'] == "sent") ? Sent : Received} width="35" alt="transaction" />
                                 {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
                             </div>
                             <div className={styles.metadata}>
-                                <p className={styles.amount}>{a['amount']}</p>
-                                <p className={styles.fromTo}>{a['to'] || a['from']}</p>
+                            <p className={styles.amount}>{a['amount']}</p>
+                            <p className={styles.toFrom}>{a['to'] || a['from']}</p>
                             </div>
+
                         </div>
+
                         <hr className={styles.transactionSeperator} />
                     </a></Link>
 
