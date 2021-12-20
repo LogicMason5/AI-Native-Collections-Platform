@@ -3,9 +3,9 @@ import { PageHead } from '@/components/Head'
 import { ProfileBox, ProfileBoxNotFound } from '@/components/ProfileBox'
 import { Sidebar } from '@/components/Sidebar'
 import { DiscoverProfiles } from '@/components/DiscoverProfiles'
-import styles from '@/styles/modules/Profile.module.scss'
+import styles from '@/styles/pages/Profile.module.scss'
 import { useEffect, useState } from "react"
-import { CircleSpinner } from "react-spinners-kit";
+import { GooSpinner } from "react-spinners-kit";
 
 export default function Profile({ name }: any) {
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ export default function Profile({ name }: any) {
         <div className={styles.profile}>
           <h1 className={styles.heading}>Discover</h1>
           <div className={loading? styles.loading : styles.profileBox}>
-            {loading ?  <CircleSpinner size={60} color="#869ACE"/> : 
+            {loading ?  <GooSpinner size={100} color="#869ACE"/> : 
             userData ? <ProfileBox user={userData!.user} activity={userData!.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
           </div>
         <hr className={styles.seperator} />
