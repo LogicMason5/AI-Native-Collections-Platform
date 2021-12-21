@@ -59,7 +59,7 @@ async def views(request: Request, public_key: str) -> JSONResponse:
     with open("assets/tokens.json", "r", encoding='utf-8') as f:
         token_data = json.loads(f.read())
 
-        data = [{i["name"]: amounts[public_keys.index(i["address"])]}
-                for i in token_data if i["address"] in public_keys]
+        data = {i["name"]: {"logo": i["logoURI"], "address": i["address"], "amount": amounts[public_keys.index(i["address"])] }
+                for i in token_data if i["address"] in public_keys}
 
         return data
