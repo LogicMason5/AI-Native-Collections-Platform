@@ -1,7 +1,7 @@
 import { Line, Bar, Doughnut } from "react-chartjs-2"
 
 
-export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
+export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
     const values = Object.values(chartData)
     const labels = Object.keys(chartData)
 
@@ -47,7 +47,7 @@ export const ViewChart = ({ chartData = {[1]: [1]} }: any) => {
     )
 }
 
-export const TransactionChart = ({ chartData= {1: 1}}: any ) => {
+export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
     const labels: any = Object.keys(chartData)
     const values: any = Object.values(chartData)
 
@@ -77,21 +77,18 @@ export const TransactionChart = ({ chartData= {1: 1}}: any ) => {
     }
     const options = {
         maintainAspectRatio: false,
-        layout: { padding: 15 },
-        plugins: {
-            title: { display: true, text: "SOL transactions for this month", color: "#0085FF", },
-        },
+        layout: { padding: { top: 20, left: 5 } },
         scales: {
             y: {
                 title: {
-                    display: true, text: "Amount of SOL", color: "#0085FF"
+                    display: true, text: "Amount (SOL)", color: "#889FCD"
                 },
                 ticks: { color: "#FFFFFF", },
                 grid: { color: "#282E4290" },
             },
             x: {
                 title: {
-                    display: true, text: "Dates", color: "#0085FF"
+                    display: true, text: "Dates", color: "#889FCD"
                 },
                 ticks: { color: "#FFFFFF" },
                 grid: {
@@ -100,16 +97,12 @@ export const TransactionChart = ({ chartData= {1: 1}}: any ) => {
             }
         }
     }
-
     return (
-        <Bar
-            data={data}
-            options={options}
-        />
+        <Bar data={data} options={options} />
     )
 }
 
-export const DistributionChart = ({ chartData }: any) => {
+export const TransactionDistributionChart = ({ chartData }: any) => {
 
     const data = {
         labels: ["Sent", "Received"],
@@ -125,9 +118,38 @@ export const DistributionChart = ({ chartData }: any) => {
     }
     const options = {
         maintainAspectRatio: false,
-        layout: {padding: 20},
+        layout: { padding: 20 },
         plugins: {
-            title: { display: true, text: "Distribution", color: "#6C7281", },
+            legend: { display: false, },
+        },
+    }
+
+    return (
+        <Doughnut
+            data={data}
+            options={options}
+        />
+    )
+}
+
+export const TokenDistributionChart = ({ chartData }: any) => {
+
+    const data = {
+        labels: ["Sent", "Received"],
+        datasets: [
+            {
+                data: chartData,
+                fill: true,
+                backgroundColor: ['#FFFFFF', '#0059DE'],
+                borderWidth: 1
+            }
+        ],
+        borderWidth: 1,
+    }
+    const options = {
+        maintainAspectRatio: false,
+        layout: { padding: 20 },
+        plugins: {
             legend: { display: false, },
         },
     }

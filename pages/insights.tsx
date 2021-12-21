@@ -1,36 +1,25 @@
-import { toast } from 'react-toastify'
+import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { Sidebar } from '@/components/Sidebar'
 import { connectWallet } from '@/components/Wallet';
-import { TransactionChart, DistributionChart } from '@/components/Charts'
-import { GetMonth } from '@/components/Utils'
-import Curves2 from '@/images/Curves2.svg'
-import Image from 'next/image'
-import styles from '@/styles/modules/Insights.module.scss'
+import {
+    TransactionChart,
+    TransactionDistributionChart,
+    TokenDistributionChart
+} from '@/components/Charts'
+import { GetMonth } from '@/utils/functions'
+import { Transaction } from '@/utils/types'
+import styles from '@/styles/pages/Insights.module.scss'
 
-type Transaction = {
-    _id: string
-    blockTime: number,
-    decimals: number,
-    dst: string,
-    fee: number,
-    lamport: number,
-    slot: number,
-    src: string,
-    status: string,
-    txHahs: string,
-    txNumberSolTransfer: number
-}
 
-export default function Dashboard() {
+export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [price, setPrice] = useState<number>(0)
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
     const [balance, setBalance] = useState<number>(0)
     const [delay, setDelay] = useState<boolean>(false)
-
 
 
     const fetchNumbers = async () => {
@@ -41,7 +30,7 @@ export default function Dashboard() {
         const r = await fetch(`https://api.solscan.io/account?address=${publicKey.toString()}`)
         const balance = await r.json()
         const lamports = balance["data"]["lamports"]
-        if (lamports){
+        if (lamports) {
             setBalance(lamports / 1000000000)
         } else {
             setBalance(0)
@@ -80,7 +69,7 @@ export default function Dashboard() {
                     }
                     return null
                 }).filter(x => x != null)
-                
+
                 const received = transactions.map(t => {
                     let date = new Date(t.blockTime * 1000)
                     if (date.getDate() == day && t.dst == publicKey) {
@@ -89,7 +78,7 @@ export default function Dashboard() {
                     return null
                 }).filter(x => x != null)
 
-        
+
                 return [sent, received]
             }
 
@@ -112,7 +101,7 @@ export default function Dashboard() {
 
                 }
             }
-            
+
             setTransactions(data)
             let sent = 0
             let received = 0
@@ -136,46 +125,62 @@ export default function Dashboard() {
             <PageHead title={'NodeAir - Insights'} />
             <Sidebar />
             <h1 className={styles.note}>Insights is not available on this screen size at the moment.</h1>
-            <div className={styles.insights}>
-                <div className={styles.top}>
-                    <h1 className={styles.heading} >Insights</h1>
-                    <p className={styles.month} style={delay ? { opacity: "50%" } : { opacity: "100%" }}>
-                        <span style={
-                            currentMonth == 0 || delay ? { cursor: "default", opacity: "50%" } :
-                                { cursor: "pointer" }} onClick={currentMonth == 0 || delay ? () => null : () => setCurrentMonth(currentMonth - 1)}>{'<'}</span>
-                        {GetMonth(currentMonth)}
-                        <span style={
-                            currentMonth == new Date().getMonth() || delay ? { cursor: "default", opacity: "50%"} :
-                                { cursor: "pointer" }} onClick={currentMonth == new Date().getMonth() || delay ? () => null : () => setCurrentMonth(currentMonth + 1)}>{'>'}</span>
-                    </p>
-                </div>
 
-                <div className={styles.distributionChart}>
-                    <DistributionChart chartData={ratio ? ratio : [1, 1]} />
-                    <div className={styles.labels}>
-                        <div className={styles.sent}>
-                            <div></div>
-                            {ratio[1]}% SOLs received
-                        </div>
-                        <div className={styles.rec}>
-                            <div></div>
-                            {ratio[0]}% SOLs sent
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.numbers}>
-                    <div className={styles.content}>
-                        <h2>Numbers</h2>
-                        <h1>Wallet balance<p>${balance * price}</p></h1>
-                        <h1>Solana price<p>${price}</p></h1>
-                    </div>
-                    <Image className={styles.curves} src={Curves2} alt="curves" />
-                </div>
-                <div className={styles.transactionChart}>
+            <main className={styles.insights}>
+                <h1 className={styles.heading} >Insights</h1>
+
+                <div className={styles.transactions}>
+                    <h3>Solana Transactions</h3> 
+                    <p style={delay ? { opacity: "50%" } : { opacity: "100%" }}>
+                        <span style={currentMonth == 0 || delay ?
+                            { cursor: "default", opacity: "50%" } :
+                            { cursor: "pointer" }}
+                            onClick={currentMonth == 0 || delay ?
+                                () => null :
+                                () => setCurrentMonth(currentMonth - 1)}>{'<'}
+                        </span>
+                        {GetMonth(currentMonth)}
+                        <span style={currentMonth == new Date().getMonth() || delay ?
+                            { cursor: "default", opacity: "50%" } :
+                            { cursor: "pointer" }}
+                            onClick={currentMonth == new Date().getMonth() || delay ?
+                                () => null :
+                                () => setCurrentMonth(currentMonth + 1)}>{'>'}
+                        </span>
+                    </p>
                     <TransactionChart chartData={transactions} />
                 </div>
 
-            </div>
+                <div className={styles.tokenDistribution}>
+                    <TokenDistributionChart chartData={transactions} />
+                </div>
+
+                <div className={styles.transactionDistribution}>
+                    <h3>Solana transaction distribution</h3>
+                    <TransactionDistributionChart chartData={ratio ? ratio : [1, 1]} />
+                    <div className={styles.labels}>
+                        <div className={styles.sentLabel}>
+                            <div></div>
+                            Received {ratio[1]}% 
+                        </div>
+                        <div className={styles.receivedLabel}>
+                            <div></div>
+                            Sent {ratio[0]}% 
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.numerics}>
+                    <h3>Numerics</h3>
+                    <div>
+                        <p>Wallet balance<span>${Math.round(balance * price)}</span></p>
+                        <p>Token count<span>15</span></p>
+                        <p>NFT count<span>0{Math.round(balance * price)}</span></p>
+                        <p>Price of 1 $SOL<span>${Math.round(price)}</span></p>
+                    </div>
+                </div>
+
+            </main>
 
         </>
     )

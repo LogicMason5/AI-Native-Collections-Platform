@@ -1,0 +1,161 @@
+@import "../variables";
+@import "../mixins";
+
+.note {
+    display: none;
+}
+
+.insights {
+    float: right;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-gap: 30px;
+    width: calc(100vw - 350px);
+    height: 100vh;
+    padding: 0px 25px;
+}
+
+.heading {
+    @include pageHeading;
+}
+
+.transactions, .transactionDistribution, .tokenDistribution, .numerics {
+    background-color: $secondaryBg;
+    border-radius: 20px;
+    border: 1px solid $primaryStroke;
+}
+
+.transactions {
+    grid-column: 1/8;
+    grid-row: 2/6;
+    position: relative;
+    > p {
+        position: absolute;
+        right: 0;
+        top: 5px;
+        font-size: 1.5rem;
+        color: $text;
+        > span {
+            vertical-align: middle;
+            font-size: 1.8rem;
+            margin: 10px;
+            cursor: pointer;
+            padding: 0px 13px;
+            border-radius: 50%;
+            transition: .2s ease-out;
+            &:hover {
+                background-color: $hoverBg;
+            }
+        }
+    }
+    > h3 {
+        position: absolute;
+        left: 30px;
+        top: 5px;
+        color: $primaryStroke;
+    }
+}
+
+.tokenDistribution {
+    grid-column: 8/11;
+    grid-row: 2/10;
+}
+
+
+.transactionDistribution {
+    grid-column: 1/5;
+    grid-row: 6/10;
+    padding-right: 50%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    > h3 {
+        position: absolute;
+        left: 30px;
+        top: 5px;
+        color: $primaryStroke; 
+    }
+}
+.labels {
+    font-size: calc(.7vw + 8px);
+    color: $text;
+    @include medium_font;
+    div {
+        align-items: center;
+        width: 200%;
+        display: flex;
+        margin: 10px;
+        div {
+            width: 15%;
+            height: 40px;
+            border-radius: 10px;
+        }
+    }
+}
+
+.sentLabel div{
+    background-color: $blue;
+    box-shadow: $blue 0px 0px 25px;
+}
+.receivedLabel div{
+    background-color: white;
+    box-shadow: #808080 0px 0px 25px;
+}
+
+.numerics {
+    grid-column: 5/8;
+    grid-row: 6/10;
+    display: flex;
+    position: relative;
+    > h3 {
+        position: absolute;
+        left: 30px;
+        top: 5px;
+        color: $primaryStroke; 
+    }
+    & div {
+        display: flex;
+        flex-flow: column;
+        margin-top: 20px;
+        width: 100%;
+    }
+    & p {
+        margin-left: 30px;
+        margin-top: 40px;
+        font-size: calc(.6vw + 10px);
+        color: $grey;
+        @include bold_font;
+        & span {
+            @include light_font;
+            float: right;
+            margin-right: 30px;
+            color: $text;
+        }
+    }
+}
+
+
+
+
+@media screen and (max-width: 1000px) {
+    .insights {
+        width: calc(100vw - 80px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .insights {
+        display: none;
+    }
+    .note {
+        display: flex;
+        font-size: 2rem;
+        height: 100vh;
+        text-align: center;
+        align-items: center;
+    }
+    .numbers {
+        white-space: normal;
+    }
+}

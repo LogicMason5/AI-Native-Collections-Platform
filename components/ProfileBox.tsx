@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { connectWallet, signMessage } from '@/components/Wallet'
-import { GetMonth } from '@/components/Utils'
+import { GetMonth } from 'utils/functions'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Sent from '@/images/Sent.svg'
