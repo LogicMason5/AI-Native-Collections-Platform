@@ -1,5 +1,5 @@
 import { Line, Bar, Doughnut } from "react-chartjs-2"
-
+import { TokenChartGradiants } from "@/utils/gradiants"
 
 export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
     const values = Object.values(chartData)
@@ -134,26 +134,37 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
 
 export const TokenDistributionChart = ({ chartData }: any) => {
 
-    const data = {
-        labels: ["Sent", "Received"],
+    const data = (canvas: any ) => {
+        const ctx = canvas.getContext("2d")
+        const gradiants = TokenChartGradiants(Object.keys(chartData).length)
+        const backgroundColors = new Array()
+        for (const i of gradiants){
+            let gradiant = ctx.createLinearGradient(0, 0, 0, 400);
+            gradiant.addColorStop(0, i[0]);
+            gradiant.addColorStop(0.8, i[1]);
+            backgroundColors.push(gradiant)
+        }
+        return {    
+        labels: [Object.keys(chartData)],
         datasets: [
             {
-                data: chartData,
+                data: Object.keys(chartData).map(t => chartData[t].amount),
                 fill: true,
-                backgroundColor: ['#FFFFFF', '#0059DE'],
+                backgroundColor: backgroundColors,
                 borderWidth: 1
             }
         ],
         borderWidth: 1,
     }
+    }
+
     const options = {
         maintainAspectRatio: false,
-        layout: { padding: 20 },
+        layout: { padding: 10 },
         plugins: {
             legend: { display: false, },
         },
     }
-
     return (
         <Doughnut
             data={data}

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import { PageHead } from '@/components/Head'
 import { Sidebar } from '@/components/Sidebar'
@@ -11,10 +10,12 @@ import {
 import { GetMonth } from '@/utils/functions'
 import { Transaction } from '@/utils/types'
 import styles from '@/styles/pages/Insights.module.scss'
+import {SmexyTokens} from '@/components/Tokens'
 
 
 export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
+    const [tokens, setTokens] = useState<object>()
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [price, setPrice] = useState<number>(0)
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
@@ -37,6 +38,89 @@ export default function Insights() {
         }
 
     }
+
+
+    useEffect(() => {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL
+        const fetchData = async () => {
+            const publicKey = await connectWallet(false, false)
+            const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
+            const json = await res.json()
+            setTokens({
+                "Cryowar Token": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HfYFjMKNZygfMC8LsQ8LtpPsPxEJoXJx4M6tqi75Hajo/logo.png",
+                  "address": "HfYFjMKNZygfMC8LsQ8LtpPsPxEJoXJx4M6tqi75Hajo",
+                  "amount": 1142231.082325765
+                },
+                "Solana INU": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/5jFnsfx36DyGk8uVGrbXnVUMTsBkPXGpx6e69BiGFzko/logo.png",
+                  "address": "5jFnsfx36DyGk8uVGrbXnVUMTsBkPXGpx6e69BiGFzko",
+                  "amount": 500
+                },
+                "Serum": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt/logo.png",
+                  "address": "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt",
+                  "amount": 263307.460371
+                },
+                "KIN": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6/logo.png",
+                  "address": "kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6",
+                  "amount": 10963597597.92921
+                },
+                "Solareum": {
+                  "logo": "https://solareum.app/icons/XSB-G.png",
+                  "address": "4UuGQgkD3rSeoXatXRWwRfRd21G87d5LiCfkVzNNv1Tt",
+                  "amount": 125
+                },
+                "Solanium": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/xxxxa1sKNGwFtw2kFn8XauW9xq8hBZ5kVtcSesTT9fW/logo.png",
+                  "address": "xxxxa1sKNGwFtw2kFn8XauW9xq8hBZ5kVtcSesTT9fW",
+                  "amount": 21432.222392
+                },
+                "SolDoge": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/8ymi88q5DtmdNTn2sPRNFkvMkszMHuLJ1e3RVdWjPa3s/logo.png",
+                  "address": "8ymi88q5DtmdNTn2sPRNFkvMkszMHuLJ1e3RVdWjPa3s",
+                  "amount": 1
+                },
+                "Project SEED Token": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/6cVgJUqo4nmvQpbgrDZwyfd6RwWw5bfnCamS3M9N1fd/logo.png",
+                  "address": "6cVgJUqo4nmvQpbgrDZwyfd6RwWw5bfnCamS3M9N1fd",
+                  "amount": 380151.528515
+                },
+                "Only1 (LIKE)": {
+                  "logo": "https://only1.io/like-token.svg",
+                  "address": "3bRTivrVsitbmCTGtqwp7hxXPsybkjn4XLNtPsHqa3zR",
+                  "amount": 1275146.382584458
+                },
+                "SolRazr": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/7j7H7sgsnNDeCngAPjpaCN4aaaru4HS7NAFYSEUyzJ3k/SOLR.png",
+                  "address": "7j7H7sgsnNDeCngAPjpaCN4aaaru4HS7NAFYSEUyzJ3k",
+                  "amount": 278684.346869
+                },
+                "Bitspawn Token": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/5U9QqCPhqXAJcEv9uyzFJd5zhN93vuPk1aNNkXnUfPnt/logo.png",
+                  "address": "5U9QqCPhqXAJcEv9uyzFJd5zhN93vuPk1aNNkXnUfPnt",
+                  "amount": 1
+                },
+                "Aurory": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/AURYydfxJib1ZkTir1Jn1J9ECYUtjb6rKQVmtYaixWPP/logo.png",
+                  "address": "AURYydfxJib1ZkTir1Jn1J9ECYUtjb6rKQVmtYaixWPP",
+                  "amount": 8286.877799828
+                },
+                "xHashtag Token": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/5gs8nf4wojB5EXgDUWNLwXpknzgV2YWDhveAeBZpVLbp/logo.png",
+                  "address": "5gs8nf4wojB5EXgDUWNLwXpknzgV2YWDhveAeBZpVLbp",
+                  "amount": 793374.058968
+                },
+                "SolChicks": {
+                  "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/cxxShYRVcepDudXhe7U62QHvw8uBJoKFifmzggGKVC2/logo.png",
+                  "address": "cxxShYRVcepDudXhe7U62QHvw8uBJoKFifmzggGKVC2",
+                  "amount": 10
+                }
+              })
+        }
+        fetchData()
+    }, [])
 
     useEffect(() => {
         const today = new Date()
@@ -152,7 +236,9 @@ export default function Insights() {
                 </div>
 
                 <div className={styles.tokenDistribution}>
-                    <TokenDistributionChart chartData={transactions} />
+                    <h3>Token distribution</h3>
+                    <TokenDistributionChart chartData={tokens ? tokens : {}} />
+                    <SmexyTokens data={tokens ? tokens: {}}/>
                 </div>
 
                 <div className={styles.transactionDistribution}>

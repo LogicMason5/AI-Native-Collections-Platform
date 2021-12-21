@@ -52,7 +52,7 @@
     > h3 {
         position: absolute;
         left: 30px;
-        top: 5px;
+        top: 10px;
         color: $primaryStroke;
     }
 }
@@ -60,6 +60,14 @@
 .tokenDistribution {
     grid-column: 8/11;
     grid-row: 2/10;
+    position: relative;
+    display: flex;
+    > h3 {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        color: $primaryStroke;   
+    }
 }
 
 
@@ -72,8 +80,8 @@
     position: relative;
     > h3 {
         position: absolute;
-        left: 30px;
-        top: 5px;
+        left: 20px;
+        top: 10px;
         color: $primaryStroke; 
     }
 }
@@ -110,8 +118,8 @@
     position: relative;
     > h3 {
         position: absolute;
-        left: 30px;
-        top: 5px;
+        left: 20px;
+        top: 10px;
         color: $primaryStroke; 
     }
     & div {
