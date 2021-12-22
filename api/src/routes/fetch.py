@@ -1,5 +1,7 @@
 import json
+from operator import getitem
 from datetime import datetime
+from collections import OrderedDict
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -50,16 +52,25 @@ async def views(request: Request, public_key: str) -> JSONResponse:
             program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
             encoding="jsonParsed"),
         "max")
-
+    
     public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
                    for i in tokens["result"]["value"]]
+
     amounts = [i["account"]["data"]["parsed"]["info"]["tokenAmount"]
                ["uiAmount"] for i in tokens["result"]["value"]]
+    amounts_pair = {i:y for (i,y) in zip(public_keys, amounts)}
 
+    prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana"+
+                                                    f"?contract_addresses={','.join(public_keys)}&vs_currencies=usd")
+    data = {"prices": prices.json()}
+    prices_data = data["prices"]
     with open("assets/tokens.json", "r", encoding='utf-8') as f:
         token_data = json.loads(f.read())
+        for i in prices_data:
+            token = [x for x in token_data if x["address"] == i][0]
+            prices_data[i].update({"symbol": token["symbol"], "logo": token["logoURI"], "address": token["address"]})
+            prices_data[i]["usd"] = round(prices_data[i]["usd"] * amounts_pair[prices_data[i]["address"]], 2)
 
-        data = {i["name"]: {"logo": i["logoURI"], "address": i["address"], "amount": amounts[public_keys.index(i["address"])] }
-                for i in token_data if i["address"] in public_keys}
-
-        return data
+    data["prices"] = OrderedDict(sorted(prices_data.items(),
+        key = lambda x: getitem(x[1], 'usd'), reverse=True))
+    return data
