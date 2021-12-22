@@ -162,8 +162,20 @@ export const TokenDistributionChart = ({ chartData }: any) => {
         layout: { padding: 10 },
         plugins: {
             legend: {display: false,},
+            tooltip: {
+                callbacks: {
+                  label: (context: any) => {
+                    let label = "";
+                    if (context.parsed) {
+                      label = context.label + "  $"+context.parsed
+                    }
+                    return label;
+                  },
+                }
+              }
         },
-        hoverOffset: 5
+        hoverOffset: 5,
+
     }
     return (
         <Doughnut
