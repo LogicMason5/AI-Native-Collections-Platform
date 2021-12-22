@@ -3,6 +3,10 @@
 
 .parent {
     width: 100%;
+    > p {
+        text-align: center;
+        color: $grey;
+    }
 }
 .token {
     margin: 20px 0px;

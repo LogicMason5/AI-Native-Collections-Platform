@@ -144,7 +144,6 @@ export const TokenDistributionChart = ({ chartData }: any) => {
             gradiant.addColorStop(0.6, i[1]);
             backgroundColors.push(gradiant)
         }
-        console.log(Object.keys(chartData).map(t => chartData[t].symbol))
         return {    
         labels: Object.keys(chartData).map(t => chartData[t].symbol),
         datasets: [

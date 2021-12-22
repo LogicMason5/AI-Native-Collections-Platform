@@ -11,42 +11,33 @@ import { GetMonth } from '@/utils/functions'
 import { Transaction } from '@/utils/types'
 import styles from '@/styles/pages/Insights.module.scss'
 import { Tokens } from '@/components/Tokens'
-
+import { GooSpinner } from "react-spinners-kit";
 
 export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
     const [tokens, setTokens] = useState<object>()
-    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
-    const [price, setPrice] = useState<number>(0)
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
-    const [balance, setBalance] = useState<number>(0)
+    const [numericsData, setNumericsData] = useState<object>()
+
+    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [delay, setDelay] = useState<boolean>(false)
 
-
-    const fetchNumbers = async () => {
-        const publicKey = await connectWallet(false, false)
-        const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
-        const price = await res.json()
-        setPrice(price["price"])
-        const r = await fetch(`https://api.solscan.io/account?address=${publicKey.toString()}`)
-        const balance = await r.json()
-        const lamports = balance["data"]["lamports"]
-        if (lamports) {
-            setBalance(lamports / 1000000000)
-        } else {
-            setBalance(0)
-        }
-
-    }
 
 
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
+            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
             const json = await res.json()
-            setTokens(json["prices"])
+            setTokens(json["tokenValues"])
+            setNumericsData({
+                "tokenCount": json["tokenCount"],
+                "nftCount": json["nftCount"],
+                "unavailableTokenCount": json["unavailableTokenCount"],
+                "solPrice": json["solPrice"],
+                "walletValue": json["walletValue"]
+            })
         }
         fetchData()
     }, [])
@@ -127,7 +118,6 @@ export default function Insights() {
             setRatio([sent, received])
         }
 
-        currentMonth == today.getMonth() ? fetchNumbers() : null
         fetchData()
     }, [currentMonth]);
 
@@ -167,10 +157,10 @@ export default function Insights() {
                 <div className={styles.tokenDistribution}>
                     <h3>Token distribution</h3>
                     <div>
-                        <TokenDistributionChart chartData={tokens ? tokens : {}} />
+                        {tokens ? <TokenDistributionChart chartData={tokens}  /> : null}
                     </div>
-    
-                    {tokens ? <Tokens data={tokens} /> : null}
+
+                    {tokens && numericsData ? <Tokens data={tokens} unavailableTokenCount={numericsData["unavailableTokenCount"]} /> : null}
 
 
                 </div>
@@ -192,12 +182,18 @@ export default function Insights() {
 
                 <div className={styles.numerics}>
                     <h3>Numerics</h3>
-                    <div>
-                        <p>Wallet balance<span>${Math.round(balance * price)}</span></p>
-                        <p>Token count<span>15</span></p>
-                        <p>NFT count<span>0{Math.round(balance * price)}</span></p>
-                        <p>Price of 1 $SOL<span>${Math.round(price)}</span></p>
-                    </div>
+
+                    {numericsData ?
+                        <div>
+                            <>
+                            <p>Wallet value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
+                            <p>Token count<span>{numericsData["tokenCount"]}</span></p>
+                            <p>NFT count<span>{numericsData["nftCount"]}</span></p>
+                            <p>Price of 1 $SOL<span>${numericsData["solPrice"]}</span></p>
+                            </>
+                        </div>
+                        : null}
+
                 </div>
 
             </main>

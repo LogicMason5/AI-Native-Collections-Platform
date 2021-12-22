@@ -6,12 +6,11 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from solana.rpc.types import TokenAccountOpts
-from core.db import get_db
 
+from core.db import get_db
 from core.ratelimit import Limit
 from core.schemas import View
-
-
+from utils import lamport_to_sol
 
 router = APIRouter(prefix="/fetch")
 
@@ -46,31 +45,64 @@ async def views(public_key: str, db: Session = Depends(get_db)) -> dict:
             dependencies=[Depends(Limit(times=5, seconds=10))],
             status_code=200)
 async def views(request: Request, public_key: str) -> JSONResponse:
+    SOL_ADDRESS = "So11111111111111111111111111111111111111112"
     tokens = await request.app.solana_client.get_token_accounts_by_owner(
-        public_key,
-        TokenAccountOpts(
-            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-            encoding="jsonParsed"),
-        "max")
+            public_key,
+            TokenAccountOpts(
+                program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+                encoding="jsonParsed"),
+            "max")
     
     public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
                    for i in tokens["result"]["value"]]
+    public_keys.append(SOL_ADDRESS)
 
     amounts = [i["account"]["data"]["parsed"]["info"]["tokenAmount"]
                ["uiAmount"] for i in tokens["result"]["value"]]
+    sol_balance = await request.app.solana_client.get_balance(public_key)
+    amounts.append(lamport_to_sol(sol_balance["result"]["value"]))    
     amounts_pair = {i:y for (i,y) in zip(public_keys, amounts)}
 
+    file = open("assets/tokens.json", "r", encoding='utf-8')
+    token_data = json.loads(file.read())
+    file.close()
+    
+    token_public_keys = [x for x in public_keys if x in [y["address"] for y in token_data]]
+    
     prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana"+
-                                                    f"?contract_addresses={','.join(public_keys)}&vs_currencies=usd")
-    data = {"prices": prices.json()}
-    prices_data = data["prices"]
-    with open("assets/tokens.json", "r", encoding='utf-8') as f:
-        token_data = json.loads(f.read())
-        for i in prices_data:
-            token = [x for x in token_data if x["address"] == i][0]
-            prices_data[i].update({"symbol": token["symbol"], "logo": token["logoURI"], "address": token["address"]})
-            prices_data[i]["usd"] = round(prices_data[i]["usd"] * amounts_pair[prices_data[i]["address"]], 2)
+                                                    f"?contract_addresses={','.join(token_public_keys)}&vs_currencies=usd")          
+    prices_data = prices.json()
 
-    data["prices"] = OrderedDict(sorted(prices_data.items(),
-        key = lambda x: getitem(x[1], 'usd'), reverse=True))
+    unfetched_public_keys = [x for x in token_public_keys if x not in [y for y in prices_data]]
+    unfetched_coingecko_ids = {}
+    for i in token_data:
+        if i["address"] in unfetched_public_keys:
+            try:
+                unfetched_coingecko_ids.update({i["extensions"]["coingeckoId"]: i["address"] })
+            except:
+                continue
+
+    print(unfetched_coingecko_ids, "\n")
+    new_prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/price/"+
+                                                    f"?ids={','.join(unfetched_coingecko_ids.keys())}&vs_currencies=usd") 
+    new_data = new_prices.json()
+    for i in list(new_data):
+        new_data[unfetched_coingecko_ids[i]] = new_data.pop(i)
+
+    prices_data.update(new_data)
+    sol_price = prices_data[SOL_ADDRESS]["usd"]
+    for i in prices_data:
+        token = [x for x in token_data if x["address"] == i][0]
+        token_price = prices_data[i]
+        token_price.update({"symbol": token["symbol"], "logo": token["logoURI"], "address": token["address"]})
+        token_price["usd"] = round(token_price["usd"] * amounts_pair[token_price["address"]], 2)
+
+    token_values = OrderedDict(sorted(prices_data.items(), key = lambda x: getitem(x[1], 'usd'), reverse=True))
+    data = {"tokenValues": token_values,
+            "nftCount": len(public_keys) - len(prices_data), 
+            "tokenCount": len(token_public_keys), 
+            "unavailableTokenCount": len(token_public_keys) - len(token_values), 
+            "solPrice": sol_price,
+            "walletValue": round(sum([value["usd"] for key,value in token_values.items()]), 2)}
+            
     return data
