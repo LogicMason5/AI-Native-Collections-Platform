@@ -11,13 +11,12 @@ import { GetMonth } from '@/utils/functions'
 import { Transaction } from '@/utils/types'
 import styles from '@/styles/pages/Insights.module.scss'
 import { Tokens } from '@/components/Tokens'
-import { GooSpinner } from "react-spinners-kit";
 
 export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
     const [tokens, setTokens] = useState<object>()
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
-    const [numericsData, setNumericsData] = useState<object>()
+    const [numericsData, setNumericsData] = useState<any>()
 
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [delay, setDelay] = useState<boolean>(false)
@@ -27,7 +26,7 @@ export default function Insights() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
+            const publicKey = connectWallet(false, false)
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
             const json = await res.json()
             setTokens(json["tokenValues"])
