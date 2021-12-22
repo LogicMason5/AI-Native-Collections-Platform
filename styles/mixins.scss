@@ -108,7 +108,7 @@
 }
 
 @mixin pageHeading() {
-        grid-column: 1;
+        grid-column: 1/3;
         grid-row: 1;
         margin: 25px 0px;
         font-size: 1.8rem;

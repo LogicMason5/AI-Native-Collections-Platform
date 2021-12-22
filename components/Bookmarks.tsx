@@ -74,7 +74,6 @@ export const Bookmarks = () => {
   return (
     <div className={styles.bookmarks}>
       <div className={styles.upper}>
-      <h2>Bookmarks</h2>
       <form className={styles.search} onSubmit={(e) => getBookmark(e)}>
         <input type="text" placeholder="Search by username or public key" name="search" />
         <button type="submit">

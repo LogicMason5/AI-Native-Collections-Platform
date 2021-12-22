@@ -36,22 +36,27 @@ export default function Dashboard() {
             <Sidebar />
             <h1 className={styles.note}>Dashboard is not available on this screen size at the moment.</h1>
 
-            <div className={styles.dashboard}>
+            <main className={styles.dashboard}>
                 <h1 className={styles.heading}>Dashboard</h1>
+
                 <div className={styles.viewChart}>
+                    <h3>Profile views</h3>
                     <ViewChart chartData={views} />
                 </div>
                 <div className={styles.bookmarks}>
+                    <h3>Profile bookmarks</h3>
                     <Bookmarks />
                 </div>
                 <div className={styles.comingSoon}>
+                    <h3>Projects</h3>
                     <NFTGallery />
                 </div>
                 <div className={styles.recentTransactions}>
+                    <h3>Recent transactions</h3>
                     <RecentTransactions />
                 </div>
                 <Link href="/insights"><a className={styles.insights}>View insights {'>'} </a></Link>
-            </div>
+            </main>
 
         </>
     )

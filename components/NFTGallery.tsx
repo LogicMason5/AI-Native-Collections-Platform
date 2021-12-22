@@ -5,12 +5,11 @@ export const NFTGallery = () => {
 
     return (
         <>
-            <div className={styles.nftGallery}>
-                <h2>NFT Gallery</h2>
-                <main >
+            <main className={styles.nftGallery}>
+                <div >
                     <h1>Coming soon</h1>
-                </main>
             </div>
+        </main>
         </>
     )
 }

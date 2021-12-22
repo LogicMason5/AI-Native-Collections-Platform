@@ -111,8 +111,8 @@ export const ProfileBox = ({ user, activity }: any) => {
                                 {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
                             </div>
                             <div className={styles.metadata}>
-                            <p className={styles.amount}>{a['amount']}</p>
-                            <p className={styles.toFrom}>{a['to'] || a['from']}</p>
+                                <p className={styles.amount}>{a['amount']}</p>
+                                <p className={styles.toFrom}>{a['to'] || a['from']}</p>
                             </div>
 
                         </div>

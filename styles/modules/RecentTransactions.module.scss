@@ -2,34 +2,63 @@
 @import '../mixins';
 
 .recentTransactions {
-    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
     background-color: $secondaryBg;
-    padding: 10px 20px;
     border-radius: 20px;
     border: 1px solid $primaryStroke;
+    height: 100%;
+    padding: 0px 15px;
     & h2 {
         color: $grey;
         font-size: 1.1rem;
     }
+    > a {
+        width: 100%;
+    }
+}
+
+.labels {
+    display: flex;
+    color: $grey;
+    margin-top: 50px;
+    margin-left: 30px;
+    gap: 60px;
 }
 
 .transaction {
-    cursor: pointer;
-    text-transform: capitalize;
-    padding: 2% 2%;
-    font-size: calc(.5vw + 5px);
-    display: flex;
     background-color: $hoverBg;
-    margin-top: 10px;
-    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    padding: 10px 10px;
+    margin-top: 15px;
+    font-size: .9rem;
+    display: flex;
     align-items: center;
+    border-radius: 10px;
     transition: .2s ease-out;
-    border: 1px solid $hoverBg;
-    & > p{
-        margin-left: 10px;
-        color: white;
-    }
     &:hover {
         background-color: #282935;
+    }
+    > div {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.metadata {
+    width: 100%;
+    margin-left: 10px;
+    > p {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+.type {
+    min-width: 40%;
+    > p {
+        margin-left: 10px;
     }
 }

@@ -11,26 +11,23 @@
     transition: .2s ease-out;
     &:hover {
         animation: moveBorder 2s ease infinite alternate;
-        filter: brightness(110%);
+        background-color: #181920;
         border: 1px solid $secondaryStroke;
     }
     &:active {
-        transform: scale(95%);
-    }
-    & h2 {
-        color: $grey;
-        font-size: 1.1rem;
+        transform: scale(98%);
     }
     & h1 {
         font-size: 1.5rem;
         text-align: center;
     }
-    & main {
+    & div {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 90%;
         width: 100%;
+        
     }
 
 }

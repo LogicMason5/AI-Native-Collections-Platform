@@ -20,6 +20,7 @@ export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
     }
     const options = {
         maintainAspectRatio: false,
+        layout: { padding: { top: 50, left: 5 } },
         plugins: {
             legend: { display: false, },
         },
