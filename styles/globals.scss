@@ -31,7 +31,20 @@ h1 {
   color: white;
 }
 
+// scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: $secondaryBg;
+  border-left: 1px solid $secondaryStroke;
+}
+::-webkit-scrollbar-thumb {
+  background: $text; 
+  border-radius: 10px;
+}
 
+// react toastify
 .Toastify__toast-body {
   @include default_font
 } 

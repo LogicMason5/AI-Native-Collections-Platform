@@ -62,11 +62,19 @@
     grid-row: 2/10;
     position: relative;
     display: flex;
+    flex-flow: column;
+    align-items: center;
+    overflow-y: auto;
     > h3 {
         position: absolute;
         left: 20px;
         top: 10px;
         color: $primaryStroke;   
+    }
+    > div {
+        margin-top: 50px;
+        height: 40%;
+        width: 100%;
     }
 }
 

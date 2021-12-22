@@ -139,22 +139,22 @@ export const TokenDistributionChart = ({ chartData }: any) => {
         const gradiants = TokenChartGradiants(Object.keys(chartData).length)
         const backgroundColors = new Array()
         for (const i of gradiants){
-            let gradiant = ctx.createLinearGradient(0, 0, 0, 400);
-            gradiant.addColorStop(0, i[0]);
-            gradiant.addColorStop(0.8, i[1]);
+            let gradiant = ctx.createLinearGradient(0, 400, 0, 80);
+            gradiant.addColorStop(1, i[0]);
+            gradiant.addColorStop(0.6, i[1]);
             backgroundColors.push(gradiant)
         }
+        console.log(Object.keys(chartData).map(t => chartData[t].symbol))
         return {    
-        labels: [Object.keys(chartData)],
+        labels: Object.keys(chartData).map(t => chartData[t].symbol),
         datasets: [
             {
-                data: Object.keys(chartData).map(t => chartData[t].amount),
+                data: Object.keys(chartData).map(t => chartData[t].usd),
                 fill: true,
                 backgroundColor: backgroundColors,
-                borderWidth: 1
+                borderWidth: 0
             }
         ],
-        borderWidth: 1,
     }
     }
 
@@ -162,8 +162,9 @@ export const TokenDistributionChart = ({ chartData }: any) => {
         maintainAspectRatio: false,
         layout: { padding: 10 },
         plugins: {
-            legend: { display: false, },
+            legend: {display: false,},
         },
+        hoverOffset: 5
     }
     return (
         <Doughnut

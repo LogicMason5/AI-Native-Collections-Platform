@@ -1,39 +1,44 @@
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { GlowGradiant } from '@/utils/gradiants'
 
+import styles from '@/styles/modules/Tokens.module.scss'
 
-export const SmexyTokens = ({data}: any) => {
-  const logos = Object.keys(data).map(t => data[t].logo)
-  const addresses = Object.keys(data).map(t => data[t].address)
-  const percentages = new Array()
-  
+export const Tokens = ({ data }: any) => {
+
+  const [tokenData, setTokenData] = useState<any>()
+
   useEffect(() => {
-    const getData = async () => {
-      const res = await fetch("https://api.sonar.watch/latest")
-      if (res.ok) {
-        setTimeout(async() => {
-          const json = await res.json()
-          const pricesSort = Object.keys(json["prices"]).filter(t => addresses.includes(t)) // Not all tokens may have their prices
-          const prices = new Array()
-          for (const i of pricesSort){
-            console.log(json["prices"][i]["value"])
-          }
-        }, 1000)
+    const logos = Object.keys(data).map(t => data[t].logo)
+    const symbols = Object.keys(data).map(t => data[t].symbol)
+    const values = Object.keys(data).map(t => data[t].usd)
+    const sum = values.reduce((a, b) => a + b, 0)
 
+    let percentages = {}
+    for (const i of values) {
 
-      }
+      percentages = { ...percentages, [symbols[values.indexOf(i)]]: { "percentage": (i / sum) * 100, "logo": logos[values.indexOf(i)], "symbol": symbols[values.indexOf(i)] } }
     }
-    getData()
-
+    setTokenData(percentages)
   }, []);
 
-
-  
-
-
   return (
-    <div>
+    <div className={styles.parent}>
+      {tokenData ? (Object.keys(tokenData).map((a: any) => (
+        <div className={styles.token}>
+          <div style={{ 
+            background: GlowGradiant[Object.keys(tokenData).indexOf(a)],
+            boxShadow:  GlowGradiant[Object.keys(tokenData).indexOf(a)]+" 0px 0px 50px"}}></div>
+          <img src={tokenData[a].logo} height={50} width={50} />
+          <p>{a}</p>
+          <p className={styles.percentage}>{
+            Math.round(tokenData[a].percentage) == 0 ? "< 1%" : Math.round(tokenData[a].percentage) + "%"
+          }</p>
+        </div>
 
+      ))
+      ) : null
+      }
     </div>
   )
 }
