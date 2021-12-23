@@ -13,8 +13,9 @@ import styles from '@/styles/pages/Index.module.scss'
 
 
 export default function Index() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [isRegistered, setIsRegistered] = useState<boolean>(false)
+  const [checkUserOnConnect, setCheckUserOnConnect] = useState<boolean>(false)
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen)
@@ -32,13 +33,13 @@ export default function Index() {
       }
     }
     check()
-  }, [])
+  }, [checkUserOnConnect])
 
 
   return (
     <>
       <PageHead />
-      <Navbar isRegistered={isRegistered} />
+      <Navbar isRegistered={isRegistered} setCheckUserOnConnect={setCheckUserOnConnect}/>
 
       <main className={styles.index}>
         <div className={styles.ladderImage}>
