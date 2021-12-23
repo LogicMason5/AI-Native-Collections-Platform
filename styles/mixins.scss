@@ -69,13 +69,12 @@
 @mixin search() {
     display: flex;
     align-items: center;
-    justify-content: center;
     > input {
         @include default_font;
         border-radius: 5px;
         padding: 0px 5px;
-        height: 40px;
-        width: 60%;
+        height: 35px;
+        width: 45%;
         margin-right: 10px;
         text-overflow: ellipsis;
         background-color: transparent;

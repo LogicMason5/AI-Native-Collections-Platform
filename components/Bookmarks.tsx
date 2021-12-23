@@ -25,7 +25,7 @@ export const Bookmarks = () => {
         const json = await result.json()
         toast.error(json.error)
       }
-      
+
     }
     fetchData()
   }, []);
@@ -36,8 +36,8 @@ export const Bookmarks = () => {
       return
     }
     const publicKey = window.solana._publicKey.toString()
-    if (e.target.search.value == ""){
-      if (data.length == 1){
+    if (e.target.search.value == "") {
+      if (data.length == 1) {
         const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
         const data = await result.json()
         setData(data.bookmarks)
@@ -49,11 +49,11 @@ export const Bookmarks = () => {
         headers: { "Content-Type": "application/json", },
         body: JSON.stringify({ public_key: publicKey, username_or_public_key: e.target.search.value })
       })
-      if (res.status == 429){
-        toast.error("You are being rate limited", {toastId: "to_prevent_duplication"})
+      if (res.status == 429) {
+        toast.error("You are being rate limited", { toastId: "to_prevent_duplication" })
         setRateLimited(true)
         setTimeout(
-          () => setRateLimited(false), 
+          () => setRateLimited(false),
           3000
         );
         return
@@ -73,22 +73,19 @@ export const Bookmarks = () => {
 
   return (
     <div className={styles.bookmarks}>
-      <div className={styles.upper}>
       <form className={styles.search} onSubmit={(e) => getBookmark(e)}>
-        <input type="text" placeholder="Search by username or public key" name="search" />
+        <input type="text" placeholder="Search by username or address" name="search" />
         <button type="submit">
           <Image src={Search} width="25" height="25" alt="search" />
         </button>
       </form>
-      </div>
 
       {data ? (data.map((a: any) => (
-        
         <Link key={a['username']} href={a['username']}><a>
           <div className={styles.bookmark}>
             <div className={styles.left}>
-            <img src={a['avatar']} />
-            <h3>{a['username']}</h3>
+              <Image src={a['avatar']} height="40" width="40"/>
+              <p>{a['username']}</p>
             </div>
             <p>{a['public_key']}</p>
           </div>
@@ -96,10 +93,7 @@ export const Bookmarks = () => {
       ))
       ) : null
       }
-      <div className={styles.metaData}>
-      <p>Showing the latest {data.length} bookmarks</p>
       <p>Total bookmarks: {total}</p>
-      </div>
 
     </div>
 

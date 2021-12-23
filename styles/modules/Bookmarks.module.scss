@@ -6,35 +6,27 @@
     overflow-y: auto;
     background-color: $secondaryBg;
     border: 1px solid $primaryStroke;
-    padding: 10px 10px;
+    padding: 5px 10px;
     border-radius: 20px;
     height: 100%;
-    width: 100%;
-    & h2 {
-        color: $grey;
-        font-size: 1.1rem;
-    }
-    & p {
+    > p {
         color: $grey;
         font-size: .9rem;
-        margin-left: 2%;
-        margin-top: 10px;
+        text-align: center;
+        margin-top: 30px
     }
 }
 
 .search {
- @include search;
+    @include search;
+    width: 100%;
     justify-content: flex-end;
+    display: flex;
 }
 
-.upper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .bookmark {
-    padding: 2% 3%;
+    padding: 5px 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -43,21 +35,15 @@
     border-radius: 5px;
     transition: .2s ease-out;
     justify-content: space-between;
-    & h3 {
-        color: white;
-        @include light_font;
-    }
     & p {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         color: white;
-        @include light_font;
-        margin-left: 30%;
-        font-size: .9rem;
+        font-size: 1rem;
     }
-    & img {
-        width: 25px;
+    > p {
+        width: 60%;
     }
     &:hover {
         background-color: $hoverBg;
@@ -65,6 +51,7 @@
 }
 .left {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 

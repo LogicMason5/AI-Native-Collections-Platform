@@ -105,24 +105,36 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
 
 export const TransactionDistributionChart = ({ chartData }: any) => {
 
-    const data = {
+    const data = (canvas: any ) => {
+        const ctx = canvas.getContext("2d")
+        let gradiant1 = ctx.createLinearGradient(0, 0, 0, 300);
+        gradiant1.addColorStop(0.1, "#232E96");
+        gradiant1.addColorStop(1, "#6CA3F4");
+
+        let gradiant2 = ctx.createLinearGradient(0, 0, 0, 350);
+        gradiant2.addColorStop(0.2, "#008505");
+        gradiant2.addColorStop(1, "#00BE9C");
+
+        return {    
         labels: ["Sent", "Received"],
         datasets: [
             {
                 data: chartData,
                 fill: true,
-                backgroundColor: ['#FFFFFF', '#0059DE'],
-                borderWidth: 1
+                backgroundColor: [gradiant1, gradiant2],
+                borderWidth: 0
             }
         ],
-        borderWidth: 1,
     }
+    }
+
     const options = {
         maintainAspectRatio: false,
-        layout: { padding: 20 },
+        layout: { padding: { top: 50, left: 30, right: 20, bottom: 25 } },
         plugins: {
             legend: { display: false, },
         },
+        hoverOffset: 5,
     }
 
     return (
@@ -145,6 +157,7 @@ export const TokenDistributionChart = ({ chartData }: any) => {
             gradiant.addColorStop(0.6, i[1]);
             backgroundColors.push(gradiant)
         }
+
         return {    
         labels: Object.keys(chartData).map(t => chartData[t].symbol),
         datasets: [

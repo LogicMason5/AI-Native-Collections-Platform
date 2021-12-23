@@ -156,7 +156,7 @@ export default function Insights() {
                 <div className={styles.tokenDistribution}>
                     <h3>Token distribution</h3>
                     <div>
-                        {tokens ? <TokenDistributionChart chartData={tokens}  /> : null}
+                        {tokens ? <TokenDistributionChart chartData={tokens} /> : null}
                     </div>
 
                     {tokens && numericsData ? <Tokens data={tokens} unavailableTokenCount={numericsData["unavailableTokenCount"]} /> : null}
@@ -168,14 +168,30 @@ export default function Insights() {
                     <h3>Solana transaction distribution</h3>
                     <TransactionDistributionChart chartData={ratio ? ratio : [1, 1]} />
                     <div className={styles.labels}>
-                        <div className={styles.sentLabel}>
-                            <div></div>
-                            Received {ratio[1]}%
-                        </div>
-                        <div className={styles.receivedLabel}>
-                            <div></div>
-                            Sent {ratio[0]}%
-                        </div>
+                        {ratio[1] > ratio[0] ?
+                            <>
+                                <div className={styles.receivedLabel}>
+                                    <div></div>
+                                    Sent {ratio[0]}%
+                                </div>
+                                <div className={styles.sentLabel}>
+                                    <div></div>
+                                    Received {ratio[1]}%
+                                </div>
+                            </>
+                            : <>
+
+                                <div className={styles.sentLabel}>
+                                    <div></div>
+                                    Received {ratio[1]}%
+                                </div>
+                                <div className={styles.receivedLabel}>
+                                    <div></div>
+                                    Sent {ratio[0]}%
+                                </div>
+                            </>}
+
+
                     </div>
                 </div>
 
@@ -185,10 +201,10 @@ export default function Insights() {
                     {numericsData ?
                         <div>
                             <>
-                            <p>Wallet value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
-                            <p>Token count<span>{numericsData["tokenCount"]}</span></p>
-                            <p>NFT count<span>{numericsData["nftCount"]}</span></p>
-                            <p>Price of 1 $SOL<span>${numericsData["solPrice"]}</span></p>
+                                <p>Wallet value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
+                                <p>Token count<span>{numericsData["tokenCount"]}</span></p>
+                                <p>NFT count<span>{numericsData["nftCount"]}</span></p>
+                                <p>1 $SOL<span>${numericsData["solPrice"]}</span></p>
                             </>
                         </div>
                         : null}
