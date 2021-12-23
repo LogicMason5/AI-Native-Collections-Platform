@@ -6,4 +6,4 @@ WORKDIR /api
 
 RUN pip install aioredis fastapi httpx psycopg2 pynacl python-dotenv solana sqlalchemy uvicorn
 
-CMD uvicorn main:app --host 0.0.0.0 --port 8080
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
