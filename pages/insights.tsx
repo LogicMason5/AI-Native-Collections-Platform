@@ -27,7 +27,7 @@ export default function Insights() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
+            const publicKey = await connectWallet(false, false)
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
             const json = await res.json()
             setTokens(json["tokenValues"])
@@ -45,7 +45,7 @@ export default function Insights() {
     useEffect(() => {
         const today = new Date()
         const fetchData = async () => {
-            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
+            const publicKey = await connectWallet(false, false)
             setDelay(true)
             setTimeout(
                 () => setDelay(false),

@@ -48,7 +48,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   try {
     const signedTransaction = await window.solana.signTransaction(transaction);
     const txid = await connection.sendRawTransaction(signedTransaction.serialize());
-    const loadingToastId = toast.loading("Confirming transaction, this will take a few seconds...")
+    const loadingToastId = toast.loading("Confirming transaction, this will take few seconds...")
     await connection.confirmTransaction(txid);
     toast.dismiss(loadingToastId)
     toast.info("Transaction complete!")
@@ -100,7 +100,8 @@ export const registerWallet = async (event: any, username: string, usd: number) 
               if (res.ok) {
                 Router.push("/dashboard")
               } else {
-                toast.error("Uh oh something went wrong!")
+                const json = await res.json()
+                toast.error(json)
               }
             })
         }
