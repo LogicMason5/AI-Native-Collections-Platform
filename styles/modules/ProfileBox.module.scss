@@ -25,10 +25,12 @@
         cursor: pointer;
         display: flex;
         color: white;
+        justify-content: center;
         border: 1px solid $primaryStroke;
         border-radius: 30px;
-        padding: 8px 20px;
+        padding: 8px 10px;
         gap: 10px;
+        width: 10vw;
         transition: .2s ease-out;
         &:hover {
             background-color: $hoverBg;
@@ -53,21 +55,6 @@
     }
 }
 
-.pubKey {
-    background-color: $hoverBg;
-    border: none;
-    color: white;
-    padding: 10px 40px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: .1s ease-out;
-    &:active {
-        transform: scale(.95);
-    }
-    &:hover {
-        filter: brightness(120%);
-    }
-}
 
 .name {
     position: relative;
@@ -99,7 +86,9 @@
         font-size: 1.1rem;
     }
     & h4 {
-        margin-left: 75%;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
     }
 }
 
@@ -134,11 +123,11 @@
     }
 }
 .sent {
-    @include medium_font;
+    @include bold_font;
     color: #EC5656;
 }
 .received {
-    @include medium_font;
+    @include bold_font;
     color: #72BF65;
 }
 
@@ -146,13 +135,15 @@
     display: flex;
     color: $grey;
     @include bold_font;
-    gap: 230px;
+    gap: 35%;
     margin-left: 150px;
 }
 
 .type {
     display: flex;
     min-width: 120px;
+    gap: 10px;
+    align-items: center;
 }
 
 .metadata {
@@ -161,6 +152,7 @@
 }
 .amount, .toFrom {
     color: $grey;
+    @include light_font;
 }
 
 .amount {

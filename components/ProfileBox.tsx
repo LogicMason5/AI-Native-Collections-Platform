@@ -108,7 +108,7 @@ export const ProfileBox = ({ user, activity }: any) => {
 
                         <div className={styles.transaction}>
                             <div className={styles.type}>
-                                <Image src={(a['type'] == "sent") ? Sent : Received} width="35" alt="transaction" />
+                                <Image src={(a['type'] == "sent") ? Sent : Received} width="35" height="35" alt="transaction" />
                                 {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
                             </div>
                             <div className={styles.metadata}>

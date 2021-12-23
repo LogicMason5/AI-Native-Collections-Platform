@@ -23,7 +23,7 @@ async def activity(public_key: str,  request: Request, limit: int = 4) -> JSONRe
     data = resp.json()["data"]["tx"]["transactions"]
     filtered_data = []
     for i in data:
-        sols = round(lamport_to_sol(i["lamport"]), 4)
+        sols = round(lamport_to_sol(i["lamport"]), 3)
         if i["src"] == public_key:
             d = {"type": "sent", "amount": sols, "to": i['dst'], "tx": i["txHash"], "time": i["blockTime"]}
             filtered_data.append(d)

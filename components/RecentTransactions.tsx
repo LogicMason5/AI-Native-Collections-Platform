@@ -45,7 +45,7 @@ export const RecentTransactions = () => {
             </div>
             <div className={styles.metadata}>
               <p>{(a['type'] == "sent") ? //@ts-ignore
-                a['to'].replace(a['to'].slice(5, 40), "...") : a['from'].replace(a['from'].slice(5, 40), "...")}
+                a['to'].replace(a['to'].slice(4, 40), "...") : a['from'].replace(a['from'].slice(5, 40), "...")}
               </p>
               <p>{timeSince(new Date(a['time'] * 1000))}</p>
             </div>
