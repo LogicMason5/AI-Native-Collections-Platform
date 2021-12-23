@@ -10,14 +10,14 @@ export const Navbar = (props: any) => {
 
   const handleButtonChange = async() => {
     const pubKey = await connectWallet(publicKey ? false : true)
-    setPublicKey(pubKey.toString().replace(pubKey.toString().slice(5,40), "..."))
+    setPublicKey(pubKey.replace(pubKey.slice(5,40), "..."))
     props.setCheckUserOnConnect(true)
   }
   
   useEffect(() => {
     setTimeout(() => {
       const pubKey = window.solana._publicKey
-      {pubKey ? setPublicKey(pubKey.toString().replace(pubKey.toString().slice(5,40), "...")) : null}
+      {pubKey ? setPublicKey(pubKey.replace(pubKey.slice(5,40), "...")) : null}
     }, 1000)
   }, [])
 

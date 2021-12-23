@@ -12,7 +12,7 @@ export const connectWallet = async (showToast = true, onlyIfTrusted = false) => 
       return
     }
     if (showToast) { toast.success('Connected to wallet!'); }
-    return res.publicKey;
+    return res.publicKey.toString();
   }
   window.open("https://phantom.app/", "_blank");
 }

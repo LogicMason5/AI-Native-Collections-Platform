@@ -28,7 +28,7 @@ export default function Insights() {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
             const publicKey = await connectWallet(false, false)
-            const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
+            const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
             const json = await res.json()
             setTokens(json["tokenValues"])
             setNumericsData({

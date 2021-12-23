@@ -15,8 +15,8 @@ export const Bookmarks = () => {
   useEffect(() => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const fetchData = async () => {
-      const publicKey = await connectWallet(false)
-      const result = await fetch(API_URL + `/bookmark/get/${publicKey.toString()}`)
+      const publicKey = await connectWallet(false, false)
+      const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
       const data = await result.json()
       if (result.ok) {
         setData(data.bookmarks)
@@ -35,7 +35,7 @@ export const Bookmarks = () => {
     if (rateLimited) {
       return
     }
-    const publicKey = window.solana._publicKey.toString()
+    const publicKey = await connectWallet(false, false)
     if (e.target.search.value == "") {
       if (data.length == 1) {
         const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)

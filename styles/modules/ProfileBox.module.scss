@@ -21,13 +21,30 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    > div {
+        cursor: pointer;
+        display: flex;
+        color: white;
+        border: 1px solid $primaryStroke;
+        border-radius: 30px;
+        padding: 8px 20px;
+        gap: 10px;
+        transition: .2s ease-out;
+        &:hover {
+            background-color: $hoverBg;
+            border: 1px solid transparent;
+        }
+        &:active {
+            transform: scale(.90);
+        }
+    }
 }
 
 .bookmark {
-    transition: .1s ease-out;
     cursor: pointer;
-    border-radius: 20%;
-    padding: 5px !important;
+    border-radius: 50%;
+    padding: 12px !important;
+    transition: .1s ease-out;
     &:hover {
         background-color: $hoverBg;
     }

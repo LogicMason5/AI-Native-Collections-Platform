@@ -16,7 +16,7 @@ export const RecentTransactions = () => {
     const fetchData = async () => {
 
       const public_key = await connectWallet(false)
-      const result = await fetch(API_URL + `/transactions/activity/${public_key.toString()}?limit=6&&split_message=true`)
+      const result = await fetch(API_URL + `/transactions/activity/${public_key}?limit=6&&split_message=true`)
       if (result.ok) {
         const data = await result.json()
         setData(data)

@@ -8,6 +8,7 @@ import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import Bookmark from '@/images/icons/Bookmark.svg'
 import Bookmarked from '@/images/icons/Bookmarked.svg'
+import Copy from '@/images/icons/Copy.svg'
 import styles from '@/styles/modules/ProfileBox.module.scss'
 import Link from 'next/link'
 
@@ -21,11 +22,8 @@ export const ProfileBox = ({ user, activity }: any) => {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            let public_key = window.solana._publicKey
-            if (window.solana._publicKey == null) {
-                public_key = await connectWallet(false)
-            }
-            const result = await fetch(API_URL + `/bookmark/check/${public_key.toString()}/${user.public_key}`)
+            const public_key = await connectWallet(false, false)
+            const result = await fetch(API_URL + `/bookmark/check/${public_key}/${user.public_key}`)
             const data = await result.json()
             setBookmarked(data.bookmarked)
         }
@@ -36,7 +34,7 @@ export const ProfileBox = ({ user, activity }: any) => {
     const addBookmark = async (e: any) => {
         const signature = await signMessage(e)
         const data = {
-            owner_public_key: window.solana._publicKey.toString(),
+            owner_public_key: await connectWallet(false, false),
             signature: signature,
             profile_public_key: user.public_key
         }
@@ -78,14 +76,17 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <h3>@{user.username}</h3>
                 </div>
                 <div className={styles.topmeta}>
-                    <button className={styles.pubKey} id="pubKey" onClick={copyAddress}>Copy address</button>
+                    <div onClick={copyAddress}>
+                        <p>{user.public_key.replace(user.public_key.slice(7,38), "...")}</p>
+                        <Image src={Copy}/>
+                    </div>
                     <Image
                         className={styles.bookmark}
                         src={bookmarked ? Bookmarked : Bookmark}
                         onClick={(e) => addBookmark(e)}
                         alt="bookmark"
-                        height="45"
-                        width="45"
+                        height="55"
+                        width="55"
                     />
                 </div>
 
