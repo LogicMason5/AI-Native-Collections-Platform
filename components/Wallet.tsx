@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Connection, Transaction, SystemProgram, PublicKey } from '@solana/web3.js'
 import Router from 'next/router';
 
-export const connectWallet = async (showToast = true, onlyIfTrusted = false) => {
+export const connectWallet = async (showToast = true, onlyIfTrusted = false, returnString = true) => {
   if ("solana" in window) {
     let res
     try {
@@ -12,7 +12,10 @@ export const connectWallet = async (showToast = true, onlyIfTrusted = false) => 
       return
     }
     if (showToast) { toast.success('Connected to wallet!'); }
-    return res.publicKey.toString();
+    if (returnString) {
+      return res.publicKey.toString();
+    }
+    return res.publicKey;
   }
   window.open("https://phantom.app/", "_blank");
 }
@@ -29,10 +32,9 @@ export const usdToSol = async (usd: number) => {
 
 export const sendPayment = async (to: PublicKey, usd: number) => {
   const sol = await usdToSol(usd)
-  console.log("Converted SOL: ", sol)
 
-  const publicKey = await connectWallet(false);
-  const network = "https://api.devnet.solana.com";
+  const publicKey = await connectWallet(false, false, false);
+  const network = process.env.SOL_NETWORK || "https://api.devnet.solana.com"
   const connection = new Connection(network);
   const transaction = new Transaction()
     .add(
@@ -46,7 +48,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   transaction.recentBlockhash = blockhash;
   transaction.feePayer = publicKey;
   try {
-    const signedTransaction = await window.solana.signTransaction(transaction);
+    const signedTransaction = await window.solana.signTransaction(transaction)
     const txid = await connection.sendRawTransaction(signedTransaction.serialize());
     const loadingToastId = toast.loading("Confirming transaction, this will take few seconds...")
     await connection.confirmTransaction(txid);
@@ -57,6 +59,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
     if (error.code == 4001) {
       toast.error("Transaction rejected")
     } else {
+      console.log("e", error)
       toast.error("Insufficient balance")
     }
 
@@ -66,7 +69,6 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
 
 
 export const registerWallet = async (event: any, username: string, usd: number) => {
-  console.log("Initial USD: ", usd)
   event.preventDefault();
 
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;

@@ -44,7 +44,7 @@ async def startup() -> None:
     await RateLimiter.init(redis)
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
-    app.solana_client = AsyncClient("https://api.mainnet-beta.solana.com")
+    app.solana_client = AsyncClient(os.environ["SOL_NETWORK"])
 
 @app.on_event("shutdown")
 async def shutdown() -> None:

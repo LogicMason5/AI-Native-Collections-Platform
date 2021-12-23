@@ -17,7 +17,7 @@ export const Navbar = (props: any) => {
   useEffect(() => {
     setTimeout(() => {
       const pubKey = window.solana._publicKey
-      {pubKey ? setPublicKey(pubKey.replace(pubKey.slice(5,40), "...")) : null}
+      {pubKey ? setPublicKey(pubKey.toString().replace(pubKey.toString().slice(5,40), "...")) : null}
     }, 1000)
   }, [])
 

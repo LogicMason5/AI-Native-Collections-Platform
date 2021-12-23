@@ -6,7 +6,6 @@ import { DiscoverProfiles } from '@/components/DiscoverProfiles'
 import styles from '@/styles/pages/Profile.module.scss'
 
 export default function Profile({ userData, name }: any) {
-  console.log(name)
   return (
     <>
       <PageHead title={'NodeAir | @' + name} />
@@ -32,9 +31,7 @@ export default function Profile({ userData, name }: any) {
 export async function getServerSideProps(context: any) {
 
   const name = context.params.name
-  console.log(name)
   const API_URL = process.env.NEXT_PUBLIC_API_URL
-  console.log(API_URL + "/profile/" + name)
   const res = await fetch(API_URL + "/profile/" + name)
   let userData = null
   if (res.ok) {

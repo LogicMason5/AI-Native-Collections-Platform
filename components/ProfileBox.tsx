@@ -78,7 +78,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                 <div className={styles.topmeta}>
                     <div onClick={copyAddress}>
                         <p>{user.public_key.replace(user.public_key.slice(7,38), "...")}</p>
-                        <Image src={Copy}/>
+                        <Image src={Copy} alt="copy"/>
                     </div>
                     <Image
                         className={styles.bookmark}
