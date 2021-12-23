@@ -10,20 +10,20 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    grid-column-gap: 50px;
-    align-items: center;
+    grid-gap: 30px;
     width: calc(100vw - 350px);
     height: 100vh;
+    padding: 0px 25px 0px 0px;
 }
 
 .heading {
     @include pageHeading;
+    margin-left: 25px;
 }
 
 .profileBox {
     grid-column: 1/6;
     grid-row: 2/11;
-    align-self: flex-start;
 }
 
 

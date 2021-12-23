@@ -36,7 +36,7 @@ export default function Profile({ name }: any) {
         <Sidebar />
         <h1 className={styles.note}>Profile/Discovery is not available on this screen size at the moment.</h1>
   
-        <div className={styles.profile}>
+        <main className={styles.profile}>
           <h1 className={styles.heading}>Discover</h1>
           <div className={loading? styles.loading : styles.profileBox}>
             {loading ?  <GooSpinner size={100} color="#869ACE"/> : 
@@ -47,7 +47,7 @@ export default function Profile({ name }: any) {
             <DiscoverProfiles />
           </div>
 
-        </div>
+        </main>
   
       </>
     )

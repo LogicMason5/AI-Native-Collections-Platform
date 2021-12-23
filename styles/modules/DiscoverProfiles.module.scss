@@ -5,10 +5,13 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    padding: 0px 20px;
 }
 
 .search {
-    @include search;
+    @include search(40px, 90%);
+    display: flex;
+    justify-content: center;
 }
 
 .profileBox {

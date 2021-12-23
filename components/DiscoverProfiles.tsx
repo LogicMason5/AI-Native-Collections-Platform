@@ -49,7 +49,7 @@ export const DiscoverProfiles = () => {
         <div className={styles.gap}></div>
         <input type="text" placeholder="Search profiles by username or public key" name="search" />
         <button type="submit">
-          <Image src={Search} width="20" height="20" alt="search" />
+          <Image src={Search} width="30" height="30" alt="search" />
         </button>
       </form>
 

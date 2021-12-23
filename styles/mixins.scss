@@ -66,15 +66,15 @@
     }
 }
 
-@mixin search() {
+@mixin search($height, $width) {
     display: flex;
     align-items: center;
     > input {
         @include default_font;
         border-radius: 5px;
         padding: 0px 5px;
-        height: 35px;
-        width: 45%;
+        height: $height;
+        width: $width;
         margin-right: 10px;
         text-overflow: ellipsis;
         background-color: transparent;
