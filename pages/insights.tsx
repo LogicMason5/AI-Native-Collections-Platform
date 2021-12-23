@@ -11,6 +11,8 @@ import { GetMonth } from '@/utils/functions'
 import { Transaction } from '@/utils/types'
 import styles from '@/styles/pages/Insights.module.scss'
 import { Tokens } from '@/components/Tokens'
+import { Loading } from '@/components/Loading';
+
 
 export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
@@ -25,7 +27,7 @@ export default function Insights() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
+            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
             const json = await res.json()
             setTokens(json["tokenValues"])
@@ -43,14 +45,14 @@ export default function Insights() {
     useEffect(() => {
         const today = new Date()
         const fetchData = async () => {
-            const publicKey = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
+            const publicKey = "57vSaRTqN9iXaemgh4AoDsZ63mcaoshfMK8NP3Z5QNbs"
             setDelay(true)
             setTimeout(
                 () => setDelay(false),
                 1000
             );
             const res = await fetch("https://api.solscan.io/account/soltransfer/" +
-                `txs?address=${publicKey}&offset=0&limit=500`)
+                `txs?address=${publicKey}&offset=0&limit=1000`)
             const json = await res.json()
             const raw_transactions: Array<Transaction> = json.data.tx.transactions
             const transactions = raw_transactions.filter(t => {
@@ -86,12 +88,12 @@ export default function Insights() {
             let ratio = [0, 0]
             for (let i = 1; i <= ((currentMonth == today.getMonth()) ? today.getDate() : new Date(today.getFullYear(), currentMonth, 0).getDate()); i++) {
                 if (!days.includes(i)) {
-                    data = { ...data, [i]: { "received": 0 , "sent": 0 } }
+                    data = { ...data, [i]: { "received": 0, "sent": 0 } }
                 } else {
                     const sentOrReceived = getSent(i)//@ts-ignore
                     const received = sentOrReceived[0].reduce((a, b) => a + b, 0) //@ts-ignore
                     const sent = sentOrReceived[1].reduce((a, b) => a + b, 0)
-                    data = { ...data, [i]: { "received": received , "sent": sent } }
+                    data = { ...data, [i]: { "received": received, "sent": sent } }
                     if (sent || received != null) {
                         //@ts-ignore
                         ratio[0] += received
@@ -152,13 +154,13 @@ export default function Insights() {
 
                 <div className={styles.tokenDistribution}>
                     <h3>Token distribution</h3>
-                    <div>
-                        {tokens ? <TokenDistributionChart chartData={tokens} /> : null}
-                    </div>
-
-                    {tokens && numericsData ? <Tokens data={tokens} unavailableTokenCount={numericsData["unavailableTokenCount"]} /> : null}
-
-
+                    {tokens && numericsData ?
+                        <div>
+                            <div><TokenDistributionChart chartData={tokens} /></div>
+                            <Tokens data={tokens}
+                                unavailableTokenCount={numericsData["unavailableTokenCount"]}
+                            />
+                        </div> : <Loading />}
                 </div>
 
                 <div className={styles.transactionDistribution}>
@@ -204,7 +206,7 @@ export default function Insights() {
                                 <p>1 $SOL<span>${numericsData["solPrice"]}</span></p>
                             </>
                         </div>
-                        : null}
+                        : <Loading />}
 
                 </div>
 

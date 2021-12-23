@@ -1,0 +1,21 @@
+@import '../variables';
+
+.loading {
+    border-radius: 30px 30px 0px 0px;
+    height: 20px;
+    overflow: hidden;
+    > div {
+        background: rgb(95, 110, 153);
+        width: 200px;
+        height: 30%;
+        margin-bottom: auto;
+        border-radius: 10px;
+        animation: moveit 1s ease-in infinite;
+        transform: translateX(-250px);
+    }
+}
+
+@keyframes moveit {
+    100% {transform: translateX(400px)}
+
+}
