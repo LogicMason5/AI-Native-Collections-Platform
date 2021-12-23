@@ -137,16 +137,18 @@
         width: 100%;
     }
     & p {
-        margin-left: 30px;
+        margin-left: 20px;
         margin-top: 40px;
         font-size: calc(.6vw + 10px);
         color: $grey;
         @include bold_font;
         & span {
             @include light_font;
+            width: 25%;
             float: right;
             margin-right: 30px;
             color: $text;
+            text-align: center;
         }
     }
 }

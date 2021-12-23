@@ -65,13 +65,13 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
         datasets: [
             {
                 label: "Received",
-                backgroundColor: '#0059DE',
                 data: received,
+                backgroundColor: '#008505',
             },
             {
                 label: "Sent",
                 data: sent,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: '#0059DE',
             }
         ],
         borderWidth: 1,
@@ -107,16 +107,16 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
 
     const data = (canvas: any ) => {
         const ctx = canvas.getContext("2d")
-        let gradiant1 = ctx.createLinearGradient(0, 0, 0, 300);
-        gradiant1.addColorStop(0.1, "#232E96");
-        gradiant1.addColorStop(1, "#6CA3F4");
 
-        let gradiant2 = ctx.createLinearGradient(0, 0, 0, 350);
-        gradiant2.addColorStop(0.2, "#008505");
-        gradiant2.addColorStop(1, "#00BE9C");
+        let gradiant1 = ctx.createLinearGradient(0, 0, 0, 350);
+        gradiant1.addColorStop(0.2, "#008505");
+        gradiant1.addColorStop(1, "#00BE9C");
 
+        let gradiant2 = ctx.createLinearGradient(0, 0, 0, 300);
+        gradiant2.addColorStop(0.1, "#232E96");
+        gradiant2.addColorStop(1, "#6CA3F4");
         return {    
-        labels: ["Sent", "Received"],
+        labels: ["Received", "Sent"],
         datasets: [
             {
                 data: chartData,
@@ -133,6 +133,17 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
         layout: { padding: { top: 50, left: 30, right: 20, bottom: 25 } },
         plugins: {
             legend: { display: false, },
+            tooltip: {
+                callbacks: {
+                  label: (context: any) => {
+                    let label = "";
+                    if (context.parsed) {
+                      label = context.label + "  " +context.parsed + "%"
+                    }
+                    return label;
+                  },
+                }
+              }
         },
         hoverOffset: 5,
     }

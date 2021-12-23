@@ -22,11 +22,10 @@ export default function Insights() {
     const [delay, setDelay] = useState<boolean>(false)
 
 
-
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
+            const publicKey = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey.toString())
             const json = await res.json()
             setTokens(json["tokenValues"])
@@ -44,7 +43,7 @@ export default function Insights() {
     useEffect(() => {
         const today = new Date()
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, true)
+            const publicKey = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
             setDelay(true)
             setTimeout(
                 () => setDelay(false),
@@ -63,16 +62,7 @@ export default function Insights() {
                 return date.getDate();
             })
 
-
             const getSent = (day: number) => {
-                const sent = transactions.map(t => {
-                    let date = new Date(t.blockTime * 1000)
-                    if (date.getDate() == day && t.src == publicKey) {
-                        return t.lamport / 1000000000
-                    }
-                    return null
-                }).filter(x => x != null)
-
                 const received = transactions.map(t => {
                     let date = new Date(t.blockTime * 1000)
                     if (date.getDate() == day && t.dst == publicKey) {
@@ -81,25 +71,32 @@ export default function Insights() {
                     return null
                 }).filter(x => x != null)
 
+                const sent = transactions.map(t => {
+                    let date = new Date(t.blockTime * 1000)
+                    if (date.getDate() == day && t.src == publicKey) {
+                        return t.lamport / 1000000000
+                    }
+                    return null
+                }).filter(x => x != null)
 
-                return [sent, received]
+                return [received, sent]
             }
 
             let data = {}
             let ratio = [0, 0]
-            for (let i = 1; i <= new Date(today.getFullYear(), currentMonth, 0).getDate(); i++) {
+            for (let i = 1; i <= ((currentMonth == today.getMonth()) ? today.getDate() : new Date(today.getFullYear(), currentMonth, 0).getDate()); i++) {
                 if (!days.includes(i)) {
-                    data = { ...data, [i]: { "sent": 0, "received": 0 } }
+                    data = { ...data, [i]: { "received": 0 , "sent": 0 } }
                 } else {
                     const sentOrReceived = getSent(i)//@ts-ignore
-                    const sent = sentOrReceived[0].reduce((a, b) => a + b, 0) //@ts-ignore
-                    const received = sentOrReceived[1].reduce((a, b) => a + b, 0)
-                    data = { ...data, [i]: { "sent": sent, "received": received } }
+                    const received = sentOrReceived[0].reduce((a, b) => a + b, 0) //@ts-ignore
+                    const sent = sentOrReceived[1].reduce((a, b) => a + b, 0)
+                    data = { ...data, [i]: { "received": received , "sent": sent } }
                     if (sent || received != null) {
                         //@ts-ignore
-                        ratio[0] += sent
+                        ratio[0] += received
                         //@ts-ignore
-                        ratio[1] += received
+                        ratio[1] += sent
                     }
 
                 }
@@ -109,12 +106,12 @@ export default function Insights() {
             let sent = 0
             let received = 0
             if (ratio[0] != 0) {
-                sent = Math.round(ratio[0] / (ratio[0] + ratio[1]) * 100)
+                received = Math.round(ratio[0] / (ratio[0] + ratio[1]) * 100)
             }
             if (ratio[1] != 0) {
-                received = Math.round(ratio[1] / (ratio[0] + ratio[1]) * 100)
+                sent = Math.round(ratio[1] / (ratio[0] + ratio[1]) * 100)
             }
-            setRatio([sent, received])
+            setRatio([received, sent])
         }
 
         fetchData()
@@ -170,24 +167,24 @@ export default function Insights() {
                     <div className={styles.labels}>
                         {ratio[1] > ratio[0] ?
                             <>
-                                <div className={styles.receivedLabel}>
-                                    <div></div>
-                                    Sent {ratio[0]}%
-                                </div>
                                 <div className={styles.sentLabel}>
                                     <div></div>
-                                    Received {ratio[1]}%
+                                    Sent {ratio[1]}%
+                                </div>
+                                <div className={styles.receivedLabel}>
+                                    <div></div>
+                                    Received {ratio[0]}%
                                 </div>
                             </>
                             : <>
 
-                                <div className={styles.sentLabel}>
-                                    <div></div>
-                                    Received {ratio[1]}%
-                                </div>
                                 <div className={styles.receivedLabel}>
                                     <div></div>
-                                    Sent {ratio[0]}%
+                                    Received {ratio[0]}%
+                                </div>
+                                <div className={styles.sentLabel}>
+                                    <div></div>
+                                    Sent {ratio[1]}%
                                 </div>
                             </>}
 
