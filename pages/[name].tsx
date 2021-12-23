@@ -4,59 +4,46 @@ import { ProfileBox, ProfileBoxNotFound } from '@/components/ProfileBox'
 import { Sidebar } from '@/components/Sidebar'
 import { DiscoverProfiles } from '@/components/DiscoverProfiles'
 import styles from '@/styles/pages/Profile.module.scss'
-import { useEffect, useState } from "react"
-import { GooSpinner } from "react-spinners-kit";
 
-export default function Profile({ name }: any) {
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<any>({});
+export default function Profile({ userData, name }: any) {
+  console.log(name)
+  return (
+    <>
+      <PageHead title={'NodeAir | @' + name} />
+      <Sidebar />
+      <h1 className={styles.note}>Profile/Discovery is not available on this screen size at the moment.</h1>
 
-  useEffect(() => {   
-    const fetchData = async () => {
-      setLoading(true)
-      const API_URL = process.env.NEXT_PUBLIC_API_URL
-      const res = await fetch(API_URL + "/profile/" + name)
-      let data
-      if (res.ok) {
-        data = await res.json()
-      } else {
-        const json = await res.json()
-        toast.error(json.error)
-        data = false
-      }
-      setUserData(data)
-      setLoading(false)
-    }
-    fetchData()
-  }, [name]);
-
-    return (
-      <>
-        <PageHead title={'NodeAir | @'+  name}/>
-        <Sidebar />
-        <h1 className={styles.note}>Profile/Discovery is not available on this screen size at the moment.</h1>
-  
-        <main className={styles.profile}>
-          <h1 className={styles.heading}>Discover</h1>
-          <div className={loading? styles.loading : styles.profileBox}>
-            {loading ?  <GooSpinner size={100} color="#869ACE"/> : 
-            userData ? <ProfileBox user={userData!.user} activity={userData!.recent_activity} /> : <ProfileBoxNotFound username={name}/> }
-          </div>
+      <main className={styles.profile}>
+        <h1 className={styles.heading}>Discover</h1>
+        <div className={styles.profileBox}>
+            {userData ? <ProfileBox user={userData.user} activity={userData.recent_activity} /> : <ProfileBoxNotFound username={name} />}
+        </div>
         <hr className={styles.seperator} />
-          <div className={styles.discover}>
-            <DiscoverProfiles />
-          </div>
+        <div className={styles.discover}>
+          <DiscoverProfiles />
+        </div>
 
-        </main>
-  
-      </>
-    )
-  }
+      </main>
 
+    </>
+  )
+}
 
 export async function getServerSideProps(context: any) {
 
-  const { name } = context.params
-  return { props: { name } }
+  const name = context.params.name
+  console.log(name)
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
+  console.log(API_URL + "/profile/" + name)
+  const res = await fetch(API_URL + "/profile/" + name)
+  let userData = null
+  if (res.ok) {
+    userData = await res.json()
+  } else {
+    const json = await res.json()
+    toast.error(json.error)
+  }
+
+  return { props: { userData, name } }
 
 }

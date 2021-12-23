@@ -55,7 +55,6 @@ export default function Dashboard() {
                     <h3>Recent transactions</h3>
                     <RecentTransactions />
                 </div>
-                <Link href="/insights"><a className={styles.insights}>View insights {'>'} </a></Link>
             </main>
 
         </>

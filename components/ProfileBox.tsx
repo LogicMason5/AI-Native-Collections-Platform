@@ -146,33 +146,12 @@ export const ProfileBox = ({ user, activity }: any) => {
 export const ProfileBoxNotFound = ({ username }: any) => {
     return (
         <div className={styles.profileBox}>
-
             <div className={styles.banner_} />
-
             <div className={styles.uppersection}>
                 <div className={styles.avatar_} />
                 <div className={styles.name}>
+                    <h1>User not found</h1>
                     <h3>@{username}</h3>
-                </div>
-            </div>
-
-            <div className={styles.address}>
-                <h1>User not found</h1>
-                <hr />
-            </div>
-
-            <div className={styles.activity}>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
-                </div>
-                <div className={styles.transaction}>
-                    <p className={styles.placeholderBox}></p>
                 </div>
             </div>
 
