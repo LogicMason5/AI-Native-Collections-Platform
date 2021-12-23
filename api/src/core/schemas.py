@@ -9,7 +9,7 @@ from sqlalchemy import (
                         )
 from sqlalchemy.orm import relationship
 from core.db import Base
-from utils import get_random_avatar
+from utils import get_random_avatar, get_random_banner
 
 
 class User(Base):
@@ -22,10 +22,7 @@ class User(Base):
     bio = Column(Text, default="Hey there, I'm new!", nullable=True)
     social = Column(String(100), nullable=True)
     avatar = Column(String(100), default=get_random_avatar, nullable=False)
-    banner = Column(String(100), default=(
-                    "https://res.cloudinary.com/f22/image"
-                    "/upload/v1635100450/Test/banner.png"
-                    ), nullable=False)
+    banner = Column(String(100), default=get_random_banner, nullable=False)
     joined_on = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     bookmarks = relationship("Bookmark", back_populates="owner", passive_deletes=True)
