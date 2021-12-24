@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/check")
 
-@router.post("/", 
+@router.post("/taken_fields", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200
             )

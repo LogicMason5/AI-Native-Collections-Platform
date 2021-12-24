@@ -77,7 +77,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
     public_key: pubKey.toString(),
     username: username
   }
-  fetch(`${API_URL}/check`, {
+  fetch(`${API_URL}/check/taken_fields`, {
     body: JSON.stringify(checkData),
     headers: { "Content-Type": "application/json" },
     method: "POST"
@@ -110,7 +110,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       } else {
         res.json().then(json => {
           if (json.error == "Public key already registered") {
-            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000, toastId: "to_prevent_duplication" })
+            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 2000, toastId: "to_prevent_duplication" })
             localStorage.setItem("username", json.username)
             setTimeout(() => Router.push("/dashboard"), 3000)
 
