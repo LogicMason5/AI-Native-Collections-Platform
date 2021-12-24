@@ -1,5 +1,7 @@
-import { Line, Bar, Doughnut } from "react-chartjs-2"
+import { Line, Bar, Doughnut, Chart } from "react-chartjs-2"
 import { TokenChartGradiants } from "@/utils/gradiants"
+import zoom from "chartjs-plugin-zoom";
+
 
 export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
     const values = Object.values(chartData)
@@ -49,6 +51,7 @@ export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
 }
 
 export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
+    Chart.register(zoom)
     const labels: any = Object.keys(chartData)
     const values: any = Object.values(chartData)
 
@@ -96,7 +99,35 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
                     color: "#282E4290"
                 },
             }
-        }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                  label: (context: any) => {
+                    let label = "";
+                    if (context.parsed) {
+                        console.log(context)
+                      label = context.dataset.label + "  " + context.formattedValue + " SOLs"
+                    }
+                    return label;
+                  },
+                }
+              },
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true
+                },
+                mode: "x",
+                speed: 50
+              },
+              pan: {
+                enabled: true,
+                mode: "xy",
+                speed: 50,
+              }
+            }
+          },
     }
     return (
         <Bar data={data} options={options} />
