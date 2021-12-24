@@ -44,7 +44,6 @@ export default function Dashboard() {
                     <ViewChart chartData={views} />
                 </div>
                 <div className={styles.bookmarks}>
-                    <h3>Profile bookmarks</h3>
                     <Bookmarks />
                 </div>
                 <div className={styles.comingSoon}>
