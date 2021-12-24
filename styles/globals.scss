@@ -31,6 +31,9 @@ h1 {
   color: white;
 }
 
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
 // scrollbar
 ::-webkit-scrollbar {
   width: 10px;
