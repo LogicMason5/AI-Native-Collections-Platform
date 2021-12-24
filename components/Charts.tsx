@@ -1,6 +1,6 @@
 import { Line, Bar, Doughnut, Chart } from "react-chartjs-2"
 import { TokenChartGradiants } from "@/utils/gradiants"
-import zoom from "chartjs-plugin-zoom";
+
 
 
 export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
@@ -51,7 +51,7 @@ export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
 }
 
 export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
-    Chart.register(zoom)
+
     const labels: any = Object.keys(chartData)
     const values: any = Object.values(chartData)
 
@@ -129,7 +129,7 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
             }
           },
     }
-    return (
+    return ( //@ts-ignore (interal type difference, not to worry about)
         <Bar data={data} options={options} />
     )
 }
