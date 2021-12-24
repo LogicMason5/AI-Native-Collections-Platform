@@ -14,13 +14,17 @@
     display: flex;
     align-items: flex-start;
     margin-top: 20px;
-    padding: 0px 40px;
+    padding: 0px 0px 0px 40px;
 }
 
 .topmeta {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
+    align-self: center;
+    margin-block-end: 30px;
+    margin-right: 10px;
     > div {
         cursor: pointer;
         display: flex;
@@ -29,8 +33,8 @@
         border: 1px solid $primaryStroke;
         border-radius: 30px;
         padding: 8px 10px;
-        gap: 10px;
-        width: 150px;
+        gap: 5px;
+        width: 200px;
         transition: .2s ease-out;
         &:hover {
             background-color: $hoverBg;
@@ -79,7 +83,7 @@
     bottom: 20px !important;
     margin-left: 20px;
     color: $grey;
-    height: 80px;
+    height: 120px;
     & p {
         color: white;
         text-overflow: wrap;
@@ -89,6 +93,8 @@
         width: 100%;
         text-align: right;
         padding-right: 10px;
+        position: absolute;
+        bottom: 0;
     }
 }
 
@@ -96,7 +102,6 @@
     border: none;
     background: $secondaryStroke;
     height: 2px;
-
 }
 
 .activity {
@@ -195,14 +200,10 @@
     margin-left: 20px;
 }
 
-@media screen and (max-width: 1350px){
 
-}
 
 @media screen and (max-width: 1200px) {
     .topmeta {
-        flex-flow: column;
-        gap: 10px;
 
     }
 }

@@ -57,6 +57,9 @@ async def views(request: Request, public_key: str) -> JSONResponse:
                    for i in tokens["result"]["value"]]
     public_keys.append(SOL_ADDRESS)
 
+    possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
+                   for i in tokens["result"]["value"] if i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] == 1]
+
     amounts = [i["account"]["data"]["parsed"]["info"]["tokenAmount"]
                ["uiAmount"] for i in tokens["result"]["value"]]
     sol_balance = await request.app.solana_client.get_balance(public_key)
@@ -68,11 +71,10 @@ async def views(request: Request, public_key: str) -> JSONResponse:
     file.close()
     
     token_public_keys = [x for x in public_keys if x in [y["address"] for y in token_data]]
-    
+    nfts = [i for i in possible_nfts if i not in token_public_keys]
     prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana"+
                                                     f"?contract_addresses={','.join(token_public_keys)}&vs_currencies=usd")          
     prices_data = prices.json()
-
     unfetched_public_keys = [x for x in token_public_keys if x not in [y for y in prices_data]]
     unfetched_coingecko_ids = {}
     for i in token_data:
@@ -82,7 +84,6 @@ async def views(request: Request, public_key: str) -> JSONResponse:
             except:
                 continue
 
-    print(unfetched_coingecko_ids, "\n")
     new_prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/price/"+
                                                     f"?ids={','.join(unfetched_coingecko_ids.keys())}&vs_currencies=usd") 
     new_data = new_prices.json()
@@ -99,8 +100,8 @@ async def views(request: Request, public_key: str) -> JSONResponse:
 
     token_values = OrderedDict(sorted(prices_data.items(), key = lambda x: getitem(x[1], 'usd'), reverse=True))
     data = {"tokenValues": token_values,
-            "nftCount": len(public_keys) - len(prices_data), 
-            "tokenCount": len(token_public_keys), 
+            "nftCount": len(nfts), 
+            "fungibleTokenCount": len(token_public_keys), 
             "unavailableTokenCount": len(token_public_keys) - len(token_values), 
             "solPrice": sol_price,
             "walletValue": round(sum([value["usd"] for key,value in token_values.items()]), 2)}

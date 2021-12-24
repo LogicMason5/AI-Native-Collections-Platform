@@ -27,12 +27,12 @@ export default function Insights() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
+            const publicKey ="8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
             const json = await res.json()
             setTokens(json["tokenValues"])
             setNumericsData({
-                "tokenCount": json["tokenCount"],
+                "fungibleTokenCount": json["fungibleTokenCount"],
                 "nftCount": json["nftCount"],
                 "unavailableTokenCount": json["unavailableTokenCount"],
                 "solPrice": json["solPrice"],
@@ -45,7 +45,7 @@ export default function Insights() {
     useEffect(() => {
         const today = new Date()
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
+            const publicKey = "8kgbAgt8oedfprQ9LWekUh6rbY264Nv75eunHPpkbYGX"
             setDelay(true)
             setTimeout(
                 () => setDelay(false),
@@ -201,7 +201,7 @@ export default function Insights() {
                         <div>
                             <>
                                 <p>Wallet value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
-                                <p>Token count<span>{numericsData["tokenCount"]}</span></p>
+                                <p>Fungible token count<span>{numericsData["fungibleTokenCount"]}</span></p>
                                 <p>NFT count<span>{numericsData["nftCount"]}</span></p>
                                 <p>1 $SOL<span>${numericsData["solPrice"]}</span></p>
                             </>
