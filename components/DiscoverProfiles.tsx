@@ -7,7 +7,6 @@ import Link from 'next/link'
 
 export const DiscoverProfiles = () => {
   const [data, setData] = useState([]);
-  const [rateLimited, setRateLimited] = useState<boolean>(false);
   const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
@@ -22,9 +21,6 @@ export const DiscoverProfiles = () => {
 
   const getProfiles = async (e: any) => {
     e.preventDefault();
-    if (rateLimited) {
-      return
-    }
 
     if (e.target.search.value != "") {
       const res = await fetch(API_URL + "/profile/ext/find", {
@@ -65,7 +61,7 @@ export const DiscoverProfiles = () => {
           </div>
 
           <div className={styles.lower}>
-            <p>{a['bio']}</p>
+            <p>{a['bio'].replace("[name_here]", a['name'])}</p>
           </div>
         </a></Link>
       ))

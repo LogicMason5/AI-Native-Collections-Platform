@@ -20,7 +20,7 @@
 .topmeta {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     > div {
         cursor: pointer;
         display: flex;
@@ -30,7 +30,7 @@
         border-radius: 30px;
         padding: 8px 10px;
         gap: 10px;
-        width: 10vw;
+        width: 150px;
         transition: .2s ease-out;
         &:hover {
             background-color: $hoverBg;
@@ -193,4 +193,16 @@
     bottom: 50px !important;
     border: 5px solid $bg;
     margin-left: 20px;
+}
+
+@media screen and (max-width: 1350px){
+
+}
+
+@media screen and (max-width: 1200px) {
+    .topmeta {
+        flex-flow: column;
+        gap: 10px;
+
+    }
 }

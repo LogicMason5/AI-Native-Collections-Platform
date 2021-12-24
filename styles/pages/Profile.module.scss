@@ -47,7 +47,18 @@
     justify-content: center;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
+    .profileBox {
+        grid-column: 1/7;
+    }
+    .discover {
+        grid-column: 7/11;
+    }
+    .seperator {
+        grid-column: 6/7;
+    }
+}
+@media screen and (max-width: 1200px) {
     .profile {
         width: calc(100vw - 80px);
     }
