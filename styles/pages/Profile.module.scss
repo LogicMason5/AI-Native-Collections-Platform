@@ -13,7 +13,7 @@
     grid-gap: 30px;
     width: calc(100vw - 350px);
     height: 100vh;
-    padding: 0px 25px 0px 0px;
+    overflow-y: auto
 }
 
 .heading {
@@ -61,6 +61,18 @@
 @media screen and (max-width: 1200px) {
     .profile {
         width: calc(100vw - 80px);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .profileBox {
+        grid-column: 1/11;
+    }
+    .discover {
+        display: none;
+    }
+    .seperator {
+        display: none;
     }
 }
 

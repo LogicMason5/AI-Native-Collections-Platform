@@ -76,8 +76,8 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
                 <div className={styles.topmeta}>
                     <div onClick={copyAddress}>
-                        <p>{user.public_key.replace(user.public_key.slice(7,38), "...")}</p>
-                        <Image src={Copy} alt="copy"/>
+                        <p>{user.public_key.replace(user.public_key.slice(3, 41), "...")}</p>
+                        <Image src={Copy} alt="copy" />
                     </div>
                     <Image
                         className={styles.bookmark}
@@ -102,7 +102,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <p>Amount(SOL)</p>
                     <p>From/To</p>
                 </div>
-                {activity ? (activity.map((a: any) => (
+                {activity && activity.length > 1 ? (activity.map((a: any) => (
                     <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
 
                         <div className={styles.transaction}>
@@ -121,20 +121,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     </a></Link>
 
                 ))
-                ) : <>
-                    <div className={styles.transaction}>
-                        <p className={styles.placeholderBox}></p>
-                    </div>
-                    <div className={styles.transaction}>
-                        <p className={styles.placeholderBox}></p>
-                    </div>
-                    <div className={styles.transaction}>
-                        <p className={styles.placeholderBox}></p>
-                    </div>
-                    <div className={styles.transaction}>
-                        <p className={styles.placeholderBox}></p>
-                    </div>
-                </>
+                ) : <p>No SOL transactions yet...</p>
                 }
             </div>
 

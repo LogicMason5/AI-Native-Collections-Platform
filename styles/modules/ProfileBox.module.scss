@@ -33,8 +33,8 @@
         border: 1px solid $primaryStroke;
         border-radius: 30px;
         padding: 8px 10px;
-        gap: 5px;
-        width: 200px;
+        gap: 10px;
+        width: 140px;
         transition: .2s ease-out;
         &:hover {
             background-color: $hoverBg;
@@ -110,6 +110,12 @@
         margin: 15px 25px 25px;
         font-size: 1.3rem;
     }
+    > p { //placeholder for loading
+        color: white;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 10%;
+    }
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -121,7 +127,7 @@
     align-items: center;
     padding: 30px 10px;
     height: 40px;
-    width: 100%;
+    width: 200px;
     transition: .1s ease-out;
     &:hover {
         background-color: $secondaryBg;
@@ -201,9 +207,3 @@
 }
 
 
-
-@media screen and (max-width: 1200px) {
-    .topmeta {
-
-    }
-}
