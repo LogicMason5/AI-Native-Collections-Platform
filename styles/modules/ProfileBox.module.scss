@@ -13,6 +13,7 @@
     > h4 {
         color: $grey;
         text-align: center;
+        @include medium_font;
     }
 }
 .upper {
@@ -55,8 +56,7 @@
     justify-content: center;
     gap: 20px;
     width: 100%;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin: 30px 0px;
     > div {
         cursor: pointer;
         display: flex;
@@ -101,7 +101,7 @@
 .activity {
 
     & > h2 {
-        color: $grey;
+        color: $primaryStroke;
         margin: 10px;
         font-size: 1rem;
     }
@@ -132,9 +132,9 @@
 
 .labels {
     display: flex;
-    color: $grey;
+    color: rgb(199, 199, 199);
     @include bold_font;
-    gap: 32%;
+    gap: 37%;
     margin-left: 160px;
     font-size: .9rem;
 }
