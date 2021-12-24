@@ -13,9 +13,8 @@ export const Tokens = ({ data, unavailableTokenCount}: any) => {
     const sum = values.reduce((a, b) => a + b, 0)
 
     let percentages = {}
-    for (const i of values) {
-
-      percentages = { ...percentages, [symbols[values.indexOf(i)]]: { "percentage": (i / sum) * 100, "logo": logos[values.indexOf(i)], "symbol": symbols[values.indexOf(i)] } }
+    for (let i = 0; i < values.length; i++) {
+      percentages = { ...percentages, [symbols[i]]: { "percentage": (values[i] / sum) * 100, "logo": logos[i], "symbol": symbols[i] } }
     }
     setTokenData(percentages)
   }, [data]);
@@ -31,7 +30,7 @@ export const Tokens = ({ data, unavailableTokenCount}: any) => {
           <img src={tokenData[tokenName].logo} height={50} width={50} alt="logo"/>
           <p>{tokenName}</p>
           <p className={styles.percentage}>
-            {Math.round(tokenData[tokenName].percentage) == 0 ? "< 1%" : Math.round(tokenData[tokenName].percentage) + "%"}
+            {tokenData[tokenName].percentage == 0 ? "0%" : Math.round(tokenData[tokenName].percentage) <  1 ? "< 1%" : Math.round(tokenData[tokenName].percentage) + "%"}
           </p>
         </div>
       ))
