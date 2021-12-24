@@ -6,7 +6,7 @@ from core.models import CheckUser
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
-router = APIRouter(prefix="/check")
+router = APIRouter(prefix="/checks")
 
 @router.post("/taken_fields", 
             dependencies=[Depends(Limit(times=20, seconds=5))],
@@ -48,3 +48,4 @@ async def check(public_key: str, db: Session=Depends(get_db)
             content={"exists": False},
             status_code=404
         )
+    return {"exists": True, "username": get_user.username}

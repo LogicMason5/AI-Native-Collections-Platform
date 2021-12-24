@@ -6,18 +6,25 @@ import InsightsIcon from '@/images/sidebar/InsightsIcon.svg'
 import ProfileIcon from '@/images/sidebar/ProfileIcon.svg'
 import styles from '@/styles/modules/Sidebar.module.scss'
 import { useEffect, useState } from 'react'
+import { connectWallet } from './Wallet'
 
 export const Sidebar = () => {
 
-    const [name, setName] = useState<string>()
+    const [name, setName] = useState<string>('')
 
     useEffect(() => {
-        const username = localStorage.getItem("username")
-        if (username){
-            setName(username)
-        } else {
-            setName("bolt")
+        const fetchName = async() => {
+            const API_URL: any = process.env.NEXT_PUBLIC_API_URL
+            const publicKey = await connectWallet(false, false)
+            const res = await fetch(API_URL + "/checks/user/" + publicKey)
+            if (res.ok) {
+                const json = await res.json()
+                setName(json.username)
+            } else {
+                setName("bolt")
+            }
         }
+        fetchName()
       }, []);
 
       const SidebarItem = ({ icon, link, path }: { icon: any, link: string, path: string }) => {
@@ -40,7 +47,7 @@ export const Sidebar = () => {
             <ul className={styles.links}>
                 <SidebarItem icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarItem icon={InsightsIcon} link="Insights" path="/insights"/>
-                <SidebarItem icon={ProfileIcon} link="Profile" path={name ? "/" + name : "/bolt"}/>
+                <SidebarItem icon={ProfileIcon} link="Profile" path={name}/>
             </ul>
         </nav>
     )

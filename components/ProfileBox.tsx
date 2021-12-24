@@ -63,11 +63,10 @@ export const ProfileBox = ({ user, activity }: any) => {
         navigator.clipboard.writeText(user.public_key)
         toast.info("Copied address to clipboard")
     }
-
     return (
         <div className={styles.profileBox}>
 
-            <Image className={styles.banner} src={user.banner} width="100%" height="200" alt="banner" />
+            <img className={styles.banner} src={user.banner} width="100%" height="200" alt="banner" />
 
             <div className={styles.uppersection}>
                 <img className={styles.avatar} src={user.avatar} width="160" height="160" alt="avatar" />

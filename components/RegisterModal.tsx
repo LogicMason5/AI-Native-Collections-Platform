@@ -16,8 +16,8 @@ export const RegisterModal = (props: any) => {
   useEffect(() => {
     const pricing: any = {
       "Basic - $2/year": 2,
-      "Pro - $5/year": 5,
-      "Basic - $5": 5,
+      "Pro - $6/year": 6,
+      "Basic - $10": 10,
       "Pro - $15": 15
     }
     setAmount(pricing[selectedPlan])
@@ -32,7 +32,7 @@ export const RegisterModal = (props: any) => {
       <div className={styles.main}>
         <span className={styles.close} onClick={handleclose}>&times;</span>
         <div className={styles.changePlan}>
-          <Image src={(selectedPlan.endsWith("/year")) ? Dollar : Invoice} width="40" height="40" alt="pricing" />
+          <Image src={(selectedPlan.endsWith("/year")) ? Dollar : Invoice} width="50" height="50" alt="pricing" />
           <h1>{selectedPlan}</h1>
           <PriceDropdown setSelectedPlan={setSelectedPlan} />
         </div>

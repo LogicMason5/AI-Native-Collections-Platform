@@ -63,7 +63,7 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                         <Image src={Dollar} alt="dollar" /> <h2> Subscription based</h2>
                     </a>
                     <a className="menu-item" onClick={(e) => update(e)}>Basic - $2/year</a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Pro - $5/year</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Pro - $6/year</a>
                 </div>
             </CSSTransition>
 
@@ -77,7 +77,7 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                     <a className="menu-item" onClick={(e) => "main" && setActiveMenu("main")}>
                         <Image src={Invoice} alt="invoice" /> <h2>One time payment</h2>
                     </a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $5</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $10</a>
                     <a className="menu-item" onClick={(e) => update(e)}>Pro - $15</a>
                 </div>
             </CSSTransition>
