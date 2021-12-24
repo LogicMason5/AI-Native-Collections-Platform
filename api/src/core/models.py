@@ -5,6 +5,7 @@ class RegisterUser(BaseModel):
     public_key: str
     username: str
     signature: str
+    plan: int
 
 class CheckUser(BaseModel):
     public_key: str
@@ -30,5 +31,3 @@ class UpdateProfile(BaseModel):
     avatar: Optional[str] = None
     banner: Optional[str] = None
 
-    signature: dict
-    public_key: dict

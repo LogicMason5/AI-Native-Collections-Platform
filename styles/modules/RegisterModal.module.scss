@@ -74,6 +74,7 @@
     }
     & > input {
         @include default_font;
+        margin-top: 10px;
         font-size: 1rem;
         padding: 10px;
         color: white;
@@ -92,6 +93,12 @@
         height: 40px;
         font-size: 1rem;
         margin-top: 40px;
+    }
+    > span {
+        color: #ff5151;
+        text-align: center;
+        margin-top: 30px;
+        @include light_font;
     }
 }
 

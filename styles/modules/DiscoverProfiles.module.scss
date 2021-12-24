@@ -10,7 +10,7 @@
         color: $primaryStroke;
         @include medium_font;
         font-size: 1.2rem;
-        margin: 20px 0px 10px 0px
+        margin: 20px 0px -10px 0px
     }
 }
 
@@ -22,6 +22,7 @@
 }
 
 .profileBox {
+    margin-top: 20px;
     border: 1px solid $secondaryStroke;
     border-radius: 5px;
     height: 120px;
@@ -50,8 +51,9 @@
     position: relative;
     > p {
         color: $grey;
-        position: absolute;
-        left: 200px;
+        position: relative;
+        top: 10px;
+        text-align: end;
     }
 
 }

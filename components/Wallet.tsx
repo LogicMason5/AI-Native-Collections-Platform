@@ -92,7 +92,8 @@ export const registerWallet = async (event: any, username: string, usd: number) 
           const data = {
             public_key: pubKey,
             username: username,
-            signature: payment
+            signature: payment,
+            plan: usd
           }
           fetch(`${API_URL}/register`, {
             body: JSON.stringify(data),

@@ -100,10 +100,17 @@
 
 .activity {
 
-    & > h2 {
+    > h2 {
         color: $primaryStroke;
         margin: 10px;
         font-size: 1rem;
+    }
+    > p {
+        color: $grey;
+        text-align: center;
+        font-size: 2rem;
+        @include bold_font;
+        margin-top: 10%;
     }
     overflow: hidden;
     text-overflow: ellipsis;
@@ -123,11 +130,11 @@
 }
 .sent {
     @include bold_font;
-    color: #EC5656;
+    color: #FF002E;
 }
 .received {
     @include bold_font;
-    color: #72BF65;
+    color: #00FF19;
 }
 
 .labels {

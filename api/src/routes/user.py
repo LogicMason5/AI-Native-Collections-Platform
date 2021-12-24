@@ -5,7 +5,7 @@ from core.db import get_db
 from core.ratelimit import Limit
 from core.webhook import Webhook
 from sqlalchemy.orm import Session
-from core.schemas import User
+from core.schemas import User, Plan
 from core.models import RegisterUser
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends
@@ -25,7 +25,7 @@ async def register(
     transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
     try:
         keys = transaction["result"]["transaction"]["message"]["accountKeys"]
-        if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai",user.public_key]).issubset(keys):
+        if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai","11111111111111111111111111111111"]).issubset(keys):
             return JSONResponse(
                 status_code=400,
                 content={"error": "Invalid signature"}
@@ -69,18 +69,26 @@ async def register(
     else:
         db_user = User(public_key=user.public_key,
                        username=user.username, name=user.username)
+
+        db_plan = Plan(type=user.plan, signature=user.signature, owner_public_key=user.public_key)
+
         db.add(db_user)
+        db.add(db_plan)
         db.commit()
         db.refresh(db_user)
+        plans = {2: "Yearly - $2", 6: "Yearly $6", 10: "Forever - $10", 15: "Forever - $15"}
         webhook = Webhook(os.getenv("WEBHOOK_SECRET"))
         embed = Webhook.embed(
             "New registration",
             fields=[
                 ("Profile",
-                 f"[NodeAir.io/{db_user.username}](https://nodeair.io/{db_user.username})"),
-                ("Public Key", db_user.public_key),
+                 f"[{db_user.username}](https://nodeair.io/{user.username})"),
+                ("Public Key", user.public_key),
+                ("Plan", plans[user.plan]),
+                ("Signature", user.signature)
             ],
-            thumbnail=db_user.avatar
+            thumbnail=db_user.avatar,
+            image=db_user.banner
         )
         await webhook.send(embed=embed)
         return db_user
