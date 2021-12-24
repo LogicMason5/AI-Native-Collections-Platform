@@ -4,27 +4,59 @@
 .profileBox {
     display: flex;
     flex-flow: column;
-    margin-top: -30px;
+    height: 100%;
+}
+
+.moveup {
+    position: relative;
+    bottom: 90px;
+    > h4 {
+        color: $grey;
+        text-align: center;
+    }
+}
+.upper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 .banner {
     border-radius: 20px 20px 0px 0px;
 }
-
-.uppersection{
-    display: flex;
-    align-items: flex-start;
-    margin-top: 20px;
-    padding: 0px 0px 0px 40px;
+.avatar {
+    border: 5px solid $bg;
+    border-radius: 50%;
+}
+.name {
+    color: white;
+    @include bold_font;
+    font-size: 2.1rem;
+}
+.username {
+    color: $text;
+    @include medium_font;
+    font-size: 1.3rem;
 }
 
-.topmeta {
+
+.bio {
+    padding: 0px 20px;
+    color: rgb(207, 207, 207);
+    font-size: 1rem;
+    margin-top: 20px;
+    width: 100%;
+    overflow-wrap: break-word;
+    text-align: center;
+}
+
+.buttons {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 5px;
-    align-self: center;
-    margin-block-end: 30px;
-    margin-right: 10px;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
     > div {
         cursor: pointer;
         display: flex;
@@ -34,14 +66,14 @@
         border-radius: 30px;
         padding: 8px 10px;
         gap: 10px;
-        width: 140px;
+        width: 25%;
         transition: .2s ease-out;
         &:hover {
             background-color: $hoverBg;
             border: 1px solid transparent;
         }
         &:active {
-            transform: scale(.90);
+            transform: scale(90%);
         }
     }
 }
@@ -49,8 +81,8 @@
 .bookmark {
     cursor: pointer;
     border-radius: 50%;
-    padding: 12px !important;
     transition: .1s ease-out;
+    border: 1px solid $primaryStroke;
     &:hover {
         background-color: $hoverBg;
     }
@@ -60,44 +92,6 @@
 }
 
 
-.name {
-    position: relative;
-    bottom: 15px !important;
-    font-size: 1.3rem;
-    margin-left: 10px;
-    margin-right: auto;
-    h3 {
-        color: $primaryStroke;
-    }
-}
-
-.avatar {
-    position: relative;
-    bottom: 50px !important;
-    border: 5px solid $bg;
-    border-radius: 50%;
-}
-
-.bio {
-    position: relative;
-    bottom: 20px !important;
-    margin-left: 20px;
-    color: $grey;
-    height: 120px;
-    & p {
-        color: white;
-        text-overflow: wrap;
-        font-size: 1.1rem;
-    }
-    & h4 {
-        width: 100%;
-        text-align: right;
-        padding-right: 10px;
-        position: absolute;
-        bottom: 0;
-    }
-}
-
 .activitySeperator {
     border: none;
     background: $secondaryStroke;
@@ -105,16 +99,11 @@
 }
 
 .activity {
+
     & > h2 {
         color: $grey;
-        margin: 15px 25px 25px;
-        font-size: 1.3rem;
-    }
-    > p { //placeholder for loading
-        color: white;
-        font-size: 1.5rem;
-        text-align: center;
-        margin-top: 10%;
+        margin: 10px;
+        font-size: 1rem;
     }
     overflow: hidden;
     text-overflow: ellipsis;
@@ -126,8 +115,7 @@
     display: flex;
     align-items: center;
     padding: 30px 10px;
-    height: 40px;
-    width: 200px;
+    height: 10px;
     transition: .1s ease-out;
     &:hover {
         background-color: $secondaryBg;
@@ -146,8 +134,9 @@
     display: flex;
     color: $grey;
     @include bold_font;
-    gap: 35%;
-    margin-left: 150px;
+    gap: 32%;
+    margin-left: 160px;
+    font-size: .9rem;
 }
 
 .type {
@@ -155,6 +144,7 @@
     min-width: 120px;
     gap: 10px;
     align-items: center;
+    font-size: .9rem;
 }
 
 .metadata {
@@ -164,6 +154,7 @@
 .amount, .toFrom {
     color: $grey;
     @include light_font;
+    font-size: .9rem;
 }
 
 .amount {

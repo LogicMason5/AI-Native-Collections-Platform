@@ -65,18 +65,17 @@ export const ProfileBox = ({ user, activity }: any) => {
     }
     return (
         <div className={styles.profileBox}>
-
             <img className={styles.banner} src={user.banner} width="100%" height="200" alt="banner" />
-
-            <div className={styles.uppersection}>
-                <img className={styles.avatar} src={user.avatar} width="160" height="160" alt="avatar" />
-                <div className={styles.name}>
-                    <h1>{user.name}</h1>
-                    <h3>@{user.username}</h3>
+            <div className={styles.moveup}>
+                <div className={styles.upper}>
+                    <img className={styles.avatar} src={user.avatar} width="180" height="180" alt="avatar" />
+                    <span className={styles.name}>{user.name}</span>
+                    <span className={styles.username}>@{user.username}</span>
+                    <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
-                <div className={styles.topmeta}>
+                <div className={styles.buttons}>
                     <div onClick={copyAddress}>
-                        <p>{user.public_key.replace(user.public_key.slice(3, 41), "...")}</p>
+                        <p>{user.public_key.replace(user.public_key.slice(5, 39), "...")}</p>
                         <Image src={Copy} alt="copy" />
                     </div>
                     <Image
@@ -84,45 +83,42 @@ export const ProfileBox = ({ user, activity }: any) => {
                         src={bookmarked ? Bookmarked : Bookmark}
                         onClick={(e) => addBookmark(e)}
                         alt="bookmark"
-                        height="55"
-                        width="55"
+                        height="45"
+                        width="45"
                     />
                 </div>
-
-            </div>
-            <div className={styles.bio}>
-                <h2>Bio</h2>
-                <p>{user.bio.replace("[name_here]", user.name)}</p>
                 <h4>Joined on {joined_on}</h4>
-            </div>
-            < hr className={styles.activitySeperator} />
-            <div className={styles.activity}>
-                <h2>Recent activity</h2>
-                <div className={styles.labels}>
-                    <p>Amount(SOL)</p>
-                    <p>From/To</p>
+
+                < hr className={styles.activitySeperator} />
+                <div className={styles.activity}>
+                    <h2>Recent activity</h2>
+                    <div className={styles.labels}>
+                        <p>Amount(SOL)</p>
+                        <p>From/To</p>
+                    </div>
+                    {activity && activity.length > 1 ? (activity.map((a: any) => (
+                        <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
+
+                            <div className={styles.transaction}>
+                                <div className={styles.type}>
+                                    <Image src={(a['type'] == "sent") ? Sent : Received} width="30" height="30" alt="transaction" />
+                                    {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
+                                </div>
+                                <div className={styles.metadata}>
+                                    <p className={styles.amount}>{a['amount']}</p>
+                                    <p className={styles.toFrom}>{a['to'] || a['from']}</p>
+                                </div>
+
+                            </div>
+
+                            <hr className={styles.transactionSeperator} />
+                        </a></Link>
+
+                    ))
+                    ) : <p>No SOL transactions yet...</p>
+                    }
                 </div>
-                {activity && activity.length > 1 ? (activity.map((a: any) => (
-                    <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
 
-                        <div className={styles.transaction}>
-                            <div className={styles.type}>
-                                <Image src={(a['type'] == "sent") ? Sent : Received} width="35" height="35" alt="transaction" />
-                                {(a['type'] == "sent") ? <p className={styles.sent}>Sent</p> : <p className={styles.received}>Received</p>}
-                            </div>
-                            <div className={styles.metadata}>
-                                <p className={styles.amount}>{a['amount']}</p>
-                                <p className={styles.toFrom}>{a['to'] || a['from']}</p>
-                            </div>
-
-                        </div>
-
-                        <hr className={styles.transactionSeperator} />
-                    </a></Link>
-
-                ))
-                ) : <p>No SOL transactions yet...</p>
-                }
             </div>
 
         </div>
