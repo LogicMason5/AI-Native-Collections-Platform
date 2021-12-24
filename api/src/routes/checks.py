@@ -1,3 +1,4 @@
+import string
 from core.db import get_db
 from core.schemas import User
 from core.ratelimit import Limit
@@ -15,6 +16,23 @@ router = APIRouter(prefix="/checks")
 async def check(
                 user: CheckUser, db: Session=Depends(get_db)
                 ) -> JSONResponse:
+
+    if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
+        return JSONResponse(
+            status_code=400,
+            content={"error": "You cannot keep this username"}
+        )
+
+    allowed_chars = ["_", "-", "0", "1","2","3","4","5","6","7","8","9"]
+    allowed_letters = list(string.ascii_lowercase)
+    allowed_chars.extend(allowed_letters)
+    
+    if len([i for i in user.username.lower() if i not in allowed_chars]) > 0:
+        return JSONResponse(
+            status_code=400,
+            content={
+                "error": "Username can only contain letters, numbers, '_' and '-'"}
+        )
 
     get_user = db.query(User).filter(
                                     (User.username == user.username) |

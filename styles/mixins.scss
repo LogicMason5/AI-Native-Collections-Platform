@@ -28,6 +28,7 @@
 }
 
 @mixin button {
+    @include light_font();
     background-color: $blue;
     color: white;
     display: flex;
@@ -35,8 +36,8 @@
     justify-content: center;
     border: none;
     cursor: pointer;
-    border-radius: .8rem;
-    box-shadow: 0px 0px 30px $blue;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px #33518a;
     transition: 0.2s ease-out;
     &:active {
         transform: scale(.90);

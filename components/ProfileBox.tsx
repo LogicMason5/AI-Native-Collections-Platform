@@ -92,7 +92,7 @@ export const ProfileBox = ({ user, activity }: any) => {
             </div>
             <div className={styles.bio}>
                 <h2>Bio</h2>
-                <p>{user.bio}</p>
+                <p>{user.bio.replace("[name_here]", user.name)}</p>
                 <h4>Joined on {joined_on}</h4>
             </div>
             < hr className={styles.activitySeperator} />

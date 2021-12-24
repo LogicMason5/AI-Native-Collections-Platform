@@ -8,7 +8,10 @@ export const connectWallet = async (showToast = true, onlyIfTrusted = false, ret
     let res
     try {
       res = await window.solana.connect({ onlyIfTrusted: onlyIfTrusted })
-    } catch {
+    } catch (e: any){
+      if (e.code != 4001) {
+        toast.error("Unexpected error, try contacting support.")
+      }
       return
     }
     if (showToast) { toast.success('Connected to wallet!'); }
@@ -72,9 +75,9 @@ export const registerWallet = async (event: any, username: string, usd: number) 
   event.preventDefault();
 
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
-  const pubKey = await connectWallet(false)
+  const pubKey = await connectWallet(false, false)
   const checkData = {
-    public_key: pubKey.toString(),
+    public_key: pubKey,
     username: username
   }
   fetch(`${API_URL}/checks/taken_fields`, {
@@ -87,7 +90,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
         const payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
         if (true) {
           const data = {
-            public_key: pubKey.toString(),
+            public_key: pubKey,
             username: username,
             signature: payment
           }
@@ -127,9 +130,9 @@ export const registerWallet = async (event: any, username: string, usd: number) 
 export const signMessage = async (e: any) => {
   e.preventDefault();
   const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
-  const publicKey = await connectWallet(false);
+  const publicKey = await connectWallet(false, false);
   const res = await fetch(`${API_URL}/signature/create`, {
-    body: JSON.stringify({ public_key: publicKey.toString() }),
+    body: JSON.stringify({ public_key: publicKey }),
     headers: { "Content-Type": "application/json" },
     method: "POST",
   });

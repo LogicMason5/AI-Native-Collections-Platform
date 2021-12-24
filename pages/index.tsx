@@ -26,13 +26,13 @@ export default function Index() {
     const check = async () => {
       const publicKey = await connectWallet(false, true)
       if (publicKey) {
-        const res = await fetch(API_URL + "/check/user/" + publicKey)
+        const res = await fetch(API_URL + "/checks/user/" + publicKey)
         if (res.ok) {
           setIsRegistered(true)
         }
       }
     }
-    check()
+    setTimeout(() => check(), 1000)
   }, [checkUserOnConnect])
 
 

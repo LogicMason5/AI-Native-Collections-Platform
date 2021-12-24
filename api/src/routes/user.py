@@ -1,4 +1,5 @@
 import os
+import string
 from typing import Union
 from core.db import get_db
 from core.ratelimit import Limit
@@ -40,7 +41,11 @@ async def register(
             status_code=400,
             content={"error": "You cannot keep this username"}
         )
-    if any(i in user.username.lower() for i in tuple('@_!#$%^&*()<>?/\|}{~:')):
+
+    allowed_chars = ["_", "-", "0", "1","2","3","4","5","6","7","8","9"]
+    allowed_letters = list(string.ascii_lowercase)
+    allowed_chars.extend(allowed_letters)
+    if len([i for i in user.username.lower() if i not in allowed_chars]) > 0:
         return JSONResponse(
             status_code=400,
             content={
