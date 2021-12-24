@@ -40,7 +40,6 @@ export const DiscoverProfiles = () => {
 
   return (
     <div className={styles.discoverProfiles}>
-
       <form className={styles.search} onSubmit={(e) => getProfiles(e)}>
         <div className={styles.gap}></div>
         <input type="text" placeholder="Search profiles by username or public key" name="search" />
@@ -48,15 +47,16 @@ export const DiscoverProfiles = () => {
           <Image src={Search} width="30" height="30" alt="search" />
         </button>
       </form>
-
+      <p>Discover other profiles</p>
       {data ? (data.map((a: any) => (
         <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
           <div className={styles.upper}>
             <Image src={a['avatar']} height="50" width="50" alt="avatar" />
-            <div className={styles.name}>
-              <h3>{a['name']}</h3>
-              <h4>@{a['username']} </h4>
+            <div className={styles.nameGroup}>
+              <span className={styles.name}>{a['name']}</span>
+              <span className={styles.username}>@{a['username']} </span>
             </div>
+            <div></div>
             <p>{a['public_key']}</p>
           </div>
 

@@ -6,24 +6,29 @@
     flex-flow: column;
     height: 100%;
     padding: 0px 20px;
+    > p {
+        color: $primaryStroke;
+        @include medium_font;
+        font-size: 1.2rem;
+        margin: 20px 0px 10px 0px
+    }
 }
 
 .search {
-    @include search(40px, 90%);
+    @include search(45px, 100%);
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .profileBox {
     border: 1px solid $secondaryStroke;
-    background-color: $secondaryBg;
     border-radius: 5px;
-    margin: 10px;
     height: 120px;
     transition: .1s ease-in;
     padding: 0px 20px;
     & p {
-        color: $text;
+        color: $greyLight;
         margin-left: 50px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -31,41 +36,39 @@
     }
     &:hover {
         background-color: $hoverBg;
-    }
-    &:active {
-        transform: scale(98%)
+        transform: scale(99.5%);
+        border: 1px solid $hoverBg;
     }
 }
 
-
-.gap {
-    width: 30px;
-}
 .upper {
     height: 70%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    & p {
-        color: white;
+    gap: 10px;
+    overflow-x: hidden;
+    position: relative;
+    > p {
+        color: $grey;
+        position: absolute;
+        left: 200px;
     }
 
 }
 
-.left {
-    display: flex;
-    gap: 10px;
-}
-
-.name {
+.nameGroup{
     text-align: center;
     margin-right: auto;
-    margin-left: 20px;
-    h3 {
-        color: white;
-        font-size: 1.4rem;
-    }
-    h4 {
-        color: $primaryStroke;
-    }
+    margin-left: 2%;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+.name {
+    color: white;
+    font-size: 1.2rem;
+}
+.username {
+    color: $text;
+    font-size: .9rem;
 }
