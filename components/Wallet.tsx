@@ -114,9 +114,9 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       } else {
         res.json().then(json => {
           if (json.error == "Public key already registered") {
-            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 3000, toastId: "to_prevent_duplication" })
+            toast.info(`${json.error}\nRedirecting to dashboard...`, { autoClose: 2000, toastId: "to_prevent_duplication" })
             localStorage.setItem("username", json.username)
-            setTimeout(() => Router.push("/dashboard"), 3000)
+            setTimeout(() => Router.push("/dashboard"), 2000)
 
           } else {
             toast.error(json.error, { toastId: "to_prevent_duplication" })
