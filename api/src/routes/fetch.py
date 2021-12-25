@@ -21,7 +21,6 @@ router = APIRouter(prefix="/fetch")
 async def views(public_key: str, db: Session = Depends(get_db)) -> dict:
 
     views_obj = db.query(View).filter_by(public_key=public_key)
-    print(len([x for x in views_obj]))
     today = datetime.utcnow()
     views_data = [
         x.viewed_on for x in views_obj if

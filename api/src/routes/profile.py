@@ -88,7 +88,6 @@ async def update_profile(
             )
         user = db.query(User).filter_by(
             public_key="B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai").first()
-        print(user.username, user.banner)
 
         data_dict = data.dict(exclude_unset=True, exclude={
                               "signature", "public_key"})

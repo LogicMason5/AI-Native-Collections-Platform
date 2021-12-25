@@ -4,7 +4,7 @@ from core.schemas import User
 from core.ratelimit import Limit
 from sqlalchemy.orm import Session
 from core.models import CheckUser
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/checks")
@@ -14,9 +14,11 @@ router = APIRouter(prefix="/checks")
             status_code=200
             )
 async def check(
-                user: CheckUser, db: Session=Depends(get_db)
+                user: CheckUser, request: Request, db: Session=Depends(get_db)
                 ) -> JSONResponse:
 
+    r = await request.body()
+    print("taken_fields check body: ", r, "\n")
     if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
         return JSONResponse(
             status_code=400,
