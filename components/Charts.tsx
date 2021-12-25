@@ -68,12 +68,12 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
         datasets: [
             {
                 label: "Received",
-                data: received,
+                data: sent,
                 backgroundColor: '#008505',
             },
             {
                 label: "Sent",
-                data: sent,
+                data: received,
                 backgroundColor: '#0059DE',
             }
         ],
