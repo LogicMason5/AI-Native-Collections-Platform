@@ -130,12 +130,13 @@ export const ProfileBoxNotFound = ({ username }: any) => {
     return (
         <div className={styles.profileBox}>
             <div className={styles.banner_} />
-            <div className={styles.uppersection}>
-                <div className={styles.avatar_} />
-                <div className={styles.name}>
-                    <h1>User not found</h1>
-                    <h3>@{username}</h3>
+            <div className={styles.moveup}>
+                <div className={styles.upper}>
+                    <div className={styles.avatar_} />
+                        <h3>User not found</h3>
+                        <h4>@{username}</h4>
                 </div>
+
             </div>
 
         </div>

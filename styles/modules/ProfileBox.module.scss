@@ -20,6 +20,16 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    > h3 {
+        color: white;
+        @include bold_font;
+        font-size: 2.1rem;
+    }
+    > h4 {
+        color: $primaryStroke;
+        @include medium_font;
+        font-size: 1.3rem;
+    }
 }
 .banner {
     border-radius: 20px 20px 0px 0px;
@@ -194,14 +204,11 @@
     background-color: $hoverBg;
 }
 .avatar_ {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
     background-color: $hoverBg;
-    position: relative;
-    bottom: 50px !important;
     border: 5px solid $bg;
-    margin-left: 20px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
 }
 
 
