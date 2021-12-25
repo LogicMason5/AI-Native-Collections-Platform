@@ -80,7 +80,7 @@ export const Bookmarks = () => {
           <Image src={Search} width="25" height="25" alt="search" />
         </button>
       </form>
-
+      <p>Total bookmarks: {total}</p>
       {data ? (data.map((a: any) => (
         <Link key={a['username']} href={a['username']}><a>
           <div className={styles.bookmark}>
@@ -94,8 +94,6 @@ export const Bookmarks = () => {
       ))
       ) : null
       }
-      <p>Total bookmarks: {total}</p>
-
     </div>
 
   )
