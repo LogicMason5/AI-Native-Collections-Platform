@@ -62,8 +62,8 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                     <a className="menu-item" onClick={() => "main" && setActiveMenu("main")}>
                         <Image src={Dollar} alt="dollar" /> <h2> Subscription based</h2>
                     </a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $2/year</a>
-                    <a className="menu-item" onClick={(e) => update(e)}>Pro - $6/year</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Basic - $2/Year</a>
+                    <a className="menu-item" onClick={(e) => update(e)}>Pro - $6/Year</a>
                 </div>
             </CSSTransition>
 

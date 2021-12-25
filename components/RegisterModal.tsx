@@ -11,13 +11,13 @@ export const RegisterModal = (props: any) => {
 
   const [name, setName] = useState<string>("")
   const [amount, setAmount] = useState<number>(0)
-  const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $2/year");
+  const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $2/Year");
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     const pricing: any = {
-      "Basic - $2/year": 2,
-      "Pro - $6/year": 6,
+      "Basic - $2/Year": 2,
+      "Pro - $6/Year": 6,
       "Basic - $10": 10,
       "Pro - $15": 15
     }
@@ -53,8 +53,8 @@ export const RegisterModal = (props: any) => {
         </div>
         <hr />
         <form className={styles.form} onSubmit={(e) => registerWallet(e, name, amount)}>
-          <p>Get started by entering your profile name and clicking that shiny button below. Feel free to change plan above.</p>
-          <h1>Enter your profile name</h1>
+          <p>Get started by entering your profile name and clicking that button below. Feel free to change plan above.</p>
+          <h1>Enter Your Profile Name</h1>
           <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Name" type="text"></input>
           <button type="submit" disabled={name.length == 0 ? true : false}>Create profile</button>
           <span >{errorMessage}</span>
