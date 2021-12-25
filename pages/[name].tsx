@@ -4,8 +4,23 @@ import { ProfileBox, ProfileBoxNotFound } from '@/components/ProfileBox'
 import { Sidebar } from '@/components/Sidebar'
 import { DiscoverProfiles } from '@/components/DiscoverProfiles'
 import styles from '@/styles/pages/Profile.module.scss'
+import { useEffect } from 'react'
 
 export default function Profile({ userData, name }: any) {
+
+  useEffect(() => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const updateCount = async () => {
+      console.log("ran")
+        const result = await fetch(API_URL + "/profile/update_count/" + name)
+        if (!result.ok) {
+          const json = await result.json()
+          console.log("Error update view count: ", json)
+        }
+    }
+    updateCount()
+  }, []);
+
   return (
     <>
       <PageHead title={'NodeAir | @' + name} />
