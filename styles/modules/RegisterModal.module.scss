@@ -94,15 +94,22 @@
         font-size: 1rem;
         margin-top: 40px;
     }
-    > span {
-        color: #ff5151;
-        text-align: center;
-        margin-top: 30px;
-        @include light_font;
-    }
 }
 
+.error {
+    color: #ff5151;
+    text-align: center;
+    margin-top: 20px;
+    @include light_font;
+}
 
+.trouble {
+    cursor: pointer;
+    text-decoration: underline;
+    color: $grey;
+    text-align: center;
+    position: relative;
+}
 @media screen and (max-width: 600px) {
     .changePlan h1{
         font-size: 1rem;

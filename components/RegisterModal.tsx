@@ -5,6 +5,7 @@ import styles from '@/styles/modules/RegisterModal.module.scss'
 import Dollar from '@/images/Dollar.svg'
 import Invoice from '@/images/Invoice.svg'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 export const RegisterModal = (props: any) => {
 
@@ -28,6 +29,16 @@ export const RegisterModal = (props: any) => {
     props.setModalIsOpen(false)
   }
 
+  const sendReport = async() => {
+    const REPORT_HOOK: any = process.env.NEXT_PUBLIC_REPORT_HOOK;
+    await fetch("https://discord.com/api/webhooks/924377544235552819/" + REPORT_HOOK, {
+      body: JSON.stringify({content: "<@791950104680071188> "}),
+      headers: { "Content-Type": "application/json" },
+      method: "POST"
+    })
+    toast.info("Report sent. Contact support for further help.")
+  }
+  
   const checkInput = (input: string) => {
     setErrorMessage('')
     if (input.length > 15) {
@@ -57,7 +68,8 @@ export const RegisterModal = (props: any) => {
           <h1>Enter Your Profile Name</h1>
           <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Name" type="text"></input>
           <button type="submit" disabled={name.length == 0 ? true : false}>Create profile</button>
-          <span >{errorMessage}</span>
+          <span className={styles.error}>{errorMessage}</span>
+          <span onClick={() => sendReport()}className={styles.trouble}>Trouble creating account?</span>
         </form>
       </div>
     </div>
