@@ -94,7 +94,7 @@ async def register(
         return db_user
 
 
-@router.post("/plan/{public_key}",
+@router.get("/plan/{public_key}",
              dependencies=[Depends(Limit(times=20, seconds=5))],
              status_code=200
              )
@@ -104,7 +104,7 @@ async def plan(
 
     plan_user = db.query(User).filter_by(public_key=public_key).first()
     if plan_user:
-        return {"plan": int(plan_user.plan[0].type)}
+        return int(plan_user.plan[0].type)
     
     return JSONResponse(
         status_code=404,

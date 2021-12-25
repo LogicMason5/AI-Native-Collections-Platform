@@ -44,6 +44,9 @@
             padding: 0px 13px;
             border-radius: 50%;
             transition: .2s ease-out;
+            &:hover {
+                background-color: $hoverBg;
+            }
         }
     }
     > h3 {
