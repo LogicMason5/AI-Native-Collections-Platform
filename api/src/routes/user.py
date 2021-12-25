@@ -102,7 +102,7 @@ async def plan(
     public_key: str, db: Session = Depends(get_db)
         ) -> JSONResponse:
 
-    plan_user = db.query(User).filter_by(username=public_key).first()
+    plan_user = db.query(User).filter_by(public_key=public_key).first()
     if plan_user:
         return {"plan": int(plan_user.plan[0].type)}
     
