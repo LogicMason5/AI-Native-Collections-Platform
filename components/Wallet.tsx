@@ -37,7 +37,7 @@ export const sendPayment = async (to: PublicKey, usd: number) => {
   const sol = await usdToSol(usd)
 
   const publicKey = await connectWallet(false, false, false);
-  const network = process.env.SOL_NETWORK || "https://api.devnet.solana.com"
+  const network = "https://api.mainnet-beta.solana.com"
   const connection = new Connection(network);
   const transaction = new Transaction()
     .add(

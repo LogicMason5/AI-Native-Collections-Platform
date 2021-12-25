@@ -23,8 +23,11 @@ async def register(
         ) -> Union[JSONResponse, User]:
 
     transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
+    print(user.signature)
     try:
+        print(transaction)
         keys = transaction["result"]["transaction"]["message"]["accountKeys"]
+        print(keys)
         if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai", user.public_key]).issubset(keys):
             return JSONResponse(
                 status_code=400,
