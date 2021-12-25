@@ -10,13 +10,15 @@ export const Bookmarks = () => {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState<number>(0);
   const [rateLimited, setRateLimited] = useState<boolean>(false);
+  const [publicKey, setPublicKey] = useState<string>();
   const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const fetchData = async () => {
-      const publicKey = await connectWallet(false, false)
-      const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
+      const pubKey = await connectWallet(false, false)
+      setPublicKey(pubKey)
+      const result = await fetch(API_URL + `/bookmark/get/${pubKey}`)
       const data = await result.json()
       if (result.ok) {
         setData(data.bookmarks)
@@ -27,7 +29,7 @@ export const Bookmarks = () => {
       }
 
     }
-    fetchData()
+    setTimeout(() => fetchData(), 500)
   }, []);
 
   const getBookmark = async (e: any) => {
@@ -35,7 +37,6 @@ export const Bookmarks = () => {
     if (rateLimited) {
       return
     }
-    const publicKey = await connectWallet(false, false)
     if (e.target.search.value == "") {
       if (data.length == 1) {
         const result = await fetch(API_URL + `/bookmark/get/${publicKey}`)
