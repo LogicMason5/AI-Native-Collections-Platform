@@ -18,18 +18,14 @@ router = APIRouter(prefix="/profile")
             status_code=200
             )
 async def profile(
-    username: str,
-    request: Request,
-    db: Session = Depends(get_db),
-) -> Union[JSONResponse, User]:
+        username: str,
+        request: Request,
+        db: Session = Depends(get_db),
+        ) -> Union[JSONResponse, User]:
 
     user = db.query(User).filter_by(username=username).first()
 
     if user:
-        view = View(public_key=user.public_key)
-        db.add(view)
-        db.commit()
-        db.refresh(user)
         resp = await request.app.request_client.get(
             ("https://api.solscan.io/account/"
              f"soltransfer/txs?address={user.public_key}&offset=0&limit={4}")
@@ -39,12 +35,16 @@ async def profile(
         filtered_data = []
         for i in data:
             sols = lamport_to_sol(i["lamport"])
+            tx = i["txHash"]
+
             if i["src"] == user.public_key:
-                d = {"type": "sent", "amount": sols, "to": i['dst'], "tx": i["txHash"]}
+                d = {"type": "sent", "amount": sols,
+                     "to": i['dst'], "tx": tx}
 
                 filtered_data.append(d)
             else:
-                d = {"type": "received", "amount": sols, "from": i['src'], "tx": i["txHash"]}
+                d = {"type": "received", "amount": sols,
+                     "from": i['src'], "tx": tx}
                 filtered_data.append(d)
 
         return {"user": user, "recent_activity": filtered_data}
@@ -62,7 +62,7 @@ async def profile(
 async def update_profile(
     data: UpdateProfile,
     db: Session = Depends(get_db),
-    ) -> Union[JSONResponse, User]:
+) -> Union[JSONResponse, User]:
 
     signature = data.signature["data"]
     public_key = data.public_key
@@ -97,6 +97,28 @@ async def update_profile(
 
         db.commit()
         return user
+
+
+@router.get("/update_count/{username}",
+            dependencies=[Depends(Limit(times=5, seconds=5))],
+            status_code=200
+            )
+async def update_count(
+    username: str,
+    db: Session = Depends(get_db),
+    ) -> Union[JSONResponse, User]:
+    
+    user = db.query(User).filter_by(username=username).first()
+    if user:
+        view = View(public_key=user.public_key)
+        db.add(view)
+        db.commit()
+        return {"message": f"View updated for {username}"}
+
+    return JSONResponse(
+        status_code=404,
+        content={"error": "User not found"}
+    )
 
 
 @router.post("/ext/find",

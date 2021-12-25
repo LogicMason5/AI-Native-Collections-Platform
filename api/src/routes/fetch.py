@@ -25,7 +25,7 @@ async def views(public_key: str, db: Session = Depends(get_db)) -> dict:
     views_data = [
         x.viewed_on for x in views_obj if
         x.viewed_on.month == today.month and
-        x.viewed_on.day <= today.month
+        x.viewed_on.day <= today.day
     ]
     data = {}
     for i in range(1, today.day + 1):

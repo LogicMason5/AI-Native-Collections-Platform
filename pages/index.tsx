@@ -32,7 +32,7 @@ export default function Index() {
         }
       }
     }
-    setTimeout(() => check(), 1000)
+    setTimeout(() => check(), 500)
   }, [checkUserOnConnect])
 
 
