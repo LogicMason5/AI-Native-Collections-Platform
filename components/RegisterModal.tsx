@@ -60,7 +60,7 @@ export const RegisterModal = (props: any) => {
       <div className={styles.main}>
         <span className={styles.close} onClick={handleclose}>&times;</span>
         <div className={styles.changePlan}>
-          <Image src={(selectedPlan.endsWith("/year")) ? Dollar : (selectedPlan=="Free") ? Free : Invoice} width="50" height="50" alt="pricing" />
+          <Image src={([2, 6].includes(amount)) ? Dollar : (amount != 0) ? Invoice : Free } width="50" height="50" alt="pricing" />
           <h1>{selectedPlan}</h1>
           <PriceDropdown setSelectedPlan={setSelectedPlan} />
         </div>
@@ -71,7 +71,7 @@ export const RegisterModal = (props: any) => {
           <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Name" type="text"></input>
           <button type="submit" disabled={name.length == 0 ? true : false}>Create profile</button>
           <span className={styles.error}>{errorMessage}</span>
-          <span onClick={() => sendReport()}className={styles.trouble}>Trouble creating account?</span>
+          <span onClick={() => sendReport()}className={styles.trouble}>Trouble creating account? Click to send instant report</span>
         </form>
       </div>
     </div>
