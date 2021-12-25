@@ -13,7 +13,9 @@
     grid-gap: 30px;
     width: calc(100vw - 350px);
     height: 100vh;
-
+    ::-webkit-scrollbar {
+        width: 0px;
+      }
 }
 
 .heading {

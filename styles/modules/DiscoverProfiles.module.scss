@@ -48,20 +48,21 @@
     align-items: center;
     gap: 10px;
     overflow-x: hidden;
-    position: relative;
     > p {
+        margin-left: auto;
         color: $grey;
         position: relative;
-        top: 10px;
+        top: 15px;
+        right: 0px;
         text-align: end;
+        width: 80%;
+        float: right;
     }
 
 }
 
 .nameGroup{
     text-align: center;
-    margin-right: auto;
-    margin-left: 2%;
     display: flex;
     flex-flow: column;
     align-items: flex-start;
@@ -73,4 +74,12 @@
 .username {
     color: $text;
     font-size: .9rem;
+}
+
+@media screen and (max-width: 1500px){
+    .upper {
+        > p {
+            display: none;
+        }
+    }
 }
