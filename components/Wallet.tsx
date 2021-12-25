@@ -108,6 +108,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
           })
             .then(async res => {
               if (res.ok) {
+                toast.success("Registration successful!")
                 Router.push("/dashboard")
               } else {
                 const json = await res.json()

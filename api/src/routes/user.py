@@ -89,7 +89,7 @@ async def register(
                  f"[{db_user.username}](https://nodeair.io/{user.username})"),
                 ("Public Key", user.public_key),
                 ("Plan", plans[user.plan]),
-                ("Signature", user.signature)
+                ("Signature", user.signature if user.signature != None else "None")
             ],
             thumbnail=db_user.avatar,
             image=db_user.banner
