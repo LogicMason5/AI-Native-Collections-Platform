@@ -24,7 +24,7 @@ export const Sidebar = () => {
                 setName("bolt")
             }
         }
-        fetchName()
+        setTimeout(() => fetchName(), 500)
       }, []);
 
       const SidebarItem = ({ icon, link, path }: { icon: any, link: string, path: string }) => {

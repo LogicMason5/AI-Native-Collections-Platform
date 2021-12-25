@@ -26,7 +26,7 @@ export const RecentTransactions = () => {
       }
 
     }
-    fetchData()
+    setTimeout(() => fetchData(), 500)
   }, []);
 
   return (

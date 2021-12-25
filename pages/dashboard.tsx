@@ -27,7 +27,7 @@ export default function Dashboard() {
                 toast.error(json.error)
             }
         }
-        fetchData()
+        setTimeout(() => fetchData(), 500)
     }, []);
 
     return (

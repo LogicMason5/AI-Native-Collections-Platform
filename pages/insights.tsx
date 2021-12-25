@@ -39,7 +39,7 @@ export default function Insights() {
                 "walletValue": json["walletValue"]
             })
         }
-        fetchData()
+        setTimeout(() => fetchData(), 500)
     }, [])
 
     useEffect(() => {
@@ -116,7 +116,7 @@ export default function Insights() {
             setRatio([received, sent])
         }
 
-        fetchData()
+        setTimeout(() => fetchData(), 500)
     }, [currentMonth]);
 
 

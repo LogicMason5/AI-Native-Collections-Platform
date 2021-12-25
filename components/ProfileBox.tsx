@@ -27,7 +27,7 @@ export const ProfileBox = ({ user, activity }: any) => {
             const data = await result.json()
             setBookmarked(data.bookmarked)
         }
-        fetchData()
+        setTimeout(() => fetchData(), 500)
     }, [user]);
 
 

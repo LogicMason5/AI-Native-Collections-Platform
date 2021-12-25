@@ -16,7 +16,7 @@ export const DiscoverProfiles = () => {
       const data = await result.json()
       setData(data)
     }
-    fetchData()
+    setTimeout(() => fetchData(), 500)
   }, []);
 
   const getProfiles = async (e: any) => {
