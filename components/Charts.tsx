@@ -106,7 +106,6 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
                   label: (context: any) => {
                     let label = "";
                     if (context.parsed) {
-                        console.log(context)
                       label = context.dataset.label + "  " + context.formattedValue + " SOLs"
                     }
                     return label;
@@ -161,6 +160,7 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
 
     const options = {
         maintainAspectRatio: false,
+        aspectRatio: 1,
         layout: { padding: { top: 50, left: 30, right: 20, bottom: 25 } },
         plugins: {
             legend: { display: false, },
