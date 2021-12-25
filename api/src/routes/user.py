@@ -22,22 +22,23 @@ async def register(
     user: RegisterUser, request: Request, db: Session = Depends(get_db)
         ) -> Union[JSONResponse, User]:
 
-    transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
-    print("signature: ", user.signature)
-    try:
-        print("\ntransaction: ", transaction)
-        keys = transaction["result"]["transaction"]["message"]["accountKeys"]
-        print("publicKeys: ", keys, "\n")
-        if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai", user.public_key]).issubset(keys):
-            return JSONResponse(
-                status_code=400,
-                content={"error": "Invalid signature"}
-            )
-    except Exception:
-            return JSONResponse(
-                status_code=400,
-                content={"error": "Invalid signature."}
-            )
+    if (user.plan != 0):
+        transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
+        print("signature: ", user.signature)
+        try:
+            print("\ntransaction: ", transaction)
+            keys = transaction["result"]["transaction"]["message"]["accountKeys"]
+            print("publicKeys: ", keys, "\n")
+            if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai", user.public_key]).issubset(keys):
+                return JSONResponse(
+                    status_code=400,
+                    content={"error": "Invalid signature"}
+                )
+        except Exception:
+                return JSONResponse(
+                    status_code=400,
+                    content={"error": "Invalid signature."}
+                )
 
     if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
         return JSONResponse(
@@ -79,7 +80,7 @@ async def register(
         db.add(db_plan)
         db.commit()
         db.refresh(db_user)
-        plans = {2: "Yearly - $2", 6: "Yearly $6", 10: "Forever - $10", 15: "Forever - $15"}
+        plans = {0: "Free", 2: "Yearly - $2", 6: "Yearly $6", 10: "Forever - $10", 15: "Forever - $15"}
         webhook = Webhook(os.getenv("WEBHOOK_SECRET"))
         embed = Webhook.embed(
             "New registration",

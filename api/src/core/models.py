@@ -4,7 +4,7 @@ from typing import Optional
 class RegisterUser(BaseModel):
     public_key: str
     username: str
-    signature: str
+    signature: Optional[str]
     plan: int
 
 class CheckUser(BaseModel):

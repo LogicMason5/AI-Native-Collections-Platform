@@ -34,7 +34,7 @@ class Plan(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     type = Column(String(), default=get_random_banner, nullable=False)
-    signature = Column(Text, nullable=False)
+    signature = Column(Text, nullable=True)
     bought_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     owner_public_key = Column(String(length=44), ForeignKey('users.public_key', ondelete='CASCADE'), nullable=False)
     owner = relationship("User", back_populates="plan")

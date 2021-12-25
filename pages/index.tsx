@@ -51,7 +51,7 @@ export default function Index() {
           <p>NodeAir lets you create your public wallet profile to find each other easily. Get statistics with graphs about your transactions and activity in seconds.</p>
           {isRegistered ?
             <Link href="/dashboard"><a className={styles.button} >Go to Dashboard </a></Link>
-            : <button className={styles.button} onClick={toggleModal}>Create Profile</button>
+            : <button className={styles.button} onClick={toggleModal}>Get started for free</button>
           }
         </div>
 

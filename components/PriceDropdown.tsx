@@ -5,6 +5,7 @@ import Dollar from '@/images/Dollar.svg'
 import Invoice from '@/images/Invoice.svg'
 import Up from '@/images/icons/Up.svg'
 import Down from '@/images/icons/Down.svg'
+import Free from '@/images/icons/Free.svg'
 
 export const PriceDropdown = ({ setSelectedPlan }: any) => {
     const [open, setOpen] = useState(false);
@@ -42,12 +43,16 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                 unmountOnExit
                 onEnter={calcHeight}>
                 <div className="menu">
+                    <a className="menu-item" onClick={(e) => update(e)}>
+                        <Image src={Free} alt="freedollar" />Free
+                    </a>
+
                     <a className="menu-item" onClick={() => "Subscription based payment" && setActiveMenu("Subscription based payment")}>
-                        <Image src={Dollar} alt="dollar" /> Subscription based
+                        <Image src={Dollar} alt="dollar" />Subscription based {'>'}
                     </a>
 
                     <a className="menu-item" onClick={() => "One time payment" && setActiveMenu("One time payment")}>
-                        <Image src={Invoice} alt="invoice" /> One time payment
+                        <Image src={Invoice} alt="invoice" />One time payment {'>'}
                     </a>
                 </div>
             </CSSTransition>

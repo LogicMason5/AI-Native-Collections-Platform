@@ -5,6 +5,7 @@ import styles from '@/styles/modules/RegisterModal.module.scss'
 import Dollar from '@/images/Dollar.svg'
 import Invoice from '@/images/Invoice.svg'
 import Image from 'next/image'
+import Free from '@/images/icons/Free.svg'
 import { toast } from 'react-toastify'
 
 export const RegisterModal = (props: any) => {
@@ -12,11 +13,12 @@ export const RegisterModal = (props: any) => {
 
   const [name, setName] = useState<string>("")
   const [amount, setAmount] = useState<number>(0)
-  const [selectedPlan, setSelectedPlan] = useState<string>("Basic - $2/Year");
+  const [selectedPlan, setSelectedPlan] = useState<string>("Free");
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     const pricing: any = {
+      "Free": 0,
       "Basic - $2/Year": 2,
       "Pro - $6/Year": 6,
       "Basic - $10": 10,
@@ -58,7 +60,7 @@ export const RegisterModal = (props: any) => {
       <div className={styles.main}>
         <span className={styles.close} onClick={handleclose}>&times;</span>
         <div className={styles.changePlan}>
-          <Image src={(selectedPlan.endsWith("/year")) ? Dollar : Invoice} width="50" height="50" alt="pricing" />
+          <Image src={(selectedPlan.endsWith("/year")) ? Dollar : (selectedPlan=="Free") ? Free : Invoice} width="50" height="50" alt="pricing" />
           <h1>{selectedPlan}</h1>
           <PriceDropdown setSelectedPlan={setSelectedPlan} />
         </div>

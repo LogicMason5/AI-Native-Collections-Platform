@@ -32,7 +32,7 @@
 
   }
   
-  .menu-item {
+  .menu-item, .menu-item-single {
     cursor: pointer;
     gap: 10px;
     height: 50px;
@@ -46,12 +46,10 @@
       font-size: 1rem;
       color: $text;
     }
+    &:hover {
+      background-color: #262733;
+    }
   }
-  
-  .menu-item:hover {
-    background-color: #262733;
-  }
-  
   
   /* CSSTransition classes  */
   .menu-primary-enter {
