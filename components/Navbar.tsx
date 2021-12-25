@@ -33,7 +33,7 @@ export const Navbar = (props: any) => {
       </nav>
       {props.isRegistered?
       <button className={styles.connectButton} onClick={() => Router.push("/dashboard")}>Dashboard</button>:
-      <button className={styles.connectButton} onClick={() => handleButtonChange()}>{publicKey ? <> <div></div> {publicKey} </> : "Connect wallet"}</button>
+      <button className={styles.connectButton} onClick={() => handleButtonChange()}>{publicKey ? <> <div></div> {publicKey} </> : "Connect Wallet"}</button>
       }
     </header>
   )

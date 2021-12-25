@@ -90,7 +90,7 @@ export default function Insights() {
                                     () => null :
                                     () => setCurrentMonth(currentMonth - 1)}>{'<'}
                             </span>
-                            {GetMonth(currentMonth)}
+                            {GetMonth(currentMonth)} 2021
                             <span style={currentMonth == new Date().getMonth() || delay?
                                 { cursor: "default", opacity: "50%" } :
                                 { cursor: "pointer" }}
@@ -106,7 +106,7 @@ export default function Insights() {
                 </div>
 
                 <div className={styles.tokenDistribution}>
-                    <h3>Token distribution</h3>
+                    <h3>Token Distribution</h3>
                     {tokens && numericsData ?
                         <div>
                             <div><TokenDistributionChart chartData={tokens} /></div>
@@ -117,7 +117,7 @@ export default function Insights() {
                 </div>
 
                 <div className={styles.transactionDistribution}>
-                    <h3>Solana transaction distribution</h3>
+                    <h3>Solana Transaction Distribution</h3>
                     <TransactionDistributionChart chartData={ratio ? ratio : [1, 1]} />
                     <div className={styles.labels}>
                         {ratio[1] > ratio[0] ?
@@ -153,9 +153,9 @@ export default function Insights() {
                     {numericsData ?
                         <div>
                             <>
-                                <p>Wallet value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
-                                <p>Fungible token count<span>{numericsData["fungibleTokenCount"]}</span></p>
-                                <p>NFT count<span>{numericsData["nftCount"]}</span></p>
+                                <p>Wallet Value<span>${numericsData["walletValue"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
+                                <p>Fungible Token Count<span>{numericsData["fungibleTokenCount"]}</span></p>
+                                <p>NFT Count<span>{numericsData["nftCount"]}</span></p>
                                 <p>1 $SOL<span>${numericsData["solPrice"]}</span></p>
                             </>
                         </div>
