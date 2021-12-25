@@ -22,16 +22,16 @@ export default function Insights() {
 
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
     const [delay, setDelay] = useState<boolean>(false)
-    const [plan, setPlan] = useState<number>(0)
+  //  const [plan, setPlan] = useState<number>(0)
 
 
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
             const publicKey = await connectWallet(false, false)
-            const planRes = await fetch(API_URL + "/plan/" + publicKey)
-            const planResJson = await planRes.json()
-            setPlan(planResJson)
+            // const planRes = await fetch(API_URL + "/plan/" + publicKey)
+            // const planResJson = await planRes.json()
+            // setPlan(planResJson)
             const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
             const json = await res.json()
             setTokens(json["tokenValues"])
@@ -136,11 +136,12 @@ export default function Insights() {
 
                 <div className={styles.transactions}>
                     <h3>Solana Transactions</h3>
-                        <p style={delay || ![10, 15].includes(plan)? { opacity: "50%" } : { opacity: "100%" }}>
+                        <p style={delay ? // || ![10, 15].includes(plan)? 
+                            { opacity: "50%" } : { opacity: "100%" }}>
                             <span style={currentMonth == 0 || delay?
                                 { cursor: "default", opacity: "50%" } :
                                 { cursor: "pointer" }}
-                                onClick={currentMonth == 0 || delay || ![10, 15].includes(plan) ?
+                                onClick={currentMonth == 0 || delay ? // || ![10, 15].includes(plan) ?
                                     () => null :
                                     () => setCurrentMonth(currentMonth - 1)}>{'<'}
                             </span>
@@ -148,13 +149,13 @@ export default function Insights() {
                             <span style={currentMonth == new Date().getMonth() || delay?
                                 { cursor: "default", opacity: "50%" } :
                                 { cursor: "pointer" }}
-                                onClick={currentMonth == new Date().getMonth() || delay || ![10, 15].includes(plan) ?
+                                onClick={currentMonth == new Date().getMonth() || delay ? //|| ![10, 15].includes(plan) ?
                                     () => null :
                                     () => setCurrentMonth(currentMonth + 1)}>{'>'}
                             </span>
                         </p>
-                    {![10, 15].includes(plan) ?
-                        <span className={styles.planInfo}>Upgrade to pro plan to change months</span> : null}
+                    {/* {![10, 15].includes(plan) ?
+                        <span className={styles.planInfo}>Upgrade to pro plan to change months</span> : null} */}
 
                     <TransactionChart chartData={transactions} />
                 </div>
