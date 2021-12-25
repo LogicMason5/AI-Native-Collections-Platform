@@ -44,9 +44,6 @@
             padding: 0px 13px;
             border-radius: 50%;
             transition: .2s ease-out;
-            &:hover {
-                background-color: $hoverBg;
-            }
         }
     }
     > h3 {
@@ -55,6 +52,27 @@
         top: 10px;
         color: $primaryStroke;
     }
+}
+
+.planInfo {
+    display: none;
+    z-index: 3;
+    position: absolute;
+    right: -10%;
+    top: 0px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 10px;
+    background-color: $hoverBg;
+    box-shadow: 0px px 10px rgb(0, 0, 0);
+    &:hover {
+        display: inline-block;
+    }
+}
+
+.transactions p:hover + .planInfo{
+    display: inline-block;
 }
 
 .tokenDistribution {

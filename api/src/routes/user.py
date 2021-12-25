@@ -92,3 +92,21 @@ async def register(
         )
         await webhook.send(embed=embed)
         return db_user
+
+
+@router.post("/plan/{public_key}",
+             dependencies=[Depends(Limit(times=20, seconds=5))],
+             status_code=200
+             )
+async def plan(
+    public_key: str, db: Session = Depends(get_db)
+        ) -> JSONResponse:
+
+    plan_user = db.query(User).filter_by(username=public_key).first()
+    if plan_user:
+        return {"plan": int(plan_user.plan[0].type)}
+    
+    return JSONResponse(
+        status_code=404,
+        content={"error": "User not found"}
+    )
