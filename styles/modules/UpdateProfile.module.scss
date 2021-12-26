@@ -16,24 +16,25 @@
 
 .main {
     background-color: $secondaryBg;
-    width: 700px;
-    height: 450px;
+    width: 500px;
+    height: 600px;
     border-radius: 20px;
-    > hr {
-        background: $secondaryStroke;
-        width: 100%;
-        height: 1px;
-        border: none;
+}
+.upper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > h3 {
+        @include medium_font;
+        color: $primaryStroke;
+        margin: 10px;   
     }
 }
-
 .close{
     cursor: pointer;
     color: $blue;
     font-size: 2.5rem;
-    font-weight: lighter;
     transition: .2s ease-out;
-    float: right;
     margin: 10px;
     width: 2.5rem;
     height: 2.5rem;
@@ -46,41 +47,37 @@
     }
 }
 
-.changePlan {
-    padding: 10px 0px 10px 10px;
+
+.bannerParent {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-flow: column;
+    position: relative;
 }
-.currentPlan {
-    margin-left: 20px;
+.bannerInput{
+    display: none;
+}
+
+.editBanner {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    padding: 10px;
     display: flex;
-    align-items: center;
-    width: 20%;
-    gap: 10px;
-    width: 50%;
-    & > h1 {
-        font-size: 1.5rem;
-        color: $text;
+    transition: .2s ease-out;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px rgb(44, 44, 44);
+    &:hover {
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.322);
     }
 }
 
-.form {
-    padding: 50px 30px;
+.textfields {
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column;
     justify-content: center;
-    & > p {
-        color: $grey;
-    }
-    & > h1 {
-        color: $textDark;
-        margin-top: 30px;
-        margin-bottom: 5px;
-        font-size: 1.2rem;
-        @include medium_font;
-    }
-    & > input {
+    > input {
         @include default_font;
         margin-top: 10px;
         font-size: 1rem;
@@ -102,7 +99,7 @@
 
         }
     }
-    & > button {
+    > button {
         @include button;
         width: 30%;
         height: 40px;
@@ -110,6 +107,7 @@
         margin-top: 40px;
     }
 }
+
 
 .error {
     color: #ff5151;

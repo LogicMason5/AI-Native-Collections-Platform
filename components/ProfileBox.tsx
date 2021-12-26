@@ -74,13 +74,13 @@ export const ProfileBox = ({ user, activity }: any) => {
     }
     return (
         <div className={styles.profileBox}>
-            <img className={styles.banner} src={user.banner} width="100%" height="200" alt="banner" />
+            <img className={styles.banner} src={user.banner} alt="banner" />
             <div className={styles.moveup}>
                 <div className={styles.upper}>
                     <img className={styles.avatar} src={user.avatar} width="180" height="180" alt="avatar" />
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
-                   {/* {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null}  */}
+                   {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null} 
                     <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
                 <div className={styles.buttons}>
@@ -130,7 +130,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
 
             </div>
-            {modalIsOpen ? <UpdateProfile setModalIsOpen={toggleModal} /> : null}
+            {modalIsOpen ? <UpdateProfile setModalIsOpen={toggleModal} userData={user}/> : null}
         </div>
 
     )
