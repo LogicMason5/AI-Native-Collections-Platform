@@ -24,12 +24,12 @@ async def register(
 
     if (user.plan != 0):
         transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
-        print("signature: ", user.signature)
+        print("-"*200 ,"\nsignature: ", user.signature)
         try:
             print("\ntransaction: ", transaction)
             keys = transaction["result"]["transaction"]["message"]["accountKeys"]
-            print("publicKeys: ", keys, "\n")
-            if not set(["B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai", user.public_key]).issubset(keys):
+            print("\npublicKeys: ", keys, "\n", "-"*200)
+            if not set(["JC2YXGuprjWRSJaTM67SEyHQr3yFtnPwjiMRQTEERoRj", user.public_key]).issubset(keys):
                 return JSONResponse(
                     status_code=400,
                     content={"error": "Invalid signature"}

@@ -64,7 +64,7 @@ async def update_profile(
     db: Session = Depends(get_db),
 ) -> Union[JSONResponse, User]:
 
-    signature = data.signature["data"]
+    signature = data.signature
     public_key = data.public_key
     signature_obj = db.query(Signature).filter_by(public_key=public_key)
 
@@ -86,8 +86,6 @@ async def update_profile(
                 content={
                     "error": "You need to register your wallet in order to update profile"}
             )
-        user = db.query(User).filter_by(
-            public_key="B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai").first()
 
         data_dict = data.dict(exclude_unset=True, exclude={
                               "signature", "public_key"})

@@ -24,10 +24,10 @@ class ProfileFind(BaseModel):
     username_or_public_key: str
 
 class UpdateProfile(BaseModel):
-    username: Optional[str] = None
     name: Optional[str] = None
     bio: Optional[str] = None
     social: Optional[str] = None
     avatar: Optional[str] = None
     banner: Optional[str] = None
+    signature: str
 

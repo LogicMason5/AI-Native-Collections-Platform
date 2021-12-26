@@ -53,10 +53,16 @@ async def views(request: Request, public_key: str) -> JSONResponse:
                 program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
                 encoding="jsonParsed"),
             "max")
-    
-    public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
-                   for i in tokens["result"]["value"]]
-    public_keys.append(SOL_ADDRESS)
+    print(tokens)
+    try:
+        public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
+                    for i in tokens["result"]["value"]]
+        public_keys.append(SOL_ADDRESS)
+    except Exception:
+        return JSONResponse(
+                status_code=500,
+                content={"error": "Error fetching tokens, try reloading."}
+                )
 
     possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
                    for i in tokens["result"]["value"] if i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] == 1]
