@@ -80,7 +80,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <img className={styles.avatar} src={user.avatar} width="180" height="180" alt="avatar" />
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
-                   {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null} 
+                   {/* {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null}  */}
                     <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
                 <div className={styles.buttons}>

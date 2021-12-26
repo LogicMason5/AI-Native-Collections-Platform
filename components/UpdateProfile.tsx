@@ -1,19 +1,11 @@
-import { useState, useEffect } from 'react'
-import { registerWallet } from '@/components/Wallet'
-import { PriceDropdown } from '@/components/PriceDropdown'
-
-import Dollar from '@/images/Dollar.svg'
-import Invoice from '@/images/Invoice.svg'
-import Image from 'next/image'
-import Free from '@/images/icons/Free.svg'
-import { toast } from 'react-toastify'
+import { useState } from 'react'
+import styles from '@/styles/modules/UpdateProfile.module.scss'
 
 export const UpdateProfile = (props: any) => {
 
-
   const [name, setName] = useState<string>("")
-  const [amount, setAmount] = useState<number>(0)
-  const [selectedPlan, setSelectedPlan] = useState<string>("Free");
+  const [bio, setBio] = useState<number>(0)
+  const [social, setSocial] = useState<string>("Free");
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleclose = () => {
@@ -34,15 +26,20 @@ export const UpdateProfile = (props: any) => {
     }
     setName(input)
   }
+
+  const updateProfile = (e: any) => {
+    e.preventDefault()
+    setErrorMessage('')
+  }
   return (
     <div className={styles.updateModal}>
       <div className={styles.main}>
         <span className={styles.close} onClick={handleclose}>&times;</span>
-        <form className={styles.form} onSubmit={(e) => registerWallet(e, name, amount)}>
-          <p>Get started by entering your profile name and clicking that button below. Feel free to change plan above.</p>
-          <h1>Enter Your Profile Name</h1>
+        <form className={styles.form} onSubmit={(e) => updateProfile(e)}>
           <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Name" type="text"></input>
-          <button type="submit" disabled={name.length == 0 ? true : false}>Create profile</button>
+          <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Bio" type="text"></input>
+          <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Social" type="text"></input>
+          <button type="submit" >Update</button>
           <span className={styles.error}>{errorMessage}</span>
         </form>
       </div>
