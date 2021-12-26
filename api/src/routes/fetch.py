@@ -53,12 +53,12 @@ async def views(request: Request, public_key: str) -> JSONResponse:
                 program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
                 encoding="jsonParsed"),
             "max")
-    print(tokens)
     try:
         public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
                     for i in tokens["result"]["value"]]
         public_keys.append(SOL_ADDRESS)
     except Exception:
+        print("Execption with tokens: ", tokens)
         return JSONResponse(
                 status_code=500,
                 content={"error": "Error fetching tokens, try reloading."}
