@@ -83,7 +83,7 @@
             border: 1px solid transparent;
         }
         &:active {
-            transform: scale(90%);
+            transform: scale(95%);
         }
     }
 }
@@ -97,7 +97,7 @@
         background-color: $hoverBg;
     }
     &:active {
-        transform: scale(90%);
+        transform: scale(95%);
     }
 }
 
@@ -212,3 +212,23 @@
 }
 
 
+.button {
+    position: absolute;
+    right: 20px;
+    top: 15%;
+    font-size: 1rem;
+
+    border: 1px solid $bg;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    @include light_font;
+    padding: 8px 5%;
+    box-shadow: none;
+    transition: .1s ease-out;
+    border: 1px solid $bg;
+    background-color: $hoverBg;
+    &:hover {
+        border: 1px solid $primaryStroke;
+    }
+}

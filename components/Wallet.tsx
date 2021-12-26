@@ -89,7 +89,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       if (res.ok) {
         let payment
         if (usd != 0) {
-          payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
+          payment = await sendPayment(new PublicKey("JC2YXGuprjWRSJaTM67SEyHQr3yFtnPwjiMRQTEERoRj"), usd)
         }
         
         if (usd == 0 || payment) {

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { connectWallet, signMessage } from '@/components/Wallet'
+import { UpdateProfile } from '@/components/UpdateProfile'
 import { GetMonth } from 'utils/functions'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,10 +20,18 @@ export const ProfileBox = ({ user, activity }: any) => {
     const joined_on = split[2] + " " + month + " " + split[0]
     const [bookmarked, setBookmarked] = useState(false)
 
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
+    const [pubKey, setPubKey] = useState<string>()
+  
+    const toggleModal = () => {
+      setModalIsOpen(!modalIsOpen)
+    }
+
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
             const public_key = await connectWallet(false, false)
+            setPubKey(public_key)
             const result = await fetch(API_URL + `/bookmark/check/${public_key}/${user.public_key}`)
             const data = await result.json()
             setBookmarked(data.bookmarked)
@@ -71,6 +80,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <img className={styles.avatar} src={user.avatar} width="180" height="180" alt="avatar" />
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
+                   {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null} 
                     <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
                 <div className={styles.buttons}>
@@ -120,7 +130,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
 
             </div>
-
+            {modalIsOpen ? <UpdateProfile setModalIsOpen={toggleModal} /> : null}
         </div>
 
     )

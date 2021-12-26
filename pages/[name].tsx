@@ -11,7 +11,6 @@ export default function Profile({ userData, name }: any) {
   useEffect(() => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const updateCount = async () => {
-      console.log("ran")
         const result = await fetch(API_URL + "/profile/update_count/" + name)
         if (!result.ok) {
           const json = await result.json()

@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Image from 'next/image'
-import Dollar from '@/images/Dollar.svg'
-import Invoice from '@/images/Invoice.svg'
+import Dollar from '@/images/icons/Dollar.svg'
+import Invoice from '@/images/icons/Invoice.svg'
 import Up from '@/images/icons/Up.svg'
 import Down from '@/images/icons/Down.svg'
 import Free from '@/images/icons/Free.svg'
@@ -44,15 +44,15 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <a className="menu-item" onClick={(e) => update(e)}>
-                        <Image src={Free} alt="freedollar" />Free
+                        <Image src={Free} alt="freedollar" height="20" width="20"/>Free
                     </a>
 
                     <a className="menu-item" onClick={() => "Subscription based payment" && setActiveMenu("Subscription based payment")}>
-                        <Image src={Dollar} alt="dollar" />Subscription based {'>'}
+                        <Image src={Dollar} alt="dollar" height="20" width="20"/>Subscription based {'>'}
                     </a>
 
                     <a className="menu-item" onClick={() => "One time payment" && setActiveMenu("One time payment")}>
-                        <Image src={Invoice} alt="invoice" />One time payment {'>'}
+                        <Image src={Invoice} alt="invoice" height="20" width="20"/>One time payment {'>'}
                     </a>
                 </div>
             </CSSTransition>
@@ -65,7 +65,7 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <a className="menu-item" onClick={() => "main" && setActiveMenu("main")}>
-                        <Image src={Dollar} alt="dollar" /> <h2> Subscription based</h2>
+                        <Image src={Dollar} alt="dollar" height="20" width="20"/> <h2> Subscription based</h2>
                     </a>
                     <a className="menu-item" onClick={(e) => update(e)}>Basic - $2/Year</a>
                     <a className="menu-item" onClick={(e) => update(e)}>Pro - $6/Year</a>
@@ -80,7 +80,7 @@ const Dropdown = ({ setSelectedPlan, setOpen }: any) => {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <a className="menu-item" onClick={(e) => "main" && setActiveMenu("main")}>
-                        <Image src={Invoice} alt="invoice" /> <h2>One time payment</h2>
+                        <Image src={Invoice} alt="invoice" height="20" width="20"/> <h2>One time payment</h2>
                     </a>
                     <a className="menu-item" onClick={(e) => update(e)}>Basic - $10</a>
                     <a className="menu-item" onClick={(e) => update(e)}>Pro - $15</a>
