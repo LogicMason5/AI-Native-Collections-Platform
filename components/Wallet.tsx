@@ -20,7 +20,7 @@ export const connectWallet = async (showToast = true, onlyIfTrusted = false, ret
     }
     return res.publicKey;
   }
-  window.open("https://phantom.app/", "_blank");
+  toast.error("Phantom wallet not found, head over to phantom.app", {position: toast.POSITION.TOP_CENTER})
 }
 
 
