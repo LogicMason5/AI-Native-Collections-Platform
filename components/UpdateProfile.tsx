@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { registerWallet } from '@/components/Wallet'
 import { PriceDropdown } from '@/components/PriceDropdown'
-import styles from '@/styles/modules/UpdateProfile.module.scss'
+
 import Dollar from '@/images/Dollar.svg'
 import Invoice from '@/images/Invoice.svg'
 import Image from 'next/image'
