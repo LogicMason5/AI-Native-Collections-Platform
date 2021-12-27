@@ -1,17 +1,22 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { connectWallet, signMessage } from '@/components/Wallet'
 import { UpdateProfile } from '@/components/UpdateProfile'
 import { GetMonth } from 'utils/functions'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import Sent from '@/images/Sent.svg'
 import Received from '@/images/Received.svg'
 import Bookmark from '@/images/icons/Bookmark.svg'
 import Bookmarked from '@/images/icons/Bookmarked.svg'
+import Reddit from '@/images/icons/socials/Reddit.svg'
+import GitHub from '@/images/icons/socials/GitHub.svg'
+import Twitter from '@/images/icons/socials/Twitter.svg'
+import Facebook from '@/images/icons/socials/Facebook.svg'
+import Instagram from '@/images/icons/socials/Instagram.svg'
 import Copy from '@/images/icons/Copy.svg'
 import styles from '@/styles/modules/ProfileBox.module.scss'
-import Link from 'next/link'
+
 
 export const ProfileBox = ({ user, activity }: any) => {
     const joined = user.joined_on.substring(0, 10)
@@ -22,9 +27,19 @@ export const ProfileBox = ({ user, activity }: any) => {
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
     const [pubKey, setPubKey] = useState<string>()
-  
+
+
+    const SocialImages: any = {
+        reddit: Reddit,
+        github: GitHub,
+        twitter: Twitter,
+        facebook: Facebook,
+        instagram: Instagram,
+    };
+
+
     const toggleModal = () => {
-      setModalIsOpen(!modalIsOpen)
+        setModalIsOpen(!modalIsOpen)
     }
 
     useEffect(() => {
@@ -80,10 +95,11 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <img className={styles.avatar} src={user.avatar} alt="avatar" />
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
-                   {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null} 
+                    {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null}
                     <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
                 <div className={styles.buttons}>
+                    <a href={user.social} target="_blank"><Image src={SocialImages[user.social.split(".")[0].slice(8)]} /></a>
                     <div onClick={copyAddress}>
                         <p>{user.public_key.replace(user.public_key.slice(5, 39), "...")}</p>
                         <Image src={Copy} alt="copy" />
@@ -130,7 +146,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                 </div>
 
             </div>
-            {modalIsOpen ? <UpdateProfile setModalIsOpen={toggleModal} userData={user}/> : null}
+            {modalIsOpen ? <UpdateProfile setModalIsOpen={toggleModal} userData={user} /> : null}
         </div>
 
     )
@@ -143,8 +159,8 @@ export const ProfileBoxNotFound = ({ username }: any) => {
             <div className={styles.moveup}>
                 <div className={styles.upper}>
                     <div className={styles.avatar_} />
-                        <h3>User not found</h3>
-                        <h4>@{username}</h4>
+                    <h3>User not found</h3>
+                    <h4>@{username}</h4>
                 </div>
 
             </div>

@@ -71,16 +71,24 @@
         justify-content: center;
         border: 1px solid $primaryStroke;
         border-radius: 30px;
-        padding: 8px 10px;
+        padding: 8px;
         gap: 10px;
         width: 25%;
-        transition: .2s ease-out;
+        transition: .1s ease-out;
         &:hover {
             background-color: $hoverBg;
             border: 1px solid transparent;
         }
         &:active {
             transform: scale(95%);
+        }
+    }
+    > a {
+        transition: .1s ease-out;
+        height: 45px;
+        width: 45px;
+        &:hover {
+            filter: brightness(150%);
         }
     }
 }
