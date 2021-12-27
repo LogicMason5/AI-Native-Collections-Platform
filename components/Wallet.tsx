@@ -112,7 +112,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
                 Router.push("/dashboard")
               } else {
                 const json = await res.json()
-                toast.error(json)
+                toast.error(json.error)
               }
             })
         }

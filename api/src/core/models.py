@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from fastapi import UploadFile, File, Form
 
 class RegisterUser(BaseModel):
     public_key: str
@@ -23,11 +24,4 @@ class BookmarkFind(BaseModel):
 class ProfileFind(BaseModel):
     username_or_public_key: str
 
-class UpdateProfile(BaseModel):
-    name: Optional[str] = None
-    bio: Optional[str] = None
-    social: Optional[str] = None
-    avatar: Optional[str] = None
-    banner: Optional[str] = None
-    signature: str
 

@@ -1,13 +1,16 @@
 import random
-from typing import Union
-from fastapi import Request
+import json
+from typing import Optional, Union
+
+import os
+import aiofiles
 from core.db import get_db
 from core.ratelimit import Limit
 from sqlalchemy.orm import Session
 from core.schemas import User, View, Signature
-from core.models import ProfileFind, UpdateProfile
+from core.models import ProfileFind
 from fastapi.responses import JSONResponse
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request, UploadFile, File, Form
 from utils import lamport_to_sol, verify_signature
 
 router = APIRouter(prefix="/profile")
@@ -21,7 +24,7 @@ async def profile(
         username: str,
         request: Request,
         db: Session = Depends(get_db),
-        ) -> Union[JSONResponse, User]:
+) -> Union[JSONResponse, User]:
 
     user = db.query(User).filter_by(username=username).first()
 
@@ -55,24 +58,33 @@ async def profile(
     )
 
 
-@router.get("/update",
+
+
+@router.put("/update",
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200
             )
-async def update_profile(
-    data: UpdateProfile,
+async def profile_update(
+    request: Request,
+    avatar: Optional[UploadFile] = File(None),
+    banner: Optional[UploadFile] = File(None),
+    name: Optional[str] = Form(None),
+    bio: Optional[str] = Form(None),
+    social: Optional[str] = Form(None),
+    public_key: str = Form(...),
+    signature: str = Form(...),
     db: Session = Depends(get_db),
-) -> Union[JSONResponse, User]:
+    ) -> Union[JSONResponse, User]:
 
-    signature = data.signature
-    public_key = data.public_key
+    signature = json.loads(signature)
+    signature = signature["data"]
     signature_obj = db.query(Signature).filter_by(public_key=public_key)
 
     if not signature_obj.first():
         return {"error": "Message not signed"}
 
-    verify = verify_signature(
-        signature_obj[-1].hash, signature, public_key)
+    message_hash = signature_obj[-1].hash
+    verify = verify_signature(message_hash, signature, public_key)
     if not verify:
         return JSONResponse(
             status_code=400,
@@ -86,14 +98,32 @@ async def update_profile(
                 content={
                     "error": "You need to register your wallet in order to update profile"}
             )
+        user.name = name
+        user.bio = bio
+        user.social = social
 
-        data_dict = data.dict(exclude_unset=True, exclude={
-                              "signature", "public_key"})
-        for key, value in data_dict.items():
-            setattr(user, key, value)
+        file_name =f"{message_hash}.png"
+        if (avatar):
+            with open(file_name, 'wb') as image:
+                content = await avatar.read()
+                image.write(content)
+                image.close()
+            res = request.app.ipfs.add(file_name)
+            user.avatar = f"https://ipfs.infura.io:5001/api/v0/cat?arg={res['Hash']}"
+            os.remove(file_name)
 
-        db.commit()
-        return user
+        if (banner):
+            with open(file_name, 'wb') as image:
+                content = await banner.read()
+                image.write(content)
+                image.close()
+            res = request.app.ipfs.add(file_name)
+            user.banner = f"https://ipfs.infura.io:5001/api/v0/cat?arg={res['Hash']}"
+            os.remove(file_name)
+    
+    db.commit()
+    db.refresh(user)
+    return user
 
 
 @router.get("/update_count/{username}",
@@ -103,8 +133,8 @@ async def update_profile(
 async def update_count(
     username: str,
     db: Session = Depends(get_db),
-    ) -> Union[JSONResponse, User]:
-    
+) -> Union[JSONResponse, User]:
+
     user = db.query(User).filter_by(username=username).first()
     if user:
         view = View(public_key=user.public_key)

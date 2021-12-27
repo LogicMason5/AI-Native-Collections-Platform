@@ -59,7 +59,7 @@ export default function Insights() {
             const res = await fetch(API_URL + `/transactions/${publicKey}?month_now=${currentMonth}`)
             const json = await res.json()
             if(!res.ok) {
-                toast.error(json)
+                toast.error(json.error)
             } else{
                 setTransactions(json.transactions)
                 setRatio([json.ratio[0], json.ratio[1]])

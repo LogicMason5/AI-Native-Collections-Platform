@@ -1,5 +1,6 @@
 import os
 import httpx
+import ipfsApi
 from fastapi import FastAPI
 from aioredis import from_url
 from routes import user
@@ -45,6 +46,7 @@ async def startup() -> None:
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
     app.solana_client = AsyncClient(os.environ["SOL_NETWORK"])
+    app.ipfs = ipfsApi.Client(host='https://ipfs.infura.io', port=5001)
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
