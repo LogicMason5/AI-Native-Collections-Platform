@@ -41,7 +41,9 @@
         border: 1px solid $hoverBg;
     }
 }
-
+.avatar {
+    border-radius: 50%;
+}
 .upper {
     height: 70%;
     display: flex;
