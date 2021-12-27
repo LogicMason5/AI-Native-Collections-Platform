@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import Image from "next/image"
 import EditBanner from '@/images/icons/EditBanner.svg'
-
+import EditAvatar from '@/images/icons/EditAvatar.svg'
+import Reddit from '@/images/icons/socials/Reddit.svg'
+import GitHub from '@/images/icons/socials/GitHub.svg'
+import Twitter from '@/images/icons/socials/Twitter.svg'
+import Facebook from '@/images/icons/socials/Facebook.svg'
+import Instagram from '@/images/icons/socials/Instagram.svg'
 import styles from '@/styles/modules/UpdateProfile.module.scss'
 
 export const UpdateProfile = (props: any) => {
 
-  const [name, setName] = useState<string>("")
-  const [bio, setBio] = useState<number>(0)
-  const [social, setSocial] = useState<string>("Free");
+  const [name, setName] = useState<string>(props.userData.name)
+  const [bio, setBio] = useState<string>(props.userData.bio)
+  const [social, setSocial] = useState<string>(props.userData.social);
   const [avatar, setAvatar] = useState<string>('')
   const [banner, setBanner] = useState<string>('')
   const [avatarFile, setAvatarFile] = useState<any>(null)
@@ -16,30 +21,63 @@ export const UpdateProfile = (props: any) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const SocialImages: any = {
+    reddit: Reddit,
+    github: GitHub,
+    twitter: Twitter,
+    facebook: Facebook,
+    instagram: Instagram,
+  };
+
   const handleclose = () => {
     props.setModalIsOpen(false)
   }
 
-  const checkInput = (input: string) => {
+  const checkName = (input: string) => {
     setErrorMessage('')
-    if (input.length > 15) {
-      setErrorMessage("Username can't have more than 15 characters")
-      setName('')
-      return
-    }
-    if (input.length > 0 && !input.match(/^[a-zA-Z\d-_]+$/)) {
-      setErrorMessage("Username can only contain letters, numbers, '_' and '-'")
-      setName('')
+    if (input.length > 25) {
+      setErrorMessage("Name can't have more than 25 characters")
       return
     }
     setName(input)
   }
 
+  const checkBio = (input: string) => {
+    setErrorMessage('')
+    if (input.length > 150) {
+      setErrorMessage("Bio can't have more than 150 characters")
+      return
+    }
+    setBio(input)
+  }
+
+  const checkSocial = (input: string) => {
+    setErrorMessage('')
+    if (input.length > 100) {
+      setErrorMessage("Social can't have more than 100 characters")
+      return
+    }
+    if (!"https://".startsWith(input.slice(0, 8))) {
+      setErrorMessage("Social must start with https://")
+      return
+    }
+    const social = input.slice(8).split(".")[0]
+    if (!["reddit".slice(0, social.length),
+    "github".slice(0, social.length),
+    "instagram".slice(0, social.length),
+    "facebook".slice(0, social.length),
+    "twitter".slice(0, social.length)]
+      .includes(social)) {
+      setErrorMessage("Social can only have GitHub, Twitter, Reddit or Instagram links.")
+    }
+    setSocial(input)
+  }
+
 
   const updateProfile = (e: any) => {
     e.preventDefault()
-    setErrorMessage('')
   }
+
   return (
     <div className={styles.updateModal}>
       <div className={styles.main}>
@@ -50,24 +88,46 @@ export const UpdateProfile = (props: any) => {
 
         <form className={styles.form} onSubmit={(e) => updateProfile(e)}>
           <div className={styles.bannerParent}>
-          <Image alt="banner" src={banner || props.userData.banner} objectFit='cover' height="130px" width="100%"/>
-            <input className={styles.bannerInput}  onChange={(e) => {
-              setBannerFile(e.target.files ? e.target.files[0] : null) 
-              setBanner(e.target.files ? URL.createObjectURL(e.target.files[0]): '')
+            <Image alt="banner" src={banner || props.userData.banner} objectFit='cover' height="130px" width="100%" />
+            <input className={styles.bannerInput} onChange={(e) => {
+              setBannerFile(e.target.files ? e.target.files[0] : null)
+              setBanner(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')
             }}
               id="banner-input" type="file" />
 
-            <label className={styles.editBanner}  htmlFor="banner-input">
-              <Image alt="edit banner" src={EditBanner} height="30" width="30"/>
+            <label className={styles.editBanner} htmlFor="banner-input">
+              <Image alt="edit banner" src={EditBanner} height="30" width="30" />
             </label>
           </div>
 
+          <div className={styles.avatarParent}>
+            <Image alt="avatar" src={avatar || props.userData.avatar} objectFit='cover' height="150px" width="150px" />
+            <input className={styles.avatarInput} onChange={(e) => {
+              setAvatarFile(e.target.files ? e.target.files[0] : null)
+              setAvatar(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')
+            }}
+              id="avatar-input" type="file" />
 
+            <label className={styles.editAvatar} htmlFor="avatar-input">
+              <Image alt="edit avatar" src={EditAvatar} height="30" width="30" />
+            </label>
+          </div>
 
           <div className={styles.textfields}>
-            <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Name" type="text"></input>
-            <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Bio" type="text"></input>
-            <input style={errorMessage ? { border: "1px solid #ff5151" } : {}} onChange={e => checkInput(e.target.value)} placeholder="Social" type="text"></input>
+            <h4>Name</h4>
+            <input style={errorMessage.startsWith("Name") ? { border: "1px solid #ff5151" } : {}} onChange={e => checkName(e.target.value)} type="text" value={name}></input>
+
+            <h4>Bio</h4>
+            <textarea className={styles.bioField} style={errorMessage.startsWith("Bio") ? { border: "1px solid #ff5151" } : {}} onChange={e => checkBio(e.target.value)} value={bio}></textarea>
+
+            <h4>Social</h4>
+            <div style={errorMessage.startsWith("Social") ? { border: "1px solid #ff5151" } : {}} className={styles.socialField}>
+              {social && ["reddit", "instagram", "twitter", "facebook", "github"].includes(social.slice(8).split(".")[0]) ?
+                <Image className={styles.socialImage} src={SocialImages[social.slice(8).split(".")[0]]} height="30px" width="30px" /> :
+                null}
+              <input type="text" onChange={e => checkSocial(e.target.value)} value={social}></input>
+            </div>
+
             <button type="submit" >Update</button>
           </div>
 

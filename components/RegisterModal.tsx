@@ -34,12 +34,10 @@ export const RegisterModal = (props: any) => {
     setErrorMessage('')
     if (input.length > 15) {
       setErrorMessage("Username can't have more than 15 characters")
-      setName('')
       return
     }
     if (input.length > 0 && !input.match(/^[a-zA-Z\d-_]+$/)) {
       setErrorMessage("Username can only contain letters, numbers, '_' and '-'")
-      setName('')
       return
     }
     setName(input)
