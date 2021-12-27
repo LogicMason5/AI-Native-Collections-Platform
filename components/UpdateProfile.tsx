@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Image from "next/image"
+import { useRouter } from 'next/router';
 import EditBanner from '@/images/icons/EditBanner.svg'
 import EditAvatar from '@/images/icons/EditAvatar.svg'
 import Reddit from '@/images/icons/socials/Reddit.svg'
@@ -21,6 +22,7 @@ export const UpdateProfile = (props: any) => {
   const [avatarFile, setAvatarFile] = useState<any>(null)
   const [bannerFile, setBannerFile] = useState<any>(null)
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const router = useRouter();
 
   const SocialImages: any = {
     reddit: Reddit,
@@ -102,8 +104,9 @@ export const UpdateProfile = (props: any) => {
       method: 'PUT',
       body: formData
     })
-    toast.dismiss(loadingToastId)
     if (res.ok) {
+      router.replace(router.asPath);
+      toast.dismiss(loadingToastId)
       handleclose()
     } else {
       const json = await res.json()
