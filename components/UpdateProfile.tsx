@@ -71,7 +71,7 @@ export const UpdateProfile = (props: any) => {
     "facebook".slice(0, social.length),
     "twitter".slice(0, social.length)]
       .includes(social)) {
-      setErrorMessage("Social can only have GitHub, Twitter, Reddit or Instagram links.")
+      setErrorMessage("Social can only have Twitter, GitHub, Reddit, Instagram or Facebook links.")
     }
     setSocial(input)
   }
@@ -79,12 +79,14 @@ export const UpdateProfile = (props: any) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
-    if (!Object.keys(SocialImages).includes(social.slice(8).split(".")[0]) || 
+    if (social){
+      if(!Object.keys(SocialImages).includes(social.slice(8).split(".")[0]) || 
       social.split(".com/").length != 2 || 
       social.split(".com/")[1].length == 0){
       setErrorMessage("Social is incomplete")
       return
     }
+  }
 
     const API_URL: any = process.env.NEXT_PUBLIC_API_URL
     const publicKey = await connectWallet(false)
@@ -95,7 +97,7 @@ export const UpdateProfile = (props: any) => {
     bannerFile ? formData.append('banner', bannerFile) : null
     formData.append("name", name)
     formData.append("bio", bio)
-    formData.append("social", social)
+    social ? formData.append("social", social) : null
     formData.append("public_key", publicKey)
     formData.append("signature", JSON.stringify(signature))
 
