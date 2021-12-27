@@ -77,6 +77,13 @@ export const UpdateProfile = (props: any) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
+    if (!Object.keys(SocialImages).includes(social.slice(8).split(".")[0]) || 
+      social.split(".com/").length != 2 || 
+      social.split(".com/")[1].length == 0){
+      setErrorMessage("Social is incomplete")
+      return
+    }
+
     const API_URL: any = process.env.NEXT_PUBLIC_API_URL
     const publicKey = await connectWallet(false)
     const signature = await signMessage(e)
