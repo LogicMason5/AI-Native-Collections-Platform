@@ -77,7 +77,7 @@ export const ProfileBox = ({ user, activity }: any) => {
             <img className={styles.banner} src={user.banner} alt="banner" />
             <div className={styles.moveup}>
                 <div className={styles.upper}>
-                    <img className={styles.avatar} src={user.avatar} width="180" height="180" alt="avatar" />
+                    <img className={styles.avatar} src={user.avatar} alt="avatar" />
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
                    {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null} 

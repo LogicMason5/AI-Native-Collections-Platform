@@ -16,11 +16,10 @@ export const UpdateProfile = (props: any) => {
   const [name, setName] = useState<string>(props.userData.name)
   const [bio, setBio] = useState<string>(props.userData.bio)
   const [social, setSocial] = useState<string>(props.userData.social);
-  const [avatar, setAvatar] = useState<string>('')
-  const [banner, setBanner] = useState<string>('')
+  const [avatar, setAvatar] = useState<string>(props.userData.avatar)
+  const [banner, setBanner] = useState<string>(props.userData.banner)
   const [avatarFile, setAvatarFile] = useState<any>(null)
   const [bannerFile, setBannerFile] = useState<any>(null)
-
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const SocialImages: any = {
@@ -116,7 +115,7 @@ return (
 
       <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
         <div className={styles.bannerParent}>
-          <Image alt="banner" src={banner || props.userData.banner} objectFit='cover' height="130px" width="100%" />
+          <img className={styles.banner} alt="banner" src={banner} />
           <input className={styles.bannerInput} onChange={(e) => {
             setBannerFile(e.target.files ? e.target.files[0] : null)
             setBanner(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')
@@ -129,7 +128,7 @@ return (
         </div>
 
         <div className={styles.avatarParent}>
-          <Image alt="avatar" src={avatar || props.userData.avatar} objectFit='cover' height="150px" width="150px" />
+          <Image alt="avatar" src={avatar} objectFit='cover' height="150px" width="150px" />
           <input className={styles.avatarInput} onChange={(e) => {
             setAvatarFile(e.target.files ? e.target.files[0] : null)
             setAvatar(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')

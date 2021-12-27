@@ -56,7 +56,11 @@
 .bannerInput{
     display: none;
 }
-
+.banner {
+    object-fit: cover;
+    height: 130px;
+    width: 100%;
+}
 .editBanner {
     position: absolute;
     right: 10px;

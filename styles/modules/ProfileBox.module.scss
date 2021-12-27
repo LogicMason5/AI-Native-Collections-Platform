@@ -30,6 +30,9 @@
 .avatar {
     border: 5px solid $bg;
     border-radius: 50%;
+    object-fit: cover;
+    width: 180px;
+    height: 180px;
 }
 .name {
     color: white;
