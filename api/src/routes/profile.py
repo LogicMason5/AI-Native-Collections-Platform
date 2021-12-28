@@ -10,6 +10,7 @@ from fastapi import (
                     File, 
                     Form
                     )
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from core.db import get_db
@@ -29,7 +30,7 @@ async def profile(username: str, request: Request,
                 db: Session = Depends(get_db),
                 ) -> Union[JSONResponse, User]:
 
-    user = db.query(User).filter_by(username=username).first()
+    user = db.query(User).filter(func.lower(User.username)==username.lower()).first()
 
     if user:
         resp = await request.app.request_client.get(
@@ -129,10 +130,10 @@ async def profile_update(
 @router.get("/update_count/{username}",
             dependencies=[Depends(Limit(times=5, seconds=5))],
             )
-async def update_count(username: str,db: Session = Depends(get_db),
+async def update_count(username: str, db: Session = Depends(get_db),
                         ) -> JSONResponse:
 
-    user = db.query(User).filter_by(username=username).first()
+    user = db.query(User).filter(func.lower(User.username)==username.lower()).first()
     if user:
         view = View(public_key=user.public_key)
         db.add(view)
