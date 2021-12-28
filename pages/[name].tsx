@@ -27,7 +27,7 @@ export default function Profile({ userData, name }: any) {
       <h1 className={styles.note}>Profile/Discovery is not available on this screen size at the moment.</h1>
 
       <main className={styles.profile}>
-        <h1 className={styles.heading}>Discover</h1>
+        <h1 className={styles.heading}>Profile</h1>
         <div className={styles.profileBox}>
             {userData ? <ProfileBox user={userData.user} activity={userData.recent_activity} /> : <ProfileBoxNotFound username={name} />}
         </div>

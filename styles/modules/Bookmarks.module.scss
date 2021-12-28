@@ -44,6 +44,9 @@
     > p {
         width: 60%;
     }
+    & img {
+        border-radius: 50%;
+    }
     &:hover {
         background-color: $hoverBg;
     }

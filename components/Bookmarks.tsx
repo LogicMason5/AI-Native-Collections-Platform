@@ -85,7 +85,7 @@ export const Bookmarks = () => {
         <Link key={a['username']} href={a['username']}><a>
           <div className={styles.bookmark}>
             <div className={styles.left}>
-              <Image src={a['avatar']} height="40" width="40" alt="avatar"/>
+              <Image src={a['avatar']} objectFit='cover' height="40px" width="40px" alt="avatar"/>
               <p>{a['username']}</p>
             </div>
             <p className={styles.publicKey}>{a['public_key']}</p>
