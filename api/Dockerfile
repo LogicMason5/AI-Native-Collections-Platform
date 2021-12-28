@@ -4,6 +4,6 @@ COPY /src /api
 
 WORKDIR /api
 
-RUN pip install aioredis fastapi httpx psycopg2 pynacl python-dotenv solana sqlalchemy uvicorn
+RUN pip install aioredis fastapi httpx psycopg2 pynacl python-dotenv solana sqlalchemy uvicorn ipfs-api python-multipart
 
 CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
