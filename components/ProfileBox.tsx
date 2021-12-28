@@ -99,7 +99,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
                 </div>
                 <div className={styles.buttons}>
-                    {user.social ? <a href={user.social} target="_blank"><Image src={SocialImages[user.social.split(".")[0].slice(8)]} height="100%" width="100%"/></a>: null}
+                    {user.social ? <a href={user.social} target="_blank" rel="noreferrer" ><Image src={SocialImages[user.social.split(".")[0].slice(8)]} height="100%" width="100%"/></a>: null}
                     <div onClick={copyAddress}>
                         <p>{user.public_key.replace(user.public_key.slice(5, 39), "...")}</p>
                         <Image src={Copy} alt="copy" />
