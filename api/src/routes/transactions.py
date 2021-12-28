@@ -64,26 +64,30 @@ async def transactions(public_key: str, request: Request,  month_now: Optional[i
             if datetime.fromtimestamp(i["blockTime"]).month == month_now]
 
     def get_sent(day):
+        received = [lamport_to_sol(i["lamport"]) for i in 
+                    t if datetime.fromtimestamp(i["blockTime"]).day == day 
+                    and i["dst"] == public_key]
+
         sent = [lamport_to_sol(i["lamport"]) for i in t 
             if datetime.fromtimestamp(i["blockTime"]).day == day 
             and i["src"] == public_key]
 
-        received = [lamport_to_sol(i["lamport"]) for i in 
-                    t if datetime.fromtimestamp(i["blockTime"]).day == day 
-                    and i["dst"] == public_key]
-        return sent, received
+        return received, sent
 
     data = {}
+    print(t)
     init_ratio = [0, 0]
     for i in range(1, amount_of_days + 1):
         if i not in days:
-            data.update({i: {"sent": 0, "received": 0}})
+            data.update({i: {"received": 0, "sent": 0}})
         else:
-            sent, received = get_sent(i)
-            data.update({i: {"sent": sum(sent), "received": sum(received)}})
-            init_ratio[0] += sum(sent)
-            init_ratio[1] += sum(received)
+            received, sent = get_sent(i)
+            data.update({i: {"received": sum(received), "sent": sum(sent)}})
+            init_ratio[0] += sum(received)
+            init_ratio[1] += sum(sent)
+
     ratio_sum = sum(init_ratio)
+    print(data)
     try:
         ratio = [round(init_ratio[0] / ratio_sum * 100, 2),round(init_ratio[1] / ratio_sum * 100, 2)]
     except Exception:
