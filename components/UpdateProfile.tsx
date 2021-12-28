@@ -102,7 +102,7 @@ export const UpdateProfile = (props: any) => {
     formData.append("signature", JSON.stringify(signature))
 
     const loadingToastId = toast.loading("Updating")
-    const res = await fetch(API_URL + '/profile/update/', {
+    const res = await fetch(API_URL + '/profile/update', {
       method: 'PUT',
       body: formData
     })
