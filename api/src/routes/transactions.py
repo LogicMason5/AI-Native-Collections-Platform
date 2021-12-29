@@ -75,7 +75,6 @@ async def transactions(public_key: str, request: Request,  month_now: Optional[i
         return received, sent
 
     data = {}
-    print(t)
     init_ratio = [0, 0]
     for i in range(1, amount_of_days + 1):
         if i not in days:
@@ -87,7 +86,6 @@ async def transactions(public_key: str, request: Request,  month_now: Optional[i
             init_ratio[1] += sum(sent)
 
     ratio_sum = sum(init_ratio)
-    print(data)
     try:
         ratio = [round(init_ratio[0] / ratio_sum * 100, 2),round(init_ratio[1] / ratio_sum * 100, 2)]
     except Exception:

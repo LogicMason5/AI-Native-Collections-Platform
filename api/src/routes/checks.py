@@ -18,7 +18,6 @@ async def check(
                 ) -> JSONResponse:
 
     r = await request.body()
-    print("taken_fields check body: ", r, "\n")
     if user.username in ["about", "dashboard", "insights", "discover", "pricing", "edit", "settings", "notifications"]:
         return JSONResponse(
             status_code=400,

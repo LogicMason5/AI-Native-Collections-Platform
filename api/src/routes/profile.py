@@ -138,6 +138,8 @@ async def update_count(username: str, db: Session = Depends(get_db),
         view = View(public_key=user.public_key)
         db.add(view)
         db.commit()
+        count = db.query(View).filter_by(public_key=user.public_key).count()
+        return {"view_count": count}
 
     return JSONResponse(
         status_code=404,
