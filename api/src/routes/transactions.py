@@ -36,15 +36,19 @@ async def activity(public_key: str,  request: Request, limit: int = 4) -> JSONRe
         content=filtered_data
     )
 
-@router.get("/{public_key}",
+@router.get("/{public_key}/{year}/{month_now}",
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def transactions(public_key: str, request: Request,  month_now: Optional[int] = None) -> dict:
+async def transactions(public_key: str, request: Request,  year: Optional[int], month_now: Optional[int] = None) -> dict:
     if not month_now:
         month_now = datetime.utcnow().month
     else:
         month_now += 1
-    amount_of_days = monthrange(2021, month_now)[1]
+
+    if not year:
+        year = datetime.utcnow().year
+
+    amount_of_days = monthrange(year, month_now)[1]
     
     resp = await request.app.request_client.get(
                 ("https://api.solscan.io/account/soltransfer/txs?"

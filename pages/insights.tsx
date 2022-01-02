@@ -21,10 +21,28 @@ export default function Insights() {
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
     const [numericsData, setNumericsData] = useState<any>()
 
-    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth())
+    const [currentDate, setCurrentDate] = useState<Date>(new Date())
     const [delay, setDelay] = useState<boolean>(false)
-  //  const [plan, setPlan] = useState<number>(0)
+    //  const [plan, setPlan] = useState<number>(0)
 
+
+    const fetchTransactionData = async () => {
+        const publicKey = await connectWallet(false, false)
+        setDelay(true)
+        setTimeout(
+            () => setDelay(false),
+            1000
+        );
+        const API_URL = process.env.NEXT_PUBLIC_API_URL
+        const res = await fetch(API_URL + `/transactions/${publicKey}/${currentDate.getFullYear()}/${currentDate.getMonth()}`)
+        const json = await res.json()
+        if (!res.ok) {
+            toast.error(json.error)
+        } else {
+            setTransactions(json.transactions)
+            setRatio([json.ratio[0], json.ratio[1]])
+        }
+    }
 
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -44,31 +62,16 @@ export default function Insights() {
                 "walletValue": json["walletValue"]
             })
         }
-        setTimeout(() => fetchData(), 500)
-    }, [])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
-            setDelay(true)
-            setTimeout(
-                () => setDelay(false),
-                1000
-            );
-            const API_URL = process.env.NEXT_PUBLIC_API_URL 
-            const res = await fetch(API_URL + `/transactions/${publicKey}?month_now=${currentMonth}`)
-            const json = await res.json()
-            if(!res.ok) {
-                toast.error(json.error)
-            } else{
-                setTransactions(json.transactions)
-                setRatio([json.ratio[0], json.ratio[1]])
-            }
+        if (window.solana) {
+            fetchTransactionData()
+            fetchData()
+        } else {
+            setTimeout(() => {
+                fetchTransactionData()
+                fetchData()
+            }, 500)
         }
-        window.solana ? fetchData() : setTimeout(() => fetchData(), 500)
-    }, [currentMonth]);
-
-
+    }, [])
 
     return (
         <>
@@ -81,24 +84,33 @@ export default function Insights() {
 
                 <div className={styles.transactions}>
                     <h3>Solana Transactions</h3>
-                        <p style={delay ? // || ![10, 15].includes(plan)? 
-                            { opacity: "50%" } : { opacity: "100%" }}>
-                            <span style={currentMonth == 0 || delay?
-                                { cursor: "default", opacity: "50%" } :
-                                { cursor: "pointer" }}
-                                onClick={currentMonth == 0 || delay ? // || ![10, 15].includes(plan) ?
-                                    () => null :
-                                    () => setCurrentMonth(currentMonth - 1)}>{'<'}
-                            </span>
-                            {GetMonth(currentMonth)} 2021
-                            <span style={currentMonth == new Date().getMonth() || delay?
-                                { cursor: "default", opacity: "50%" } :
-                                { cursor: "pointer" }}
-                                onClick={currentMonth == new Date().getMonth() || delay ? //|| ![10, 15].includes(plan) ?
-                                    () => null :
-                                    () => setCurrentMonth(currentMonth + 1)}>{'>'}
-                            </span>
-                        </p>
+                    <p style={delay ? // || ![10, 15].includes(plan)? 
+                        { opacity: "50%" } : { opacity: "100%" }}>
+                        <span style={delay ?
+                            { cursor: "default", opacity: "50%" } :
+                            { cursor: "pointer" }}
+                            onClick={delay ? // || ![10, 15].includes(plan) ?
+                                () => null :
+                                () => {
+                                    setCurrentDate((currentDate) => { currentDate.setMonth(currentDate.getMonth() - 1); return currentDate })
+                                    fetchTransactionData()
+                                }
+
+                            }>{'<'}
+                        </span>
+                        {GetMonth(currentDate.getMonth())} {currentDate.getFullYear()}
+                        <span style={currentDate.getMonth() == new Date().getMonth() || delay ?
+                            { cursor: "default", opacity: "50%" } :
+                            { cursor: "pointer" }}
+                            onClick={currentDate.getMonth() == new Date().getMonth() || delay ? //|| ![10, 15].includes(plan) ?
+                                () => null :
+                                () => {
+                                    setCurrentDate((currentDate) => { currentDate.setMonth(currentDate.getMonth() + 1); return currentDate })
+                                    fetchTransactionData()
+                                }
+                            }>{'>'}
+                        </span>
+                    </p>
                     {/* {![10, 15].includes(plan) ?
                         <span className={styles.planInfo}>Upgrade to pro plan to change months</span> : null} */}
 
