@@ -20,7 +20,7 @@
     @include pageHeading;
 }
 
-.transactions, .transactionDistribution, .tokenDistribution, .numerics {
+.transactions, .transactionDistribution, .transactionDistributionNull, .tokenDistribution, .numerics {
     background-color: $secondaryBg;
     border-radius: 20px;
     border: 1px solid $primaryStroke;
@@ -102,7 +102,7 @@
 }
 
 
-.transactionDistribution {
+.transactionDistribution, .transactionDistributionNull {
     grid-column: 1/5;
     grid-row: 6/10;
     padding-right: 50%;
@@ -116,7 +116,19 @@
         top: 10px;
         color: $primaryStroke; 
     }
+    > span {
+        @include bold_font;
+        color: $grey;
+        width: 50%;
+        font-size: 1.5rem;
+        text-align: center;
+    }
 }
+
+.transactionDistributionNull {
+    padding-right: 0;
+}
+
 .labels {
     font-size: calc(.7vw + 8px);
     color: $text;

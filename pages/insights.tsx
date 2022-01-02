@@ -116,9 +116,9 @@ export default function Insights() {
                         </div> : <Loading />}
                 </div>
 
-                <div className={styles.transactionDistribution}>
+                <div className={ratio && ratio[0] != 0 && ratio[1] != 0 ? styles.transactionDistribution : styles.transactionDistributionNull}>
                     <h3>Solana Transaction Distribution</h3>
-                    <TransactionDistributionChart chartData={ratio ? ratio : [1, 1]} />
+                    {ratio && ratio[0] != 0 && ratio[1] != 0 ? <TransactionDistributionChart chartData={ratio} /> : <span>No data available</span>}
                     <div className={styles.labels}>
                         {ratio[1] > ratio[0] ?
                             <>
