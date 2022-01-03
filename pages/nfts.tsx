@@ -13,7 +13,7 @@ export default function Dashboard() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
+            const publicKey = "2fkXtAzbCbTEtxfmLi1up4D2SYfjD1VNifP7n2i3aR5v"
             const result = await fetch(API_URL + "/fetch/nfts/" + publicKey)
             if (result.ok) {
                 const data = await result.json()

@@ -28,7 +28,7 @@
 .nft {
     background: $secondaryBg;
     border-radius: 10px;
-    height: 450px;
+    height: 520px;
     width: 300px;
     margin: 30px;
     transition: .2s ease-out;
@@ -38,17 +38,16 @@
         padding: 0px 10px;
     }
     > h3 {
-        padding: 0px 10px;
         color: white;
         width: 100%;
-        height: 100%;
+        margin-top: 240px;
         text-align: center;
     }
-    border: 1px solid $secondaryStroke;
+    border: 1px solid $hoverBg;
     &:hover {
-        border: 1px solid $primaryStroke;
-        transform: translateY(-3px);
+        transform: translateY(-5px);
         box-shadow: 0px 5px 10px #0d0d11;
+        filter: contrast(105%);
     }
 }
 .name {
@@ -58,32 +57,47 @@
     text-align: center;
     @include light_font;
 }
+
 .description {
     font-size: .8rem;
     color: $grey;
     width: 100%;
     text-align: center;
-    height: 80px;
+    height: 70px;
     @include light_font;
+    z-index: 2;
+    position: relative;
 }
 .image {
     display: flex;
     align-items: center;
     justify-content: center;
     > img {
-        width: 120px;
+        z-index: 2;
+        width: 298px;  // -2 for the stroke to appear
+        height: 298px; // -2 for the stroke to appear
+        object-fit: contain;
+        border-radius: 10px 10px 0px 0px; // match with the parent div's curve
     }
 }
 
 .attributes {
-    padding: 0px 10px;
-    overflow-y: auto;
+    height: 98px;
+    position: relative;
+    z-index: 2;
 }
+
+.items {
+    overflow-y: auto;
+    height: 85%;
+    padding: 0px 10px;
+}
+
 .attributeTitle {
     display: flex;
     z-index: 2;
-    position: relative;
     gap: 5px;
+    padding: 0px 10px;
     > p {
         color: $primaryStroke;
         font-size: .8rem;
@@ -91,19 +105,17 @@
     }
 }
 .attribute {
-    font-size: .8rem;
+    font-size: .7rem;
     display: flex;
-    margin-top: 10px;
+    margin-top: 5px;
     @include light_font;
     > span:nth-child(1) {
-        z-index: 2;
         margin-right: 30px;
         text-overflow: ellipsis;
         white-space: nowrap;
         color: white;
     }
     > span:nth-child(2) {
-        z-index: 2;
         margin-left: auto;
         color: $text;
         text-overflow: ellipsis;
@@ -117,5 +129,6 @@
     z-index: 1;
     bottom: 0px;
     width: 100%;
-    height: 245px;
+    height: 276px;
 }
+

@@ -73,9 +73,8 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
     amounts.append(lamport_to_sol(sol_balance["result"]["value"]))    
     amounts_pair = {i:y for (i,y) in zip(public_keys, amounts)}
 
-    file = open("assets/tokens.json", "r", encoding='utf-8')
-    token_data = json.loads(file.read())
-    file.close()
+    token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
+    token_data = token_json.json()["tokens"]
     
     token_public_keys = [x for x in public_keys if x in [y["address"] for y in token_data]]
     nfts = [i for i in possible_nfts if i not in token_public_keys]
@@ -140,19 +139,23 @@ async def nfts(request: Request, public_key: str) -> JSONResponse:
     possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
                    for i in tokens["result"]["value"] if i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] == 1]
 
-    file = open("assets/tokens.json", "r", encoding='utf-8')
-    token_data = json.loads(file.read())
-    file.close()
+    token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
+    token_data = token_json.json()["tokens"]
 
     token_public_keys = [x for x in public_keys if x in [y["address"] for y in token_data]]
     nfts = [i for i in possible_nfts if i not in token_public_keys]
     data = []
     for i in nfts:
-        x = await get_nft_metadata(request.app.solana_client, i)
         try:
-            x = await request.app.request_client.get(x["data"]["uri"])
-            data.append(x.json())
+            meta_data = await get_nft_metadata(request.app.solana_client, i)
+            details_res = await request.app.request_client.get(meta_data["data"]["uri"])
+            if details_res.status_code in (301, 302):
+                details_res2 = await request.app.request_client.get(details_res.headers.get("location") + "/")
+                details = details_res2.json()
+            else:
+                details = details_res.json()
+            details.update({"address": i})
+            data.append(details)
         except:
-            data.append(None)
-
+            data.append({"address": i})
     return data

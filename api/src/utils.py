@@ -94,5 +94,6 @@ def get_metadata_account(mint_key):
 async def get_nft_metadata(client, mint_address: str) -> dict:
     metadata_account = get_metadata_account(mint_address)
     nft_info = await client.get_account_info(metadata_account)
-    data = base64.b64decode(nft_info['result']['value']['data'][0])
-    return unpack_metadata_account(data)
+    if nft_info["result"]["value"]:
+        data = base64.b64decode(nft_info['result']['value']['data'][0])
+        return unpack_metadata_account(data)
