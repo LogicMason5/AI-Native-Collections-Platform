@@ -2,6 +2,7 @@ import Image from 'next/image'
 import NFTBottom from '@/images/NFTBottom.svg'
 import Attributes from '@/images/icons/Attributes.svg'
 import styles from '@/styles/pages/NFTGallery.module.scss'
+import { ImpulseSpinner } from 'react-spinners-kit'
 
 export const NFT = ({ data }: any) => {
     if (Object.keys(data).length > 1) {
@@ -33,9 +34,18 @@ export const NFT = ({ data }: any) => {
             </a>
 
         )
+    } else if (data == 1) {
+        return (
+            <a className={styles.nft}>
+                <section>
+                    <ImpulseSpinner size={100}/>
+                </section>
+            </a>
+        )
+
     } else {
         return (
-            <a className={styles.nft} target="_blank" rel="noreferrer" href={`https://solscan.io/token/${data.address}`}>
+            <a className={styles.nft} >
                 <h3>Unable to fetch data</h3>
             </a>
         )

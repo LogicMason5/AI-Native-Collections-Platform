@@ -118,7 +118,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
 @router.get("/nfts/{public_key}",
             dependencies=[Depends(Limit(times=5, seconds=10))],
             status_code=200)
-async def nfts(request: Request, public_key: str, limit: int = 4, offset: int = 0) -> JSONResponse:
+async def nfts(request: Request, public_key: str, limit: int = 10, offset: int = 0) -> JSONResponse:
     tokens = await request.app.solana_client.get_token_accounts_by_owner(
             public_key,
             TokenAccountOpts(
@@ -130,8 +130,8 @@ async def nfts(request: Request, public_key: str, limit: int = 4, offset: int = 
                         for i in tokens["result"]["value"]]
         nfts = [i["mint"] for i in filtered_tokens if 
                 i["tokenAmount"]["uiAmount"] == 1 and 
-                i["tokenAmount"]["decimals"] < 1][offset:limit]
-
+                i["tokenAmount"]["decimals"] < 1][offset:limit+offset]
+        
         nfts = sorted(nfts)
         if len(nfts) == 0:
             return []

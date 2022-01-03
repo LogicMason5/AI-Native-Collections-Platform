@@ -27,7 +27,7 @@
     flex-wrap: wrap;
 }
 
-.nft {
+.nft, .nftLoading {
     background: $secondaryBg;
     border-radius: 10px;
     height: 530px;
@@ -35,6 +35,12 @@
     margin: 30px;
     transition: .2s ease-out;
     position: relative;
+    > section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
     > p {
         margin-top: 10px;
         padding: 0px 10px;
@@ -52,6 +58,7 @@
         filter: contrast(105%);
     }
 }
+
 .name {
     font-size: 1.1rem;
     color: white;
@@ -144,6 +151,8 @@
         font-size: 2rem;
     }
 }
+
+
 @media screen and (max-width: 1200px) {
     .nfts {
         width: calc(100vw - 80px);
