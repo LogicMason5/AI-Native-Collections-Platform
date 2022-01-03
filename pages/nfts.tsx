@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { PageHead } from '@/components/Head'
 import { Sidebar } from '@/components/Sidebar'
-import { connectWallet } from '@/components/Wallet'
+import { StageSpinner } from 'react-spinners-kit'
 import { NFT } from '@/components/NFT'
 import styles from '@/styles/pages/NFTGallery.module.scss'
+import { connectWallet } from '@/components/Wallet'
 
 
 export default function Dashboard() {
@@ -13,8 +14,8 @@ export default function Dashboard() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = "2fkXtAzbCbTEtxfmLi1up4D2SYfjD1VNifP7n2i3aR5v"
-            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey)
+            const publicKey = connectWallet(false, false)
+            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=20")
             if (result.ok) {
                 const data = await result.json()
                 setData(data)
@@ -40,7 +41,7 @@ export default function Dashboard() {
                     {data ? (data.map((a: any) => (
                         <NFT data={a} />
                     ))
-                    ) : <h1>Loading</h1>
+                    ) : <div className={styles.loading}><StageSpinner size={100} color="#869ACE"/></div>
                     }
 
                 </div>

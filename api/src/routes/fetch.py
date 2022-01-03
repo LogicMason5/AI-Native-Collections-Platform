@@ -1,4 +1,4 @@
-import json
+import time
 from operator import getitem
 from datetime import datetime
 from collections import OrderedDict
@@ -118,34 +118,24 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
 @router.get("/nfts/{public_key}",
             dependencies=[Depends(Limit(times=5, seconds=10))],
             status_code=200)
-async def nfts(request: Request, public_key: str) -> JSONResponse:
-
+async def nfts(request: Request, public_key: str, limit: int = 4) -> JSONResponse:
     tokens = await request.app.solana_client.get_token_accounts_by_owner(
             public_key,
             TokenAccountOpts(
                 program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
                 encoding="jsonParsed"),
             "max")
-    try:
-        public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
-                    for i in tokens["result"]["value"]]
-    except Exception:
-        print("Execption with tokens: ", tokens)
-        return JSONResponse(
-                status_code=500,
-                content={"error": "Error fetching tokens, try reloading."}
-                )
 
     possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
-                   for i in tokens["result"]["value"] if i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] == 1]
-
+                   for i in tokens["result"]["value"] if 
+                   i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] 
+                   == 1]
     token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
     token_data = token_json.json()["tokens"]
-
-    token_public_keys = [x for x in public_keys if x in [y["address"] for y in token_data]]
-    nfts = [i for i in possible_nfts if i not in token_public_keys]
+    nfts = [i for i in possible_nfts if i not in [y["address"] for y in token_data]]
+    nfts = sorted(nfts)
     data = []
-    for i in nfts:
+    for i in nfts[:limit]:
         print(i)
         try:
             meta_data = await get_nft_metadata(request.app.solana_client, i)

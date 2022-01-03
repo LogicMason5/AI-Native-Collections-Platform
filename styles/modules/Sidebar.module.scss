@@ -40,7 +40,7 @@
         background-color: $hoverBg;
         color: white;
         & a img {
-            filter: contrast(100);
+            filter: brightness(0) invert(1);
         }
     }
 }

@@ -133,7 +133,13 @@
     width: 100%;
     height: 295px;
 }
-
+.loading {
+    width: 100%;
+    height: 75%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
 @media screen and (max-width: 1200px) {
     .nfts {
         width: calc(100vw - 80px);

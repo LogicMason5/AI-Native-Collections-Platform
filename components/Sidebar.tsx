@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import DashboardIcon from '@/images/sidebar/DashboardIcon.svg'
 import InsightsIcon from '@/images/sidebar/InsightsIcon.svg'
 import ProfileIcon from '@/images/sidebar/ProfileIcon.svg'
+import NFTGalleryIcon from '@/images/sidebar/NFTGalleryIcon.svg'
 import styles from '@/styles/modules/Sidebar.module.scss'
 import { useEffect, useState } from 'react'
 import { connectWallet } from './Wallet'
@@ -47,7 +48,7 @@ export const Sidebar = () => {
             <ul className={styles.links}>
                 <SidebarItem icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarItem icon={InsightsIcon} link="Insights" path="/insights"/>
-                <SidebarItem icon={InsightsIcon} link="NFT Gallery" path="/nfts"/>
+                <SidebarItem icon={NFTGalleryIcon} link="NFT Gallery" path="/nfts"/>
                 <SidebarItem icon={ProfileIcon} link="Profile" path={name}/>
             </ul>
         </nav>
