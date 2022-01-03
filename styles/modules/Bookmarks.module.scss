@@ -59,7 +59,11 @@
     gap: 10px;
 }
 
-
+.avatar {
+    object-fit: cover;
+    height: 40px;
+    width: 40px;
+}
 @media screen and (max-width:1450px) {
     .bookmark {
         padding: 1%;

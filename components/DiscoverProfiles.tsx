@@ -51,7 +51,7 @@ export const DiscoverProfiles = () => {
       {data ? (data.map((a: any) => (
         <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
           <div className={styles.upper}>
-            <Image src={a['avatar']} className={styles.avatar} objectFit='cover' height="50px" width="50px"alt="avatar" />
+            <img src={a['avatar']} className={styles.avatar} alt="avatar" />
             <div className={styles.nameGroup}>
               <span className={styles.name}>{a['name']}</span>
               <span className={styles.username}>@{a['username']} </span>
