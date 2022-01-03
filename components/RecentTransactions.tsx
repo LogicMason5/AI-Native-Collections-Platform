@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
-import Sent from '@/images/Sent.svg'
-import Received from '@/images/Received.svg'
+import Sent from '@/images/icons/Sent.svg'
+import Received from '@/images/icons/Received.svg'
 import { connectWallet } from '@/components/Wallet'
 import styles from '@/styles/modules/RecentTransactions.module.scss'
 import { timeSince } from "@/utils/functions"
