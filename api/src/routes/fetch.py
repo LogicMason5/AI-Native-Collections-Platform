@@ -137,10 +137,9 @@ async def nfts(request: Request, public_key: str, limit: int = 10, offset: int =
             return []
         data = []
         nft_metadata_list = await get_nft_metadata(request.app.solana_client, nfts)
-        
         for meta_data in nft_metadata_list:
             try:
-                details_res = await request.app.request_client.get(meta_data["data"]["uri"])
+                details_res = await request.app.request_client.get(meta_data["data"]["uri"], timeout=1)
                 if details_res.status_code in (301, 302):
                     details_res2 = await request.app.request_client.get(details_res.headers.get("location") + "/")
                     details = details_res2.json()

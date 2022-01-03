@@ -45,7 +45,7 @@ export const NFT = ({ data }: any) => {
 
     } else {
         return (
-            <a className={styles.nft} >
+            <a className={styles.nft} target="_blank" rel="noreferrer" href={`https://solscan.io/token/${data.address}`}>
                 <h3>Unable to fetch data</h3>
             </a>
         )
