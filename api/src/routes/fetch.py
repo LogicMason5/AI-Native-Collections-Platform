@@ -149,5 +149,10 @@ async def nfts(request: Request, public_key: str) -> JSONResponse:
     data = []
     for i in nfts:
         x = await get_nft_metadata(request.app.solana_client, i)
-        data.append(x)
+        try:
+            x = await request.app.request_client.get(x["data"]["uri"])
+            data.append(x.json())
+        except:
+            data.append(None)
+
     return data

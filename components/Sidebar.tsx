@@ -47,6 +47,7 @@ export const Sidebar = () => {
             <ul className={styles.links}>
                 <SidebarItem icon={DashboardIcon} link="Dashboard" path="/dashboard"/>
                 <SidebarItem icon={InsightsIcon} link="Insights" path="/insights"/>
+                <SidebarItem icon={InsightsIcon} link="NFT Gallery" path="/nfts"/>
                 <SidebarItem icon={ProfileIcon} link="Profile" path={name}/>
             </ul>
         </nav>

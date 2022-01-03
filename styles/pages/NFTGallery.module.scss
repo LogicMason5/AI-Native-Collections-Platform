@@ -1,0 +1,101 @@
+@import "../variables";
+@import "../mixins";
+
+.note {
+    display: none;
+}
+
+.nfts {
+    float: right;
+    display: flex;
+    flex-flow: column;
+    width: calc(100vw - 350px);
+    height: 100vh;
+    padding: 0px 25px;
+}
+
+.heading {
+    @include pageHeading;
+}
+
+.nftsHolder {
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+    display: flex;
+}
+
+.nft {
+    background: $secondaryBg;
+    border-radius: 10px;
+    height: 450px;
+    width: 300px;
+    margin: 30px;
+    padding: 0px 10px;
+    transition: .2s ease-out;
+    > p {
+        margin-top: 10px;
+    }
+    > h3 {
+        color: white;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+    border: 1px solid $secondaryStroke;
+    &:hover {
+        border: 1px solid $primaryStroke;
+        transform: translateY(-3px);
+        box-shadow: 0px 5px 10px #0d0d11;
+    }
+}
+.name {
+    font-size: 1.1rem;
+    color: white;
+    width: 100%;
+    text-align: center;
+    @include light_font;
+}
+.description {
+    font-size: .8rem;
+    color: $grey;
+    width: 100%;
+    text-align: center;
+    @include light_font;
+}
+.image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > img {
+        width: 120px;
+    }
+}
+
+.attributes {
+    overflow-y: auto;
+    height: 120px;
+    margin-top: 20px;
+    > p {
+        color: $primaryStroke;
+        font-size: .8rem;
+    }
+}
+.attribute {
+    font-size: .9rem;
+    display: flex;
+    margin-top: 10px;
+    > span:nth-child(1) {
+        margin-right: 30px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: white;
+    }
+    > span:nth-child(2) {
+        margin-left: auto;
+        color: $text;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
