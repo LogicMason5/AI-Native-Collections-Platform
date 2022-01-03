@@ -14,17 +14,23 @@ export default function Dashboard() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = connectWallet(false, false)
-            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=20")
-            if (result.ok) {
-                const data = await result.json()
-                setData(data)
-                console.log(data)
+            const localStorageData = localStorage.getItem("nfts")
+            if (!localStorageData){
+                const publicKey = await connectWallet(false, false)
+                const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=20")
+                if (result.ok) {
+                    const data = await result.json()
+                    setData(data)
+                    console.log(data)
+                    localStorage.setItem("nfts", JSON.stringify(data))
+                } else {
+                    const json = await result.json()
+                    toast.error(json.error + "\nTry reloading")
+                }
             } else {
-                const json = await result.json()
-                toast.error(json.error)
+                setData(JSON.parse(localStorageData))
             }
-        }
+            }
         setTimeout(() => fetchData(), 500)
     }, []);
 

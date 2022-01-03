@@ -125,28 +125,33 @@ async def nfts(request: Request, public_key: str, limit: int = 4) -> JSONRespons
                 program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
                 encoding="jsonParsed"),
             "max")
-
-    possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
+    try:
+        possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
                    for i in tokens["result"]["value"] if 
                    i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] 
                    == 1]
-    token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
-    token_data = token_json.json()["tokens"]
-    nfts = [i for i in possible_nfts if i not in [y["address"] for y in token_data]]
-    nfts = sorted(nfts)
-    data = []
-    for i in nfts[:limit]:
-        print(i)
-        try:
-            meta_data = await get_nft_metadata(request.app.solana_client, i)
-            details_res = await request.app.request_client.get(meta_data["data"]["uri"])
-            if details_res.status_code in (301, 302):
-                details_res2 = await request.app.request_client.get(details_res.headers.get("location") + "/")
-                details = details_res2.json()
-            else:
-                details = details_res.json()
-            details.update({"address": i})
-            data.append(details)
-        except:
-            data.append({"address": i})
+        token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
+        token_data = token_json.json()["tokens"]
+        nfts = [i for i in possible_nfts if i not in [y["address"] for y in token_data]]
+        nfts = sorted(nfts)
+        data = []
+        for i in nfts[:limit]:
+            print(i)
+            try:
+                meta_data = await get_nft_metadata(request.app.solana_client, i)
+                details_res = await request.app.request_client.get(meta_data["data"]["uri"])
+                if details_res.status_code in (301, 302):
+                    details_res2 = await request.app.request_client.get(details_res.headers.get("location") + "/")
+                    details = details_res2.json()
+                else:
+                    details = details_res.json()
+                details.update({"address": i})
+                data.append(details)
+            except:
+                data.append({"address": i})
+    except Exception:
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Uh oh, something went wrong"}
+        )
     return data
