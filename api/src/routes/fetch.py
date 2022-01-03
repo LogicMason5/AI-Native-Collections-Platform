@@ -104,6 +104,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
         token_price.update({"symbol": token["symbol"], "logo": token["logoURI"], "address": token["address"]})
         token_price["usd"] = round(token_price["usd"] * amounts_pair[token_price["address"]], 2)
 
+    prices_data[SOL_ADDRESS]["symbol"] = "SOL"
     token_values = OrderedDict(sorted(prices_data.items(), key = lambda x: getitem(x[1], 'usd'), reverse=True))
     data = {"tokenValues": token_values,
             "nftCount": len(nfts), 
