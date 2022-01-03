@@ -20,7 +20,7 @@ export const NFT = ({ data }: any) => {
                     </div>
                     <div className={styles.items}>
                         {data.attributes && data.attributes.map((a: any) => (
-                            <div className={styles.attribute}>
+                            <div key={a.value} className={styles.attribute}>
                                 <span>{a.trait_type}</span>
                                 <span>{a.value}</span>
                             </div>

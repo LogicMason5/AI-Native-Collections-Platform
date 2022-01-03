@@ -60,7 +60,7 @@ export default function Dashboard() {
                 <div className={styles.nftsHolder}>
 
                     {data ? data.length > 0 ? (data.map((a: any) => (
-                        <NFT data={a} />
+                        <NFT key={a} data={a} />
                     ))
                     ) : <div className={styles.loading}><h2>No NFTs available</h2></div> : <div className={styles.loading}><StageSpinner size={100} color="#869ACE" /></div>
                     }
