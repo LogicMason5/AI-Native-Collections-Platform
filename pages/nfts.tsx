@@ -22,7 +22,7 @@ export default function Dashboard() {
                 setData(JSON.parse(localStorageNfts))
                 setOffset(localStorageNfts.length)
             }
-            const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
+            const publicKey = await connectWallet(false, false)
             const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=4&offset=" + offset)
             if (result.ok) {
                 const res_data = await result.json()
