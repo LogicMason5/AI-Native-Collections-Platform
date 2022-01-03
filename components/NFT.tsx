@@ -2,7 +2,7 @@ import Image from 'next/image'
 import NFTBottom from '@/images/NFTBottom.svg'
 import Attributes from '@/images/icons/Attributes.svg'
 import styles from '@/styles/pages/NFTGallery.module.scss'
-import { ImpulseSpinner } from 'react-spinners-kit'
+import { StageSpinner } from 'react-spinners-kit'
 
 export const NFT = ({ data }: any) => {
     if (Object.keys(data).length > 1) {
@@ -38,7 +38,7 @@ export const NFT = ({ data }: any) => {
         return (
             <a className={styles.nft}>
                 <section>
-                    <ImpulseSpinner size={100}/>
+                    <StageSpinner size={100} color="#869ACE"/>
                 </section>
             </a>
         )

@@ -8,11 +8,10 @@ import {
     TokenDistributionChart
 } from '@/components/Charts'
 import { GetMonth } from '@/utils/functions'
-import { Transaction } from '@/utils/types'
-import styles from '@/styles/pages/Insights.module.scss'
 import { Tokens } from '@/components/Tokens'
 import { Loading } from '@/components/Loading';
 import { toast } from 'react-toastify';
+import styles from '@/styles/pages/Insights.module.scss'
 
 
 export default function Insights() {
@@ -47,21 +46,32 @@ export default function Insights() {
     useEffect(() => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-            const publicKey = await connectWallet(false, false)
-            // const planRes = await fetch(API_URL + "/plan/" + publicKey)
-            // const planResJson = await planRes.json()
-            // setPlan(planResJson)
-            const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
-            const json = await res.json()
-            setTokens(json["tokenValues"])
-            setNumericsData({
-                "fungibleTokenCount": json["fungibleTokenCount"],
-                "nftCount": json["nftCount"],
-                "unavailableTokenCount": json["unavailableTokenCount"],
-                "solPrice": json["solPrice"],
-                "walletValue": json["walletValue"]
-            })
-        }
+            const localStorageNumerics = localStorage.getItem("numerics")
+            const localStorageTokens = localStorage.getItem("tokens")
+            if (!localStorageNumerics || !localStorageTokens) {
+                const publicKey = await connectWallet(false, false)
+                // const planRes = await fetch(API_URL + "/plan/" + publicKey)
+                // const planResJson = await planRes.json()
+                // setPlan(planResJson)
+                const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
+                const json = await res.json()
+                setTokens(json["tokenValues"])
+                const numericsData = {
+                    "fungibleTokenCount": json["fungibleTokenCount"],
+                    "nftCount": json["nftCount"],
+                    "unavailableTokenCount": json["unavailableTokenCount"],
+                    "solPrice": json["solPrice"],
+                    "walletValue": json["walletValue"]
+                }
+                setNumericsData(numericsData)
+                localStorage.setItem("numerics", JSON.stringify(numericsData))
+                localStorage.setItem("tokens", JSON.stringify(json["tokenValues"]))
+            } else {
+                setTokens(JSON.parse(localStorageTokens))
+                setNumericsData(JSON.parse(localStorageNumerics))
+            }
+            }
+
         if (window.solana) {
             fetchTransactionData()
             fetchData()

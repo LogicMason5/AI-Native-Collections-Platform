@@ -17,28 +17,35 @@ export default function Dashboard() {
         console.log(offset)
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const fetchData = async () => {
-                const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
-                const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=4&offset=" + offset)
-                if (result.ok) {
-                    const res_data = await result.json()
-                    setShowPlaceHolder(true)
-                    if (offset == 0) {
-                        setData(res_data)
-                    } else {
-                        let array = data
-                        array.push(...res_data)
-                        setData(array)
-                    }
-                    if (res_data.length != 0) {
-                        setOffset(offset + 4)
-                    } else {
-                        setShowPlaceHolder(false)
-                    }
-                } else {
-                    const json = await result.json()
-                    toast.error(json.error + "\nTry again after sometime")
-                }
+            const localStorageNfts = localStorage.getItem("nfts")
+            if (localStorageNfts) {
+                setData(JSON.parse(localStorageNfts))
+                setOffset(localStorageNfts.length)
             }
+            const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
+            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=4&offset=" + offset)
+            if (result.ok) {
+                const res_data = await result.json()
+                setShowPlaceHolder(true)
+                if (offset == 0) {
+                    setData(res_data)
+                } else {
+                    let array = data
+                    array.push(...res_data)
+                    setData(array)
+                    localStorage.removeItem("nfts")
+                    localStorage.setItem("nfts", JSON.stringify(array))
+                }
+                if (res_data.length != 0) {
+                    setOffset(offset + 4)
+                } else {
+                    setShowPlaceHolder(false)
+                }
+            } else {
+                const json = await result.json()
+                toast.error(json.error + "\nTry again after sometime")
+            }
+        }
         window.solana ? fetchData() : setTimeout(() => fetchData(), 500)
     }, [offset]);
 
@@ -55,11 +62,11 @@ export default function Dashboard() {
                     {data ? data.length > 0 ? (data.map((a: any) => (
                         <NFT data={a} />
                     ))
-                    ) : <div className={styles.loading}><h2>No NFTs available</h2></div> : <div className={styles.loading}><StageSpinner size={100} color="#869ACE"/></div> 
+                    ) : <div className={styles.loading}><h2>No NFTs available</h2></div> : <div className={styles.loading}><StageSpinner size={100} color="#869ACE" /></div>
                     }
-                    {showPlaceHolder ? <><NFT data={1}/><NFT data={1}/><NFT data={1}/><NFT data={1}/></> : null} 
+                    {showPlaceHolder ? <><NFT data={1} /><NFT data={1} /><NFT data={1} /><NFT data={1} /></> : null}
                 </div>
-            </main> 
+            </main>
 
         </>
     )
