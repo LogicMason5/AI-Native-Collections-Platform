@@ -23,13 +23,15 @@
     height: 100%;
     margin-top: 50px;
     display: flex;
+    flex: 1;
+    flex-wrap: wrap;
 }
 
 .nft {
     background: $secondaryBg;
     border-radius: 10px;
-    height: 520px;
-    width: 300px;
+    height: 530px;
+    width: 320px;
     margin: 30px;
     transition: .2s ease-out;
     position: relative;
@@ -74,15 +76,15 @@
     justify-content: center;
     > img {
         z-index: 2;
-        width: 298px;  // -2 for the stroke to appear
-        height: 298px; // -2 for the stroke to appear
+        width: 315px;  // -2 for the stroke to appear
+        height: 315px; // -2 for the stroke to appear
         object-fit: contain;
         border-radius: 10px 10px 0px 0px; // match with the parent div's curve
     }
 }
 
 .attributes {
-    height: 98px;
+    height: 88px;
     position: relative;
     z-index: 2;
 }
@@ -129,6 +131,27 @@
     z-index: 1;
     bottom: 0px;
     width: 100%;
-    height: 276px;
+    height: 295px;
 }
 
+@media screen and (max-width: 1200px) {
+    .nfts {
+        width: calc(100vw - 80px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .nfts {
+        display: none;
+    }
+    .note {
+        display: flex;
+        font-size: 2rem;
+        height: 100vh;
+        text-align: center;
+        align-items: center;
+    }
+    .numbers {
+        white-space: normal;
+    }
+}

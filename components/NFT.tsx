@@ -11,14 +11,14 @@ export const NFT = ({ data }: any) => {
                     <img src={data.image} alt="nft" />
                 </div>
                 <p className={styles.name} >{data.name}</p>
-                <p className={styles.description} >{data.description}</p>
+                <p className={styles.description} >{data.description && data.description.length > 120 ? data.description.slice(0, 120) + "..." : data.description} </p>
                 <div className={styles.attributes}>
                     <div className={styles.attributeTitle}>
                         <Image src={Attributes} height="20px" width="20px" />
                         <p>Attributes</p>
                     </div>
                     <div className={styles.items}>
-                        {data.attributes.map((a: any) => (
+                        {data.attributes && data.attributes.map((a: any) => (
                             <div className={styles.attribute}>
                                 <span>{a.trait_type}</span>
                                 <span>{a.value}</span>
