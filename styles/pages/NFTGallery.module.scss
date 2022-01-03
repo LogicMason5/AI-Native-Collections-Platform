@@ -139,6 +139,10 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    > h2 {
+        color: $grey;
+        font-size: 2rem;
+    }
 }
 @media screen and (max-width: 1200px) {
     .nfts {

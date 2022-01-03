@@ -91,9 +91,11 @@ def get_metadata_account(mint_key):
     METADATA_PROGRAM_ID = PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s')
     return PublicKey.find_program_address([b'metadata', bytes(METADATA_PROGRAM_ID), bytes(PublicKey(mint_key))], METADATA_PROGRAM_ID)[0]
 
-async def get_nft_metadata(client, mint_address: str) -> dict:
-    metadata_account = get_metadata_account(mint_address)
-    nft_info = await client.get_account_info(metadata_account)
-    if nft_info["result"]["value"]:
-        data = base64.b64decode(nft_info['result']['value']['data'][0])
-        return unpack_metadata_account(data)
+async def get_nft_metadata(client, mint_addresses: list) -> dict:
+    metadata_accounts = [get_metadata_account(m) for m in mint_addresses]
+    nft_infos = await client.get_multiple_accounts(metadata_accounts)
+    if nft_infos["result"]["value"]:
+        datas = [base64.b64decode(n['data'][0]) for n in nft_infos["result"]["value"]]
+        return [unpack_metadata_account(d) for d in datas]
+    else:
+        print("Error", nft_infos)

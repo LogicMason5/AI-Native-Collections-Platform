@@ -17,21 +17,20 @@ export default function Dashboard() {
             const localStorageData = localStorage.getItem("nfts")
             if (!localStorageData){
                 const publicKey = await connectWallet(false, false)
-                const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=20")
+                const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=50&offset=0")
                 if (result.ok) {
                     const data = await result.json()
                     setData(data)
-                    console.log(data)
                     localStorage.setItem("nfts", JSON.stringify(data))
                 } else {
                     const json = await result.json()
-                    toast.error(json.error + "\nTry reloading")
+                    toast.error(json.error + "\nTry again after sometime")
                 }
             } else {
                 setData(JSON.parse(localStorageData))
             }
             }
-        setTimeout(() => fetchData(), 500)
+        window.solana ? fetchData() : setTimeout(() => fetchData(), 500)
     }, []);
 
     return (
@@ -44,15 +43,14 @@ export default function Dashboard() {
                 <h1 className={styles.heading} >NFT Gallery</h1>
                 <div className={styles.nftsHolder}>
 
-                    {data ? (data.map((a: any) => (
+                    {data ? data.length > 0 ? (data.map((a: any) => (
                         <NFT data={a} />
                     ))
-                    ) : <div className={styles.loading}><StageSpinner size={100} color="#869ACE"/></div>
+                    ) : <div className={styles.loading}><h2>No NFTs available</h2></div> : <div className={styles.loading}><StageSpinner size={100} color="#869ACE"/></div> 
                     }
 
                 </div>
-
-            </main>
+            </main> 
 
         </>
     )

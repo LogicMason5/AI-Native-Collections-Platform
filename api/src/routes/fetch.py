@@ -118,7 +118,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
 @router.get("/nfts/{public_key}",
             dependencies=[Depends(Limit(times=5, seconds=10))],
             status_code=200)
-async def nfts(request: Request, public_key: str, limit: int = 4) -> JSONResponse:
+async def nfts(request: Request, public_key: str, limit: int = 4, offset: int = 0) -> JSONResponse:
     tokens = await request.app.solana_client.get_token_accounts_by_owner(
             public_key,
             TokenAccountOpts(
@@ -126,32 +126,34 @@ async def nfts(request: Request, public_key: str, limit: int = 4) -> JSONRespons
                 encoding="jsonParsed"),
             "max")
     try:
-        possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
-                   for i in tokens["result"]["value"] if 
-                   i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] 
-                   == 1]
-        token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
-        token_data = token_json.json()["tokens"]
-        nfts = [i for i in possible_nfts if i not in [y["address"] for y in token_data]]
+        filtered_tokens = [i["account"]["data"]["parsed"]["info"] 
+                        for i in tokens["result"]["value"]]
+        nfts = [i["mint"] for i in filtered_tokens if 
+                i["tokenAmount"]["uiAmount"] == 1 and 
+                i["tokenAmount"]["decimals"] < 1][offset:limit]
+
         nfts = sorted(nfts)
+        if len(nfts) == 0:
+            return []
         data = []
-        for i in nfts[:limit]:
-            print(i)
+        nft_metadata_list = await get_nft_metadata(request.app.solana_client, nfts)
+        
+        for meta_data in nft_metadata_list:
             try:
-                meta_data = await get_nft_metadata(request.app.solana_client, i)
                 details_res = await request.app.request_client.get(meta_data["data"]["uri"])
                 if details_res.status_code in (301, 302):
                     details_res2 = await request.app.request_client.get(details_res.headers.get("location") + "/")
                     details = details_res2.json()
                 else:
                     details = details_res.json()
-                details.update({"address": i})
+                details.update({"address": meta_data["mint"]})
                 data.append(details)
-            except:
-                data.append({"address": i})
-    except Exception:
+            except Exception:
+                data.append({"address": meta_data["mint"]})
+        return data
+    except Exception as e:
+        print("NFT fetch error: ", e)
         return JSONResponse(
             status_code=500,
             content={"error": "Uh oh, something went wrong"}
         )
-    return data
