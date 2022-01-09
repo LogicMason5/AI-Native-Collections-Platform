@@ -49,7 +49,6 @@ async def transactions(public_key: str, request: Request,  year: Optional[int], 
         year = datetime.utcnow().year
 
     amount_of_days = monthrange(year, month_now)[1]
-    
     resp = await request.app.request_client.get(
                 ("https://api.solscan.io/account/soltransfer/txs?"
                 f"address={public_key}&offset=0&limit=500")
@@ -61,7 +60,7 @@ async def transactions(public_key: str, request: Request,  year: Optional[int], 
     t = [
         i for i in transactions if 
         datetime.fromtimestamp(i["blockTime"]).month == 
-        month_now
+        month_now and datetime.fromtimestamp(i["blockTime"]).year == year
         ]
 
     days = [datetime.fromtimestamp(i["blockTime"]).day for i in t 

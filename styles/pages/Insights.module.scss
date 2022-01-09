@@ -174,8 +174,8 @@
     }
     & p {
         margin-left: 20px;
-        margin-top: 40px;
-        font-size: calc(.6vw + 10px);
+        margin-top: calc(5vh - 10px);
+        font-size: calc(1vh + 10px);
         color: $grey;
         @include bold_font;
         > span {
@@ -211,4 +211,5 @@
     .numbers {
         white-space: normal;
     }
+
 }

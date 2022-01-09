@@ -109,10 +109,10 @@ export default function Insights() {
                             }>{'<'}
                         </span>
                         {GetMonth(currentDate.getMonth())} {currentDate.getFullYear()}
-                        <span style={currentDate.getMonth() == new Date().getMonth() || delay ?
+                        <span style={currentDate.getMonth() == new Date().getMonth() && currentDate.getFullYear() == new Date().getFullYear() || delay ?
                             { cursor: "default", opacity: "50%" } :
                             { cursor: "pointer" }}
-                            onClick={currentDate.getMonth() == new Date().getMonth() || delay ? //|| ![10, 15].includes(plan) ?
+                            onClick={currentDate.getMonth() == new Date().getMonth() && currentDate.getFullYear() == new Date().getFullYear() || delay ? //|| ![10, 15].includes(plan) ?
                                 () => null :
                                 () => {
                                     setCurrentDate((currentDate) => { currentDate.setMonth(currentDate.getMonth() + 1); return currentDate })
