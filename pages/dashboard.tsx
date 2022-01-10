@@ -6,7 +6,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { ViewChart } from '@/components/Charts'
 import { Bookmarks } from '@/components/Bookmarks'
 import { connectWallet } from '@/components/Wallet'
-import { NFTGallery } from '@/components/NFTGallery'
+import { Projects } from '@/components/Projects'
 import { RecentTransactions } from '@/components/RecentTransactions'
 import styles from '@/styles/pages/Dashboard.module.scss'
 
@@ -48,7 +48,7 @@ export default function Dashboard() {
                 </div>
                 <div className={styles.comingSoon}>
                     <h3>Projects</h3>
-                    <NFTGallery />
+                    <Projects />
                 </div>
                 <div className={styles.recentTransactions}>
                     <h3>Recent transactions</h3>
