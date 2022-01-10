@@ -125,7 +125,6 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
             dependencies=[Depends(Limit(times=5, seconds=2))],
             status_code=200)
 async def nfts(request: Request, public_key: str, limit: int = 10, offset: int = 0) -> JSONResponse:
-    public_key = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
     tokens = await request.app.solana_client.get_token_accounts_by_owner(
         public_key,
         TokenAccountOpts(
