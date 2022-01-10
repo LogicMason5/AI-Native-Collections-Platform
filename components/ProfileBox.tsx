@@ -123,7 +123,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                         <p>From/To</p>
                     </div>
                     {activity && activity.length > 1 ? (activity.map((a: any) => (
-                        <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
+                        <Link  key={a['tx']} href={"https://solscan.io/tx/" + a['tx']} ><a target="_blank" rel="noreferrer">
 
                             <div className={styles.transaction}>
                                 <div className={styles.type}>

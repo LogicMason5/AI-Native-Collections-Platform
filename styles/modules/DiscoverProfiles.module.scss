@@ -37,8 +37,9 @@
         font-size: .9rem;
     }
     &:hover {
-        background-color: $hoverBg;
         border: 1px solid $hoverBg;
+        background-color: $hoverBg;
+
     }
 }
 .avatar {
@@ -55,13 +56,10 @@
     overflow-x: hidden;
     > p {
         margin-left: auto;
-        color: $grey;
+        color: $primaryStroke;
         position: relative;
-        top: 15px;
-        right: 0px;
-        text-align: end;
+        top: 0px;
         width: 50%;
-        float: right;
     }
 
 }

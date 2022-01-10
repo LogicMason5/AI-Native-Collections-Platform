@@ -15,6 +15,7 @@
         text-align: center;
         @include medium_font;
         font-size: .9rem;
+        margin-top: 20px;
     }
 }
 .upper {
@@ -47,20 +48,20 @@
 .name {
     color: white;
     @include bold_font;
-    font-size: 1.9rem;
+    font-size: 1.7rem;
 }
 .username {
     color: $text;
-    @include medium_font;
-    font-size: 1.2rem;
+    @include default_font;
+    font-size: 1.1rem;
 }
 
 
 .bio {
     padding: 0px 20px;
     color: $greyLight;
-    font-size: 1rem;
-    margin-top: 10px;
+    font-size: .9rem;
+    margin-top: 20px;
     width: 100%;
     overflow-wrap: break-word;
     text-align: center;
