@@ -50,7 +50,7 @@ export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
     )
 }
 
-export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
+export const TransactionChart = ({ chartData = { 1: 1 }, type }: any) => {
 
     const labels: any = Object.keys(chartData)
     const values: any = Object.values(chartData)
@@ -63,6 +63,7 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
         sent.push(i.sent)
     }
 
+
     const data = {
         labels: labels,
         datasets: [
@@ -70,15 +71,22 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
                 label: "Received",
                 data: received,
                 backgroundColor: '#008505',
+                borderColor: '#008505',
+                borderWidth: 1.5,
+                lineTension: .5,
             },
             {
                 label: "Sent",
                 data: sent,
                 backgroundColor: '#0059DE',
+                borderColor: '#0059DE',
+                borderWidth: 1.5,
+                lineTension: .5,
             }
         ],
         borderWidth: 1,
     }
+      
     const options = {
         maintainAspectRatio: false,
         layout: { padding: { top: 20, left: 5 } },
@@ -129,7 +137,7 @@ export const TransactionChart = ({ chartData = { 1: 1 } }: any) => {
           },
     }
     return ( //@ts-ignore (interal type difference, not to worry about)
-        <Bar data={data} options={options} />
+        (type == "line") ? <Line data={data} options={options} /> :  <Bar data={data} options={options} />
     )
 }
 

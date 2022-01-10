@@ -33,12 +33,12 @@
     > p {
         position: absolute;
         right: 0;
-        top: 5px;
-        font-size: 1.5rem;
+        top: 10px;
+        font-size: 1.2rem;
         color: $text;
         > span {
             vertical-align: middle;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             margin: 10px;
             cursor: pointer;
             padding: 0px 13px;
@@ -189,7 +189,76 @@
 }
 
 
+.sliderParent{
+    position: absolute;
+    right: 250px;
+    top: 25px;
+    font-size: 1.5rem;
+    color: $text;
+    > p {
+        color: $grey;
+        font-size: .8rem;
+        cursor: default;
+    }
+    display: flex;
+    flex-flow: row-reverse;
+    align-items: center;
+    gap: 10px;
+}
+.switch {
+    position: relative;
+    width: 40px;
+    height: 15px;
+}
+.switch .input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #9c9c9c;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
 
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+  
+.input:checked + .slider {
+    background-color: #008505;
+  }
+  
+  
+.input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+.slider {
+    border-radius: 10px;
+  }
+  
+.slider:before {
+    border-radius: 50%;
+  } 
 
 @media screen and (max-width: 1200px) {
     .insights {

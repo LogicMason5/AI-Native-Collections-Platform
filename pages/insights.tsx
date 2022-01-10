@@ -22,6 +22,7 @@ export default function Insights() {
 
     const [currentDate, setCurrentDate] = useState<Date>(new Date())
     const [delay, setDelay] = useState<boolean>(false)
+    const [chartType, setChartType] = useState<boolean>(true)
     //  const [plan, setPlan] = useState<number>(0)
 
 
@@ -70,7 +71,7 @@ export default function Insights() {
                 setTokens(JSON.parse(localStorageTokens))
                 setNumericsData(JSON.parse(localStorageNumerics))
             }
-            }
+        }
 
         if (window.solana) {
             fetchTransactionData()
@@ -94,6 +95,15 @@ export default function Insights() {
 
                 <div className={styles.transactions}>
                     <h3>Solana Transactions</h3>
+
+                    <div className={styles.sliderParent} >
+                        <p>Line chart</p>
+                        <label className={styles.switch}>
+                            <input type="checkbox" className={styles.input} onClick={() => setChartType(!chartType)}/>
+                            <span className={styles.slider}></span>
+                        </label>
+                    </div>
+
                     <p style={delay ? // || ![10, 15].includes(plan)? 
                         { opacity: "50%" } : { opacity: "100%" }}>
                         <span style={delay ?
@@ -124,7 +134,7 @@ export default function Insights() {
                     {/* {![10, 15].includes(plan) ?
                         <span className={styles.planInfo}>Upgrade to pro plan to change months</span> : null} */}
 
-                    <TransactionChart chartData={transactions} />
+                    <TransactionChart chartData={transactions} type={chartType ? 'bar' : 'line'} />
                 </div>
 
                 <div className={styles.tokenDistribution}>
