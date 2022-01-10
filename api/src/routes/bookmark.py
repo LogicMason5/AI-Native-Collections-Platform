@@ -1,4 +1,5 @@
 from core.db import get_db
+from sqlalchemy import func
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 from core.ratelimit import Limit
@@ -118,7 +119,7 @@ async def find(bookmarkfind: BookmarkFind, db: Session=Depends(get_db)) -> dict:
                 "avatar": found.avatar,
                 "public_key": found.public_key}
     
-    user = db.query(User).filter_by(username=bookmarkfind.username_or_public_key).first()
+    user = db.query(User).filter(func.lower(User.username)==bookmarkfind.username_or_public_key.lower()).first()
     if user is not None and user_bookmarks.filter_by(profile_public_key=user.public_key).first():
         return {"username": user.username,
                 "avatar": user.avatar,

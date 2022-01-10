@@ -223,7 +223,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #9c9c9c;
+    background-color: $primaryStroke;
     -webkit-transition: .3s;
     transition: .3s;
 }
@@ -235,7 +235,7 @@
     width: 12px;
     left: 2px;
     bottom: 2px;
-    background-color: white;
+    background-color: #ffffff;
     -webkit-transition: .3s;
     transition: .3s;
 }

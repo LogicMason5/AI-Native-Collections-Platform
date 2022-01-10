@@ -1,6 +1,7 @@
 import os
 import json
 import random
+from sqlalchemy import func
 from typing import Optional, Union
 from fastapi import (
                     APIRouter, 
@@ -159,9 +160,7 @@ async def find(profilefind: ProfileFind, db: Session = Depends(get_db)
     if pub_key_find:
         return pub_key_find
 
-    username_find = db.query(User).filter_by(username=
-                                            profilefind.username_or_public_key
-                                            ).first()
+    username_find = db.query(User).filter(func.lower(User.username)==profilefind.username_or_public_key.lower()).first()
     if username_find:
         return username_find
 

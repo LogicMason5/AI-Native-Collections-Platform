@@ -96,7 +96,7 @@ export const ProfileBox = ({ user, activity }: any) => {
                     <span className={styles.name}>{user.name}</span>
                     <span className={styles.username}>@{user.username}</span>
                     {pubKey == user.public_key ? <button className={styles.button} onClick={toggleModal}>Update profile</button> : null}
-                    <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p>
+                    {user.bio ? <p className={styles.bio}>{user.bio.replace("[name_here]", user.name)}</p> : null }
                 </div>
                 <div className={styles.buttons}>
                     {user.social ? <a href={user.social} target="_blank" rel="noreferrer" ><Image src={SocialImages[user.social.split(".")[0].slice(8)]} height="100%" width="100%"/></a>: null}
@@ -109,8 +109,8 @@ export const ProfileBox = ({ user, activity }: any) => {
                         src={bookmarked ? Bookmarked : Bookmark}
                         onClick={(e) => addBookmark(e)}
                         alt="bookmark"
-                        height="45"
-                        width="45"
+                        height="35"
+                        width="35"
                     />
                 </div>
                 <h4>Joined on {joined_on}</h4>

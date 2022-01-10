@@ -14,6 +14,7 @@
         color: $grey;
         text-align: center;
         @include medium_font;
+        font-size: .9rem;
     }
 }
 .upper {
@@ -40,18 +41,18 @@
     border: 5px solid $bg;
     border-radius: 50%;
     object-fit: cover;
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
 }
 .name {
     color: white;
     @include bold_font;
-    font-size: 2.1rem;
+    font-size: 1.9rem;
 }
 .username {
     color: $text;
     @include medium_font;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 
@@ -59,7 +60,7 @@
     padding: 0px 20px;
     color: $greyLight;
     font-size: 1rem;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
     overflow-wrap: break-word;
     text-align: center;
@@ -71,7 +72,7 @@
     justify-content: center;
     gap: 20px;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 20px;
     margin-bottom: 10px;
     > div {
         cursor: pointer;
@@ -80,9 +81,10 @@
         justify-content: center;
         border: 1px solid $primaryStroke;
         border-radius: 30px;
-        padding: 8px;
+        padding: 5px;
         gap: 10px;
         width: 25%;
+        font-size: .9rem;
         transition: .1s ease-out;
         &:hover {
             background-color: $hoverBg;
@@ -94,8 +96,8 @@
     }
     > a {
         transition: .1s ease-out;
-        height: 45px;
-        width: 45px;
+        height: 35px;
+        width: 35px;
         &:hover {
             filter: brightness(150%);
         }
@@ -119,11 +121,10 @@
 .activitySeperator {
     border: none;
     background: $secondaryStroke;
-    height: 2px;
+    height: 1px;
 }
 
 .activity {
-
     > h2 {
         color: $primaryStroke;
         margin: 10px;
@@ -145,7 +146,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 30px 10px;
+    padding: 25px 10px;
     height: 10px;
     transition: .1s ease-out;
     &:hover {
@@ -163,7 +164,7 @@
 
 .labels {
     display: flex;
-    color: rgb(199, 199, 199);
+    color: #c7c7c7;
     @include bold_font;
     gap: 37%;
     margin-left: 160px;
@@ -176,6 +177,7 @@
     gap: 10px;
     align-items: center;
     font-size: .9rem;
+    filter: contrast(95%) brightness(90%);
 }
 
 .metadata {
@@ -228,15 +230,14 @@
 .button {
     position: absolute;
     right: 20px;
-    top: 15%;
-    font-size: 1rem;
-
+    top: 100px;
+    font-size: .9rem;
     border: 1px solid $bg;
     color: white;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     @include light_font;
-    padding: 8px 5%;
+    padding: 8px 3%;
     box-shadow: none;
     transition: .1s ease-out;
     border: 1px solid $bg;

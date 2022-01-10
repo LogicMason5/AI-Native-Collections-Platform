@@ -29,15 +29,15 @@
     transition: .1s ease-in;
     padding: 0px 20px;
     & p {
-        color: $greyLight;
+        color: $grey;
         margin-left: 50px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-size: .9rem;
     }
     &:hover {
         background-color: $hoverBg;
-        transform: scale(99.5%);
         border: 1px solid $hoverBg;
     }
 }
@@ -74,7 +74,7 @@
 }
 .name {
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 .username {
     color: $text;
