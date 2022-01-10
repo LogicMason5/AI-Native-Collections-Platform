@@ -11,8 +11,8 @@ export const NFT = ({ data }: any) => {
                 <div className={styles.image}>
                     <img src={data.image} alt="nft" />
                 </div>
-                <p className={styles.name} >{data.name}</p>
-                <p className={styles.description} >{data.description && data.description.length > 120 ? data.description.slice(0, 120) + "..." : data.description} </p>
+                <p className={styles.name} >{data.name ? data.name : "Not title given..."}</p>
+                <p className={styles.description} >{data.description ? data.description.length > 120 ? data.description.slice(0, 120) + "..." : data.description : "No description given..."} </p>
                 <div className={styles.attributes}>
                     <div className={styles.attributeTitle}>
                         <Image src={Attributes} height="20px" width="20px" />

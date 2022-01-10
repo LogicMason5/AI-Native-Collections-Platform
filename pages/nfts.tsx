@@ -23,7 +23,7 @@ export default function Dashboard() {
                 setOffset(localStorageNfts.length)
             }
             const publicKey = await connectWallet(false, false)
-            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=4&offset=" + offset)
+            const result = await fetch(API_URL + "/fetch/nfts/" + publicKey + "?limit=16&offset=" + offset)
             if (result.ok) {
                 const res_data = await result.json()
                 setShowPlaceHolder(true)
@@ -37,7 +37,7 @@ export default function Dashboard() {
                     localStorage.setItem("nfts", JSON.stringify(array))
                 }
                 if (res_data.length != 0) {
-                    setOffset(offset + 4)
+                    setOffset(offset + 16)
                 } else {
                     setShowPlaceHolder(false)
                 }
