@@ -40,15 +40,19 @@ async def activity(public_key: str,  request: Request, limit: int = 4) -> JSONRe
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
 async def transactions(public_key: str, request: Request,  year: Optional[int], month_now: Optional[int] = None) -> dict:
+    datetime_now = datetime.utcnow()
     if not month_now:
-        month_now = datetime.utcnow().month
+        month_now = datetime_now.month
     else:
         month_now += 1
 
     if not year:
-        year = datetime.utcnow().year
+        year = datetime_now.year
 
-    amount_of_days = monthrange(year, month_now)[1]
+    if month_now == datetime_now.month:
+        amount_of_days = datetime_now.day
+    else:
+        amount_of_days = monthrange(year, month_now)[1]
     resp = await request.app.request_client.get(
                 ("https://api.solscan.io/account/soltransfer/txs?"
                 f"address={public_key}&offset=0&limit=500")
