@@ -29,6 +29,7 @@
 .transactions {
     grid-column: 1/8;
     grid-row: 2/6;
+    width: 100%;
     position: relative;
     > p {
         position: absolute;
@@ -191,7 +192,7 @@
 
 .sliderParent{
     position: absolute;
-    right: 250px;
+    right: 300px;
     top: 25px;
     font-size: 1.5rem;
     color: $text;

@@ -36,7 +36,7 @@ async def profile(username: str, request: Request,
     if user:
         resp = await request.app.request_client.get(
             ("https://api.solscan.io/account/soltransfer/txs?"
-             f"address={user.public_key}&offset=0&limit={4}")
+             f"address={user.public_key}&offset=0&limit={5}")
             )
 
         data = resp.json()["data"]["tx"]["transactions"]
