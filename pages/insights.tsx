@@ -29,7 +29,7 @@ export default function Insights() {
 
 
     const fetchTransactionData = async () => {
-        const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
+        const publicKey = await connectWallet(false, false)
         setDelay(true)
         setTimeout(
             () => setDelay(false),
@@ -52,7 +52,7 @@ export default function Insights() {
             const localStorageNumerics = localStorage.getItem("numerics")
             const localStorageTokens = localStorage.getItem("tokens")
             if (!localStorageNumerics || !localStorageTokens) {
-                const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
+                const publicKey = await connectWallet(false, false)
                 // const planRes = await fetch(API_URL + "/plan/" + publicKey)
                 // const planResJson = await planRes.json()
                 // setPlan(planResJson)
