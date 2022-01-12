@@ -17,12 +17,14 @@ import styles from '@/styles/pages/Insights.module.scss'
 export default function Insights() {
     const [transactions, setTransactions] = useState<object>()
     const [tokens, setTokens] = useState<object>()
+
     const [ratio, setRatio] = useState<Array<number>>([0, 0])
     const [numericsData, setNumericsData] = useState<any>()
 
     const [currentDate, setCurrentDate] = useState<Date>(new Date())
     const [delay, setDelay] = useState<boolean>(false)
     const [chartType, setChartType] = useState<boolean>(true)
+    const [byAmount, setByAmount] = useState<boolean>(false)
     //  const [plan, setPlan] = useState<number>(0)
 
 
@@ -56,11 +58,12 @@ export default function Insights() {
                 // setPlan(planResJson)
                 const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
                 const json = await res.json()
-                setTokens(json["tokenValues"])
+                setTokens(json["tokenData"])
+
                 const numericsData = {
                     "fungibleTokenCount": json["fungibleTokenCount"],
                     "nftCount": json["nftCount"],
-                    "unavailableTokenCount": json["unavailableTokenCount"],
+                    "unfetchedTokenCount": json["unfetchedTokenCount"],
                     "solPrice": json["solPrice"],
                     "walletValue": json["walletValue"]
                 }
@@ -131,19 +134,25 @@ export default function Insights() {
                             }>{'>'}
                         </span>
                     </p>
-                    {/* {![10, 15].includes(plan) ?
-                        <span className={styles.planInfo}>Upgrade to pro plan to change months</span> : null} */}
 
                     <TransactionChart chartData={transactions} type={chartType ? 'bar' : 'line'} />
                 </div>
 
                 <div className={styles.tokenDistribution}>
                     <h3>Token Distribution</h3>
+                    <div className={styles.tokenSliderParent} >
+                        <p>Show by amount</p>
+                        <label className={styles.switch}>
+                            <input type="checkbox" className={styles.input} onClick={() => setByAmount(!byAmount)}/>
+                            <span className={styles.slider}></span>
+                        </label>
+                    </div>
                     {tokens && numericsData ?
                         <div>
-                            <div><TokenDistributionChart chartData={tokens} /></div>
+                            <div><TokenDistributionChart chartData={tokens} byAmount={byAmount}/></div>
                             <Tokens data={tokens}
-                                unavailableTokenCount={numericsData["unavailableTokenCount"]}
+                                    unfetchedTokenCount={numericsData["unfetchedTokenCount"]}
+                                    byAmount={byAmount}
                             />
                         </div> : <Loading />}
                 </div>

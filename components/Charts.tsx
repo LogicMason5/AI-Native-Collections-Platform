@@ -195,8 +195,10 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
     )
 }
 
-export const TokenDistributionChart = ({ chartData }: any) => {
-
+export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
+    if (!byAmount){
+        chartData = Object.fromEntries(Object.entries(chartData).filter(([key, value]) => "value" in value))
+    }
     const data = (canvas: any ) => {
         const ctx = canvas.getContext("2d")
         const gradiants = TokenChartGradiants(Object.keys(chartData).length)
@@ -212,7 +214,7 @@ export const TokenDistributionChart = ({ chartData }: any) => {
         labels: Object.keys(chartData).map(t => chartData[t].symbol),
         datasets: [
             {
-                data: Object.keys(chartData).map(t => chartData[t].usd),
+                data: Object.keys(chartData).map(t => byAmount ? chartData[t].amount : chartData[t].value),
                 fill: true,
                 backgroundColor: backgroundColors,
                 borderWidth: 0

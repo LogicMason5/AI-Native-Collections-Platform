@@ -33,3 +33,43 @@
     position: absolute;
     right: 30px;
 }
+
+.percentageNotFound {
+    color: $primaryStroke !important;
+    position: absolute;
+    right: 30px;
+    > span:nth-child(1) {
+        border: 2px solid $primaryStroke;
+        padding: 0px 11px;
+        border-radius: 50%;
+        margin-left: 5px;
+        cursor: default;
+    }
+}
+
+.toolTip {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
+    position: absolute;
+    right: -10%;
+    top: -130px;
+    font-size: .85rem;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 200px;
+    background-color: $hoverBg;
+    box-shadow: 0px 0px 5px #00000036;
+    @include light_font;
+    color: $greyLight;
+    transition: visibility 0s, opacity 0.15s linear;
+    &:hover {
+        display: inline-block;
+    }
+}
+
+.percentageNotFound span:nth-child(1):hover + .toolTip{
+    visibility: visible;
+    opacity: 1;
+}

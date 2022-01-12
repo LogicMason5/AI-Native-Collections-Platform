@@ -5,7 +5,7 @@ export const TokenChartGradiants = (amount: number) => {
             ["#19B100", "#19B100"],
             ["#FF7A00", "#FFB800",],
             ["#1F93FF", "#2C67FF",],
-            ["#FF6B00", "#ffffff",],
+            ["#FF6B00", "#FFC397",],
             ["#FF005C", "#FF005C",],
             ["#F79DFF", "#F79DFF"],
             ["#57D7FF", "#57D7FF"],

@@ -227,6 +227,7 @@
     background-color: $primaryStroke;
     -webkit-transition: .3s;
     transition: .3s;
+    
 }
 
 .slider:before {
@@ -260,6 +261,22 @@
 .slider:before {
     border-radius: 50%;
   } 
+
+  
+.tokenSliderParent {
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    height: 50px !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    > p {
+        color: $primaryStroke;
+        @include bold_font;
+        font-size: 1.1rem;
+    }
+}
 
 @media screen and (max-width: 1200px) {
     .insights {

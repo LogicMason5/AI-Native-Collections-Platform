@@ -5,7 +5,6 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from solana.rpc.types import TokenAccountOpts
-
 from core.db import get_db
 from core.ratelimit import Limit
 from core.schemas import View
@@ -52,37 +51,40 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
             program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
             encoding="jsonParsed"),
         "max")
+    filtered_tokens = []
     try:
-        public_keys = [i["account"]["data"]["parsed"]["info"]["mint"]
-                       for i in tokens["result"]["value"]]
-        public_keys.append(SOL_ADDRESS)
-    except Exception:
-        print("Execption with tokens: ", tokens)
+        filtered_tokens = [i["account"]["data"]["parsed"]["info"]
+                           for i in tokens["result"]["value"]]
+    except Exception as e:
+        print("Exception with tokens API: ", e)
         return JSONResponse(
             status_code=500,
             content={"error": "Error fetching tokens, try reloading."}
         )
 
-    possible_nfts = [i["account"]["data"]["parsed"]["info"]["mint"]
-                     for i in tokens["result"]["value"] if i["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"] == 1]
+    nfts_addresses = [i["mint"] for i in filtered_tokens if
+                      i["tokenAmount"]["uiAmount"] < 2 and # Less than two means either 1 or 0 because we cant use =<
+                      i["tokenAmount"]["decimals"] < 2]
 
-    amounts = [i["account"]["data"]["parsed"]["info"]["tokenAmount"]
-               ["uiAmount"] for i in tokens["result"]["value"]]
+    tokens_addresses = [i["mint"] for i in filtered_tokens if 
+                        i["mint"] not in nfts_addresses]
+
+    tokens_addresses.append(SOL_ADDRESS)
+    amounts = [i["tokenAmount"]["uiAmount"]
+               for i in filtered_tokens if i["mint"] in tokens_addresses]
+
     sol_balance = await request.app.solana_client.get_balance(public_key)
     amounts.append(lamport_to_sol(sol_balance["result"]["value"]))
-    amounts_pair = {i: y for (i, y) in zip(public_keys, amounts)}
+    amounts_pair = {i: y for (i, y) in zip(tokens_addresses, amounts)}
 
     token_json = await request.app.request_client.get("https://token-list.solana.com/solana.tokenlist.json")
     token_data = token_json.json()["tokens"]
 
-    token_public_keys = [x for x in public_keys if x in [
-        y["address"] for y in token_data]]
-    nfts = [i for i in possible_nfts if i not in token_public_keys]
     prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana" +
-                                                  f"?contract_addresses={','.join(token_public_keys)}&vs_currencies=usd")
+                                                  f"?contract_addresses={','.join(tokens_addresses)}&vs_currencies=usd")
     prices_data = prices.json()
     unfetched_public_keys = [
-        x for x in token_public_keys if x not in [y for y in prices_data]]
+        x for x in tokens_addresses if x not in [y for y in prices_data]]
     unfetched_coingecko_ids = {}
     for i in token_data:
         if i["address"] in unfetched_public_keys:
@@ -100,24 +102,52 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
 
     prices_data.update(new_data)
     sol_price = prices_data[SOL_ADDRESS]["usd"]
+    value = 0
     for i in prices_data:
         token = [x for x in token_data if x["address"] == i][0]
         token_price = prices_data[i]
-        token_price.update(
-            {"symbol": token["symbol"], "logo": token["logoURI"], "address": token["address"]})
-        token_price["usd"] = round(
-            token_price["usd"] * amounts_pair[token_price["address"]], 2)
+        token_value = round(token_price["usd"]
+                            * amounts_pair[token["address"]], 2)
+        token_price.update({
+            "symbol": token["symbol"],
+            "logo": token["logoURI"],
+            "address": token["address"],
+            "amount": amounts_pair[token["address"]],
+            "value": token_value
+        })
+        value += token_value
 
     prices_data[SOL_ADDRESS]["symbol"] = "SOL"
-    token_values = OrderedDict(
-        sorted(prices_data.items(), key=lambda x: getitem(x[1], 'usd'), reverse=True))
-    data = {"tokenValues": token_values,
-            "nftCount": len(nfts),
-            "fungibleTokenCount": len(token_public_keys),
-            "unavailableTokenCount": len(token_public_keys) - len(token_values),
-            "solPrice": sol_price,
-            "walletValue": round(sum([value["usd"] for key, value in token_values.items()]), 2)}
+    unfetched_token_prices = {}
+    for i in tokens_addresses:
+        if i not in list(prices_data):
+            try:
+                token = [x for x in token_data if x["address"] == i][0]
+                unfetched_token_prices.update({i :{
+                    "symbol": token["symbol"],
+                    "logo": token["logoURI"],
+                    "address": token["address"],
+                    "amount": amounts_pair[token["address"]],
+                    "unfetched": True
+                }})
+            except:
+                pass
 
+    token_data = OrderedDict(
+        sorted(prices_data.items(),
+               key=lambda x: getitem(x[1], 'value'),
+               reverse=True
+               ))
+    token_data.update(unfetched_token_prices)
+
+    data = {
+        "tokenData": token_data,
+        "unfetchedTokenCount": len(tokens_addresses) - len(prices_data),
+        "nftCount": len(nfts_addresses),
+        "fungibleTokenCount": len(tokens_addresses),
+        "solPrice": sol_price,
+        "walletValue": round(value, 2)
+    }
     return data
 
 
@@ -156,11 +186,11 @@ async def nfts(request: Request, public_key: str, limit: int = 10, offset: int =
                     description = metadata["Description"]
                 except Exception:
                     pass
-                data.append({"name": title  if title else None,
-                            "description": description  if description else None,
-                            "image": metadata["Preview_URL"],
-                            "attributes": attributes if attributes else None,
-                            "address": metadata["Mint"]})
+                data.append({"name": title if title else None,
+                            "description": description if description else None,
+                             "image": metadata["Preview_URL"],
+                             "attributes": attributes if attributes else None,
+                             "address": metadata["Mint"]})
             except Exception as e:
                 print("NFT Fetch Error", e, "\n")
         return data
