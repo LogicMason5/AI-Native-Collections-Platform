@@ -86,7 +86,7 @@ export const TransactionChart = ({ chartData = { 1: 1 }, type }: any) => {
         ],
         borderWidth: 1,
     }
-      
+
     const options = {
         maintainAspectRatio: false,
         layout: { padding: { top: 20, left: 5 } },
@@ -111,39 +111,39 @@ export const TransactionChart = ({ chartData = { 1: 1 }, type }: any) => {
         plugins: {
             tooltip: {
                 callbacks: {
-                  label: (context: any) => {
-                    let label = "";
-                    if (context.parsed) {
-                      label = context.dataset.label + "  " + context.formattedValue + " SOLs"
-                    }
-                    return label;
-                  },
+                    label: (context: any) => {
+                        let label = "";
+                        if (context.parsed) {
+                            label = context.dataset.label + "  " + context.formattedValue + " SOLs"
+                        }
+                        return label;
+                    },
                 }
-              },
+            },
             zoom: {
-              zoom: {
-                wheel: {
-                  enabled: true
+                zoom: {
+                    wheel: {
+                        enabled: true
+                    },
+                    mode: "x",
+                    speed: 50
                 },
-                mode: "x",
-                speed: 50
-              },
-              pan: {
-                enabled: true,
-                mode: "xy",
-                speed: 50,
-              }
+                pan: {
+                    enabled: true,
+                    mode: "xy",
+                    speed: 50,
+                }
             }
-          },
+        },
     }
     return ( //@ts-ignore (interal type difference, not to worry about)
-        (type == "line") ? <Line data={data} options={options} /> :  <Bar data={data} options={options} />
+        (type == "line") ? <Line data={data} options={options} /> : <Bar data={data} options={options} />
     )
 }
 
 export const TransactionDistributionChart = ({ chartData }: any) => {
 
-    const data = (canvas: any ) => {
+    const data = (canvas: any) => {
         const ctx = canvas.getContext("2d")
 
         let gradiant1 = ctx.createLinearGradient(0, 0, 0, 350);
@@ -153,17 +153,17 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
         let gradiant2 = ctx.createLinearGradient(0, 0, 0, 300);
         gradiant2.addColorStop(0.1, "#232E96");
         gradiant2.addColorStop(1, "#6CA3F4");
-        return {    
-        labels: ["Received", "Sent"],
-        datasets: [
-            {
-                data: chartData,
-                fill: true,
-                backgroundColor: [gradiant1, gradiant2],
-                borderWidth: 0
-            }
-        ],
-    }
+        return {
+            labels: ["Received", "Sent"],
+            datasets: [
+                {
+                    data: chartData,
+                    fill: true,
+                    backgroundColor: [gradiant1, gradiant2],
+                    borderWidth: 0
+                }
+            ],
+        }
     }
 
     const options = {
@@ -174,15 +174,15 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
             legend: { display: false, },
             tooltip: {
                 callbacks: {
-                  label: (context: any) => {
-                    let label = "";
-                    if (context.parsed) {
-                      label = context.label + "  " +context.parsed + "%"
-                    }
-                    return label;
-                  },
+                    label: (context: any) => {
+                        let label = "";
+                        if (context.parsed) {
+                            label = context.label + "  " + context.parsed + "%"
+                        }
+                        return label;
+                    },
                 }
-              }
+            }
         },
         hoverOffset: 5,
     }
@@ -196,49 +196,50 @@ export const TransactionDistributionChart = ({ chartData }: any) => {
 }
 
 export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
-    if (!byAmount){
+    if (!byAmount) {
+        //@ts-ignore
         chartData = Object.fromEntries(Object.entries(chartData).filter(([key, value]) => "value" in value))
     }
-    const data = (canvas: any ) => {
+    const data = (canvas: any) => {
         const ctx = canvas.getContext("2d")
         const gradiants = TokenChartGradiants(Object.keys(chartData).length)
         const backgroundColors = new Array()
-        for (const i of gradiants){
+        for (const i of gradiants) {
             let gradiant = ctx.createLinearGradient(0, 400, 0, 80);
             gradiant.addColorStop(1, i[0]);
             gradiant.addColorStop(0.6, i[1]);
             backgroundColors.push(gradiant)
         }
 
-        return {    
-        labels: Object.keys(chartData).map(t => chartData[t].symbol),
-        datasets: [
-            {
-                data: Object.keys(chartData).map(t => byAmount ? chartData[t].amount : chartData[t].value),
-                fill: true,
-                backgroundColor: backgroundColors,
-                borderWidth: 0
-            }
-        ],
-    }
+        return {
+            labels: Object.keys(chartData).map(t => chartData[t].symbol),
+            datasets: [
+                {
+                    data: Object.keys(chartData).map(t => byAmount ? chartData[t].amount : chartData[t].value),
+                    fill: true,
+                    backgroundColor: backgroundColors,
+                    borderWidth: 0
+                }
+            ],
+        }
     }
 
     const options = {
         maintainAspectRatio: false,
         layout: { padding: 10 },
         plugins: {
-            legend: {display: false,},
+            legend: { display: false, },
             tooltip: {
                 callbacks: {
-                  label: (context: any) => {
-                    let label = "";
-                    if (context.parsed) {
-                      label = context.label + "  $"+context.parsed
-                    }
-                    return label;
-                  },
+                    label: (context: any) => {
+                        let label = "";
+                        if (context.parsed) {
+                            label = context.label + "  $" + context.parsed
+                        }
+                        return label;
+                    },
                 }
-              }
+            }
         },
         hoverOffset: 5,
 

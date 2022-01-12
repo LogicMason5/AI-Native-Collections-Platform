@@ -142,7 +142,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
 
     data = {
         "tokenData": token_data,
-        "unfetchedTokenCount": len(tokens_addresses) - len(prices_data),
+        "unfetchedTokenCount": len(tokens_addresses) - len(token_data),
         "nftCount": len(nfts_addresses),
         "fungibleTokenCount": len(tokens_addresses),
         "solPrice": sol_price,

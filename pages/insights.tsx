@@ -29,7 +29,7 @@ export default function Insights() {
 
 
     const fetchTransactionData = async () => {
-        const publicKey = await connectWallet(false, false)
+        const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
         setDelay(true)
         setTimeout(
             () => setDelay(false),
@@ -52,7 +52,7 @@ export default function Insights() {
             const localStorageNumerics = localStorage.getItem("numerics")
             const localStorageTokens = localStorage.getItem("tokens")
             if (!localStorageNumerics || !localStorageTokens) {
-                const publicKey = await connectWallet(false, false)
+                const publicKey = "2FeNp2PiN7iZCGPQWMG8wTKn27roQxxMbkyC463iM3KG"
                 // const planRes = await fetch(API_URL + "/plan/" + publicKey)
                 // const planResJson = await planRes.json()
                 // setPlan(planResJson)
@@ -102,7 +102,7 @@ export default function Insights() {
                     <div className={styles.sliderParent} >
                         <p>Line chart</p>
                         <label className={styles.switch}>
-                            <input type="checkbox" className={styles.input} onClick={() => setChartType(!chartType)}/>
+                            <input type="checkbox" className={styles.input} onClick={() => setChartType(!chartType)} />
                             <span className={styles.slider}></span>
                         </label>
                     </div>
@@ -141,18 +141,18 @@ export default function Insights() {
                 <div className={styles.tokenDistribution}>
                     <h3>Token Distribution</h3>
                     <div className={styles.tokenSliderParent} >
-                        <p>Show by amount</p>
+                        <p>Show by {byAmount ? 'value' : 'amount'}</p>
                         <label className={styles.switch}>
-                            <input type="checkbox" className={styles.input} onClick={() => setByAmount(!byAmount)}/>
+                            <input type="checkbox" className={styles.input} onClick={() => setByAmount(!byAmount)} />
                             <span className={styles.slider}></span>
                         </label>
                     </div>
                     {tokens && numericsData ?
                         <div>
-                            <div><TokenDistributionChart chartData={tokens} byAmount={byAmount}/></div>
+                            <div><TokenDistributionChart chartData={tokens} byAmount={byAmount} /></div>
                             <Tokens data={tokens}
-                                    unfetchedTokenCount={numericsData["unfetchedTokenCount"]}
-                                    byAmount={byAmount}
+                                unfetchedTokenCount={numericsData["unfetchedTokenCount"]}
+                                byAmount={byAmount}
                             />
                         </div> : <Loading />}
                 </div>
