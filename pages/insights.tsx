@@ -89,7 +89,7 @@ export default function Insights() {
 
     return (
         <>
-            <PageHead title={'NodeAir - Insights'} />
+            <PageHead title={'NodeAir | Insights'} />
             <Sidebar />
             <h1 className={styles.note}>Insights is not available on this screen size at the moment.</h1>
 

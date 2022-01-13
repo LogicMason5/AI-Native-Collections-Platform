@@ -5,6 +5,10 @@ export const PageHead = ({ title }: any = "Nodeair - Easier, faster and insightf
         <title>{title}</title>
         <meta name="title" content="NodeAir - Easier, faster & insightful Solana wallet experience."/>
         <meta name="description" content="NodeAir lets you create your public wallet profile to find each other easily. Get statistics with graphs about your transactions and activity in seconds."/>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
         <meta property="og:type" content="website"/>
         <meta property="og:url" content="https://www.nodeair.io/"/>
