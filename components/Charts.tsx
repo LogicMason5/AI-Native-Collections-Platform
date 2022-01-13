@@ -235,6 +235,10 @@ export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
                         let label = "";
                         if (context.parsed) {
                             label = context.label + "  $" + context.parsed
+                            if(byAmount){
+                                label = context.label + "  " + context.parsed
+                            }
+
                         }
                         return label;
                     },
