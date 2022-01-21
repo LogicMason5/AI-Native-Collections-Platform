@@ -1,5 +1,5 @@
 import uuid
-from solana.publickey import PublicKey
+from solathon import PublicKey
 from core.db import get_db
 from sqlalchemy.orm import Session
 from core.ratelimit import Limit

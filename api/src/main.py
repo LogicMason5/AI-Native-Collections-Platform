@@ -15,7 +15,7 @@ from core.db import engine, Base
 from fastapi.param_functions import Depends
 from core.ratelimit import RateLimiter, Limit
 from fastapi.middleware.cors import CORSMiddleware
-from solana.rpc.async_api import AsyncClient
+from solathon import Client
 
 load_dotenv()
 
@@ -45,7 +45,7 @@ async def startup() -> None:
     await RateLimiter.init(redis)
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
-    app.solana_client = AsyncClient(os.environ["SOL_NETWORK"])
+    app.solana_client = Client(os.environ["SOL_NETWORK"])
     app.ipfs = ipfsApi.Client(host='https://ipfs.infura.io', port=5001)
 
 @app.on_event("shutdown")

@@ -4,7 +4,6 @@ from collections import OrderedDict
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from solana.rpc.types import TokenAccountOpts
 from core.db import get_db
 from core.ratelimit import Limit
 from core.schemas import View
@@ -45,12 +44,10 @@ async def views(public_key: str, db: Session = Depends(get_db)) -> dict:
             status_code=200)
 async def tokens(request: Request, public_key: str) -> JSONResponse:
     SOL_ADDRESS = "So11111111111111111111111111111111111111112"
-    tokens = await request.app.solana_client.get_token_accounts_by_owner(
-        public_key,
-        TokenAccountOpts(
-            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-            encoding="jsonParsed"),
-        "max")
+    tokens = request.app.solana_client.get_token_accounts_by_owner(
+            public_key,
+            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+    )
     filtered_tokens = []
     try:
         filtered_tokens = [i["account"]["data"]["parsed"]["info"]
@@ -73,7 +70,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
     amounts = [i["tokenAmount"]["uiAmount"]
                for i in filtered_tokens if i["mint"] in tokens_addresses]
 
-    sol_balance = await request.app.solana_client.get_balance(public_key)
+    sol_balance = request.app.solana_client.get_balance(public_key)
     amounts.append(lamport_to_sol(sol_balance["result"]["value"]))
     amounts_pair = {i: y for (i, y) in zip(tokens_addresses, amounts)}
 
@@ -155,12 +152,10 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
             dependencies=[Depends(Limit(times=5, seconds=2))],
             status_code=200)
 async def nfts(request: Request, public_key: str, limit: int = 10, offset: int = 0) -> JSONResponse:
-    tokens = await request.app.solana_client.get_token_accounts_by_owner(
-        public_key,
-        TokenAccountOpts(
-            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-            encoding="jsonParsed"),
-        "max")
+    tokens = request.app.solana_client.get_token_accounts_by_owner(
+            public_key,
+            program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+    )
     try:
         filtered_tokens = [i["account"]["data"]["parsed"]["info"]
                            for i in tokens["result"]["value"]]
@@ -192,7 +187,7 @@ async def nfts(request: Request, public_key: str, limit: int = 10, offset: int =
                              "attributes": attributes if attributes else None,
                              "address": metadata["Mint"]})
             except Exception as e:
-                print("NFT Fetch Error", e, "\n")
+                print(f"Could not fetch the following NFT: {nft}")
         return data
     except Exception as e:
         print("NFT API Error ", e)
