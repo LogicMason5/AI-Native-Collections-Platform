@@ -10,7 +10,7 @@ from core.models import RegisterUser
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends
 from fastapi import Request
-
+from solana.rpc.async_api import AsyncClient# Remove this later on
 router = APIRouter()
 
 
@@ -23,7 +23,9 @@ async def register(
         ) -> Union[JSONResponse, User]:
 
     if (user.plan != 0):
-        transaction = await request.app.solana_client.get_confirmed_transaction(user.signature)
+        client = AsyncClient("https://api.mainnet-beta.solana.com")
+
+        transaction = await client.get_confirmed_transaction(user.signature)
         print("-"*200 ,"\nsignature: ", user.signature)
         try:
             print("\ntransaction: ", transaction)

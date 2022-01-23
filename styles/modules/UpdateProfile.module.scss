@@ -133,9 +133,9 @@
         &:hover {
             border: 1px solid $primaryStroke;
         }
-        &:focus {
-            border: 1px solid $blue
-        }
+	&:focusrwithin {
+	    border: 1px solid $blue;
+	}
     }
     > button {
         width: 40%;
@@ -173,6 +173,7 @@
         color: white;
         font-size: 1rem;
     }
+
 }
 
 .error {

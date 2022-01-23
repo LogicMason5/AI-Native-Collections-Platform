@@ -50,14 +50,6 @@ class Bookmark(Base):
     owner = relationship("User", back_populates="bookmarks")
 
 
-class Signature(Base):
-    __tablename__ = "signatures"
-
-    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    public_key = Column(String(length=44), nullable=False)
-    hash = Column(String(length=44), nullable=False)
-
-
 class View(Base):
     __tablename__ = "views"
 
@@ -66,9 +58,3 @@ class View(Base):
     viewed_on = Column(DateTime, default=datetime.utcnow, nullable=False)
 
 
-class Project(Base):
-    __tablename__ = "projects"
-
-    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    public_key = Column(String(length=44), ForeignKey('users.public_key', ondelete='CASCADE'), nullable=False)
-    viewed_on = Column(DateTime, default=datetime.utcnow, nullable=False)

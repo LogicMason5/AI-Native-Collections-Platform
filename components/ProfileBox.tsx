@@ -56,14 +56,24 @@ export const ProfileBox = ({ user, activity }: any) => {
 
 
     const addBookmark = async (e: any) => {
-        const signature = await signMessage(e)
+        const signature = localStorage.getItem("signature")
+	const owner_public_key = await connectWallet(false, false)
+        if (!signature){
+          signature = await signMessage(e, owner_public_key)
+	  localStorage.setItem("signature", JSON.stringify(signature))
+	}else {
+          signature = JSON.parse(signature)
+	}
+
         const data = {
-            owner_public_key: await connectWallet(false, false),
+            owner_public_key: owner_public_key,
             signature: signature,
             profile_public_key: user.public_key
         }
 
+	console.log(data)
         const hmm = bookmarked ? "remove" : "add"
+
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         fetch(API_URL + `/bookmark/${hmm}`, {
             body: JSON.stringify(data),

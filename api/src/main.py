@@ -7,7 +7,6 @@ from routes import user
 from routes import checks
 from routes import fetch
 from routes import transactions
-from routes import signature
 from routes import bookmark
 from routes import profile
 from dotenv import load_dotenv
@@ -31,7 +30,6 @@ app.include_router(user.router)
 app.include_router(checks.router)
 app.include_router(fetch.router)
 app.include_router(transactions.router)
-app.include_router(signature.router)
 app.include_router(bookmark.router)
 app.include_router(profile.router)
 

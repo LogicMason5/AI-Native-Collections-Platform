@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse
 from core.db import get_db
 from core.ratelimit import Limit
 from core.models import ProfileFind
-from core.schemas import User, View, Signature
+from core.schemas import User, View
 from utils import lamport_to_sol, verify_signature
 
 router = APIRouter(prefix="/profile")
@@ -81,13 +81,8 @@ async def profile_update(
 
     signature = json.loads(signature)
     signature = signature["data"]
-    signature_obj = db.query(Signature).filter_by(public_key=public_key)
 
-    if not signature_obj.first():
-        return {"error": "Message not signed"}
-
-    message_hash = signature_obj[-1].hash
-    verify = verify_signature(message_hash, signature, public_key)
+    verify = verify_signature(signature, public_key)
     if not verify:
         return JSONResponse(
             status_code=403,
@@ -105,7 +100,7 @@ async def profile_update(
         user.bio = bio
         user.social = social
 
-        file_name =f"{message_hash}.png"
+        file_name =f"{public_key}.png"
         if (avatar):
             with open(file_name, 'wb') as image:
                 content = await avatar.read()

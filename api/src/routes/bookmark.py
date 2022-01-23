@@ -1,10 +1,9 @@
 from core.db import get_db
 from sqlalchemy import func
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from core.ratelimit import Limit
-from fastapi import APIRouter, Depends
-from core.schemas import Signature, Bookmark, User
+from core.schemas import Bookmark, User
 from utils import verify_signature
 from core.models import BookmarkCreateDelete, BookmarkFind
 from fastapi.responses import JSONResponse
@@ -15,38 +14,32 @@ router = APIRouter(prefix="/bookmark")
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
 async def add(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) -> dict:
-    owner_public_key = bookmark.owner_public_key
-    profile_public_key = bookmark.profile_public_key
+    owner_pk = bookmark.owner_public_key
+    profile_pk = bookmark.profile_public_key
     signature = bookmark.signature["data"]
 
-    signature_obj = db.query(Signature).filter_by(public_key=owner_public_key)
-
-    if not signature_obj.first():
-        return {"error": "Message not signed"}
-
-    verify = verify_signature(signature_obj[-1].hash, signature, owner_public_key)
+    verify = verify_signature(signature, owner_pk)
     if not verify:
         return JSONResponse(
             status_code=400, 
             content={"error": "Error verifying signature"}
             )
     else:
-        owner = db.query(User).filter_by(public_key=owner_public_key).first()
+        owner = db.query(User).filter_by(public_key=owner_pk).first()
         if not owner:
             return JSONResponse(
                     status_code=400,
                     content={"error": "You need to register your wallet in order to add bookmarks"}
                     )
         
-        if profile_public_key in [x.profile_public_key for x in owner.bookmarks]:
+        if profile_pk in [x.profile_public_key for x in owner.bookmarks]:
             return JSONResponse(
                 status_code=400, 
                 content={"error": "Profile already bookmarked"}
             )
 
-        bm = Bookmark(profile_public_key=profile_public_key, 
+        bm = Bookmark(profile_public_key=profile_pk, 
                     owner=owner)
-        signature_obj.delete()
         db.add(bm)
         db.commit()
         return {"message": "Successfully added bookmark"}
@@ -56,32 +49,26 @@ async def add(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) -> di
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
 async def remove(bookmark: BookmarkCreateDelete, db: Session=Depends(get_db)) -> dict:
-    owner_public_key = bookmark.owner_public_key
-    profile_public_key = bookmark.profile_public_key
+    owner_pk = bookmark.owner_public_key
+    profile_pk = bookmark.profile_public_key
     signature = bookmark.signature["data"]
 
-    signature_obj = db.query(Signature).filter_by(public_key=owner_public_key)
-
-    if not signature_obj.first():
-        return {"error": "Message not signed"}
-
-    verify = verify_signature(signature_obj[-1].hash, signature, owner_public_key)
+    verify = verify_signature(signature, owner_pk)
     if not verify:
         return JSONResponse(
             status_code=400, 
             content={"error": "Error verifying signature"}
             )
     else:
-        owner = db.query(User).filter_by(public_key=owner_public_key).first()
+        owner = db.query(User).filter_by(public_key=owner_pk).first()
         
-        if not profile_public_key in [x.profile_public_key for x in owner.bookmarks]:
+        if not profile_pk in [x.profile_public_key for x in owner.bookmarks]:
             return JSONResponse(
                 status_code=400, 
                 content={"error": "Profile not bookmarked"}
             )
 
-        bookmark_obj = db.query(Bookmark).filter_by(profile_public_key=profile_public_key, owner=owner)
-        signature_obj.delete()
+        bookmark_obj = db.query(Bookmark).filter_by(profile_public_key=profile_pk, owner=owner)
         bookmark_obj.delete()
         db.commit()
         return {"message": "Successfully removed bookmark"}   

@@ -89,8 +89,15 @@ export const UpdateProfile = (props: any) => {
   }
 
     const API_URL: any = process.env.NEXT_PUBLIC_API_URL
-    const publicKey = await connectWallet(false)
-    const signature = await signMessage(e)
+
+    const signature = localStorage.getItem("signature")
+    const publicKey = await connectWallet(false, false)
+        if (!signature){
+          signature = await signMessage(e, publicKey)
+	  localStorage.setItem("signature", JSON.stringify(signature))
+	}else {
+          signature = JSON.parse(signature)
+	}
 
     const formData = new FormData()
     avatarFile ? formData.append('avatar', avatarFile) : null

@@ -89,7 +89,7 @@ export const registerWallet = async (event: any, username: string, usd: number) 
       if (res.ok) {
         let payment
         if (usd != 0) {
-          payment = await sendPayment(new PublicKey("JC2YXGuprjWRSJaTM67SEyHQr3yFtnPwjiMRQTEERoRj"), usd)
+          payment = await sendPayment(new PublicKey("B3BhJ1nvPvEhx3hq3nfK8hx4WYcKZdbhavSobZEA44ai"), usd)
         }
         
         if (usd == 0 || payment) {
@@ -134,22 +134,10 @@ export const registerWallet = async (event: any, username: string, usd: number) 
 
 export const signMessage = async (e: any) => {
   e.preventDefault();
-  const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
   const publicKey = await connectWallet(false, false);
-  const res = await fetch(`${API_URL}/signature/create`, {
-    body: JSON.stringify({ public_key: publicKey }),
-    headers: { "Content-Type": "application/json" },
-    method: "POST",
-  });
-  if (res.ok) {
-    const json = await res.json();
-    const message = new TextEncoder().encode(json.hash);
-    const sig = await window.solana.signMessage(message, "utf8");
-    return sig.signature;
-  } else {
-    toast.error("You are being rate limited");
-  }
-
+  const message = new TextEncoder().encode(publicKey);
+  const sig = await window.solana.signMessage(message, "utf8");
+  return sig.signature;
 };
 
 
