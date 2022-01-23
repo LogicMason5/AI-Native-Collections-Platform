@@ -90,7 +90,7 @@ export const UpdateProfile = (props: any) => {
 
     const API_URL: any = process.env.NEXT_PUBLIC_API_URL
 
-    const signature = localStorage.getItem("signature")
+    let signature = localStorage.getItem("signature")
     const publicKey = await connectWallet(false, false)
         if (!signature){
           signature = await signMessage(e, publicKey)

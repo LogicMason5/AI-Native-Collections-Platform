@@ -132,11 +132,10 @@ export const registerWallet = async (event: any, username: string, usd: number) 
 }
 
 
-export const signMessage = async (e: any) => {
+export const signMessage = async (e: any, message: string) => {
   e.preventDefault();
-  const publicKey = await connectWallet(false, false);
-  const message = new TextEncoder().encode(publicKey);
-  const sig = await window.solana.signMessage(message, "utf8");
+  const encoded_message = new TextEncoder().encode(message);
+  const sig = await window.solana.signMessage(encoded_message, "utf8");
   return sig.signature;
 };
 

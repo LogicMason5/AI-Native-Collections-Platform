@@ -56,7 +56,7 @@ export const ProfileBox = ({ user, activity }: any) => {
 
 
     const addBookmark = async (e: any) => {
-        const signature = localStorage.getItem("signature")
+        let signature = localStorage.getItem("signature")
 	const owner_public_key = await connectWallet(false, false)
         if (!signature){
           signature = await signMessage(e, owner_public_key)
@@ -71,7 +71,6 @@ export const ProfileBox = ({ user, activity }: any) => {
             profile_public_key: user.public_key
         }
 
-	console.log(data)
         const hmm = bookmarked ? "remove" : "add"
 
         const API_URL = process.env.NEXT_PUBLIC_API_URL
