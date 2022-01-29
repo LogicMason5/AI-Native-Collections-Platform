@@ -12,9 +12,12 @@ import { Tokens } from '@/components/Tokens'
 import { Loading } from '@/components/Loading';
 import { toast } from 'react-toastify';
 import styles from '@/styles/pages/Insights.module.scss'
-
+import Image from 'next/image'
+import Search from '@/images/icons/Search.svg'
 
 export default function Insights() {
+    const [publicKey, setPublicKey] = useState<string>()
+
     const [transactions, setTransactions] = useState<object>()
     const [tokens, setTokens] = useState<object>()
 
@@ -25,18 +28,19 @@ export default function Insights() {
     const [delay, setDelay] = useState<boolean>(false)
     const [chartType, setChartType] = useState<boolean>(true)
     const [byAmount, setByAmount] = useState<boolean>(false)
-    //  const [plan, setPlan] = useState<number>(0)
 
 
     const fetchTransactionData = async () => {
-        const publicKey = await connectWallet(false, false)
+        const pubKey = publicKey ? publicKey : await connectWallet(false, false)
+        setPublicKey(pubKey)
         setDelay(true)
         setTimeout(
             () => setDelay(false),
             1000
         );
         const API_URL = process.env.NEXT_PUBLIC_API_URL
-        const res = await fetch(API_URL + `/transactions/${publicKey}/${currentDate.getFullYear()}/${currentDate.getMonth()}`)
+        const res = await fetch(API_URL + `/transactions/${pubKey}/${currentDate.getFullYear()}/${currentDate.getMonth()}`)
+        console.log(res)
         const json = await res.json()
         if (!res.ok) {
             toast.error(json.error)
@@ -46,43 +50,55 @@ export default function Insights() {
         }
     }
 
-    useEffect(() => {
+    const fetchNumericsData = async () => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL
-        const fetchData = async () => {
-            const localStorageNumerics = localStorage.getItem("numerics")
-            const localStorageTokens = localStorage.getItem("tokens")
-            if (!localStorageTokens || !localStorageNumerics) {
-                const publicKey = await connectWallet(false, false)
-                const res = await fetch(API_URL + "/fetch/tokens/" + publicKey)
-                const json = await res.json()
-                setTokens(json["tokenData"])
-
-                const numericsData = {
-                    "fungibleTokenCount": json["fungibleTokenCount"],
-                    "nftCount": json["nftCount"],
-                    "unfetchedTokenCount": json["unfetchedTokenCount"],
-                    "solPrice": json["solPrice"],
-                    "walletValue": json["walletValue"]
-                }
-                setNumericsData(numericsData)
-                localStorage.setItem("numerics", JSON.stringify(numericsData))
-                localStorage.setItem("tokens", JSON.stringify(json["tokenData"]))
-            } else {
-                setTokens(JSON.parse(localStorageTokens))
-                setNumericsData(JSON.parse(localStorageNumerics))
+        const localStorageNumerics = localStorage.getItem("numerics")
+        const localStorageTokens = localStorage.getItem("tokens")
+        if (publicKey || !localStorageTokens || !localStorageNumerics) {
+            setTokens({})
+            setNumericsData(null)
+            const pubKey = publicKey ? publicKey : await connectWallet(false, false)
+            setPublicKey(pubKey)
+            const res = await fetch(API_URL + "/fetch/tokens/" + pubKey)
+            const json = await res.json()
+	    if (!res.ok){
+		toast.error(json.error)
+	    }else {
+            setTokens(json["tokenData"])
+            const numericsData = {
+                "fungibleTokenCount": json["fungibleTokenCount"],
+                "nftCount": json["nftCount"],
+                "unfetchedTokenCount": json["unfetchedTokenCount"],
+                "solPrice": json["solPrice"],
+                "walletValue": json["walletValue"]
             }
+            setNumericsData(numericsData)
+            localStorage.setItem("numerics", JSON.stringify(numericsData))
+            localStorage.setItem("tokens", JSON.stringify(json["tokenData"]))
+	    }
+        } else {
+            setTokens(JSON.parse(localStorageTokens))
+            setNumericsData(JSON.parse(localStorageNumerics))
         }
+    }
 
+
+    useEffect(() => {
         if (window.solana) {
             fetchTransactionData()
-            fetchData()
+            fetchNumericsData()
         } else {
             setTimeout(() => {
                 fetchTransactionData()
-                fetchData()
+                fetchNumericsData()
             }, 500)
         }
-    }, [])
+    }, [publicKey])
+
+    const updatePublicKey = async (e: any) => {
+        e.preventDefault();
+        setPublicKey(e.target.search.value)
+      }
 
     return (
         <>
@@ -91,6 +107,13 @@ export default function Insights() {
             <h1 className={styles.note}>Insights is not available on this screen size at the moment.</h1>
 
             <main className={styles.insights}>
+            <form className={styles.search} onSubmit={(e) => updatePublicKey(e)}>
+                <div className={styles.gap}></div>
+                <input type="text" placeholder="View insights by username or public key" name="search" />
+                <button type="submit">
+                <Image src={Search} width="30" height="30" alt="search" />
+                </button>
+            </form>
                 <h1 className={styles.heading} >Insights</h1>
 
                 <div className={styles.transactions}>
@@ -104,12 +127,12 @@ export default function Insights() {
                         </label>
                     </div>
 
-                    <p style={delay ? // || ![10, 15].includes(plan)? 
+                    <p style={delay ?
                         { opacity: "50%" } : { opacity: "100%" }}>
                         <span style={delay ?
                             { cursor: "default", opacity: "50%" } :
                             { cursor: "pointer" }}
-                            onClick={delay ? // || ![10, 15].includes(plan) ?
+                            onClick={delay ?
                                 () => null :
                                 () => {
                                     setCurrentDate((currentDate) => { currentDate.setMonth(currentDate.getMonth() - 1); return currentDate })
@@ -122,7 +145,7 @@ export default function Insights() {
                         <span style={currentDate.getMonth() == new Date().getMonth() && currentDate.getFullYear() == new Date().getFullYear() || delay ?
                             { cursor: "default", opacity: "50%" } :
                             { cursor: "pointer" }}
-                            onClick={currentDate.getMonth() == new Date().getMonth() && currentDate.getFullYear() == new Date().getFullYear() || delay ? //|| ![10, 15].includes(plan) ?
+                            onClick={currentDate.getMonth() == new Date().getMonth() && currentDate.getFullYear() == new Date().getFullYear() || delay ?
                                 () => null :
                                 () => {
                                     setCurrentDate((currentDate) => { currentDate.setMonth(currentDate.getMonth() + 1); return currentDate })

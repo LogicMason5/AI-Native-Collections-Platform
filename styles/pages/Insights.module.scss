@@ -20,6 +20,17 @@
     @include pageHeading;
 }
 
+.search {
+    @include search(45px, 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    grid-column: 1/8;
+    grid-row: 2;
+    align-self: flex-start;
+}
+
+
 .transactions,
 .transactionDistribution,
 .transactionDistributionNull,
@@ -32,9 +43,10 @@
 
 .transactions {
     grid-column: 1/8;
-    grid-row: 2/6;
+    grid-row: 3/7;
     width: 100%;
     position: relative;
+    margin-top: -15px;
     > p {
         position: absolute;
         right: 0;
@@ -109,12 +121,13 @@
 .transactionDistribution,
 .transactionDistributionNull {
     grid-column: 1/5;
-    grid-row: 6/10;
+    grid-row: 7/10;
     padding-right: 50%;
     display: flex;
     align-items: center;
     position: relative;
     width: 100%;
+
     > h3 {
         position: absolute;
         left: 20px;
@@ -162,7 +175,7 @@
 
 .numerics {
     grid-column: 5/8;
-    grid-row: 6/10;
+    grid-row: 7/10;
     position: relative;
     > h3 {
         position: absolute;
@@ -179,8 +192,8 @@
     }
     & p {
         margin-left: 20px;
-        margin-top: calc(5vh - 10px);
-        font-size: calc(1vh + 10px);
+        margin-top: calc(5vh - 25px);
+        font-size: calc(1vh + 8px);
         color: $grey;
         @include bold_font;
         > span {

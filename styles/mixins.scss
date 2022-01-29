@@ -69,7 +69,7 @@
 
 @mixin search($height, $width) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     > input {
         @include default_font;
         border-radius: 5px;
@@ -81,7 +81,7 @@
         background-color: transparent;
         border: 1px solid $secondaryStroke;
         transition: .1s ease-out;
-        font-size: .9rem;
+        font-size: 1.1rem;
         color: white;
         &::placeholder {
             color: $grey;
@@ -94,8 +94,9 @@
         background-color: transparent;
         outline: none;
         border: none;
+        display: flex;
     }
-        img {
+    img {
         cursor: pointer;
         transition: .2s ease;
         border-radius: 50%;

@@ -4,6 +4,7 @@ import { GlowGradiant } from '@/utils/gradiants'
 import styles from '@/styles/modules/Tokens.module.scss'
 
 export const Tokens = ({ data, unfetchedTokenCount, byAmount }: any) => {
+
   const [tokenData, setTokenData] = useState<any>()
   const [unfetchedTokenData, setUnfetchedTokenData] = useState<any>()
   useEffect(() => {
@@ -15,7 +16,11 @@ export const Tokens = ({ data, unfetchedTokenCount, byAmount }: any) => {
     const sum = values.reduce((a, b) => a + b, 0)
     let percentages = {}
     for (let i = 0; i < values.length; i++) {
-      percentages = { ...percentages, [symbols[i]]: { "percentage": (values[i] / sum) * 100, "logo": logos[i], "symbol": symbols[i] } }
+      let perc = (values[i] / sum) * 100
+      if(isNaN(perc)){
+        perc = 0
+      }
+      percentages = { ...percentages, [symbols[i]]: { "percentage": perc, "logo": logos[i], "symbol": symbols[i] } }
     }
     if (byAmount) {
       const sort = (obj: any, valSelector: any) => {
@@ -36,8 +41,7 @@ export const Tokens = ({ data, unfetchedTokenCount, byAmount }: any) => {
     }
 
     setUnfetchedTokenData(unfetchedData)
-    // setFetchedTokenData(unfetchedData)
-  }, [byAmount]);
+  }, [byAmount, data]);
 
   return (
     <div className={styles.parent}>
