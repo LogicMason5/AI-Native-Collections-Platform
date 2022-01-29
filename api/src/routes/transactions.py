@@ -1,4 +1,8 @@
 from datetime import datetime
+from core.db import get_db
+from sqlalchemy import func
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 from typing import Optional
 from datetime import datetime
 from fastapi.responses import JSONResponse
@@ -6,6 +10,7 @@ from fastapi import Request, APIRouter, Depends
 from core.ratelimit import Limit
 from utils import lamport_to_sol
 from calendar import monthrange
+from core.schemas import User
 
 router = APIRouter(prefix="/transactions")
 
@@ -39,7 +44,18 @@ async def activity(public_key: str,  request: Request, limit: int = 4) -> JSONRe
 @router.get("/{public_key}/{year}/{month_now}",
             dependencies=[Depends(Limit(times=20, seconds=5))],
             status_code=200)
-async def transactions(public_key: str, request: Request,  year: Optional[int], month_now: Optional[int] = None) -> dict:
+async def transactions(
+                request: Request,  
+                public_key: str, 
+                year: Optional[int], 
+                month_now: Optional[int] = None, 
+                db: Session = Depends(get_db)
+                ) -> dict:
+    if len(public_key) != 44:
+        user = db.query(User).filter(func.lower(User.username)==public_key.lower()).first()
+        if user:
+            public_key = user.public_key
+
     datetime_now = datetime.utcnow()
     if not month_now:
         month_now = datetime_now.month

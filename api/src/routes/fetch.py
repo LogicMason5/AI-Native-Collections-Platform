@@ -1,13 +1,15 @@
 from operator import getitem
+from sqlalchemy import func
+from fastapi import APIRouter, Depends, Request
 from datetime import datetime
 from collections import OrderedDict
-from fastapi import APIRouter, Request, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from core.db import get_db
 from core.ratelimit import Limit
-from core.schemas import View
+from core.schemas import View, User
 from utils import lamport_to_sol
+
 
 router = APIRouter(prefix="/fetch")
 
@@ -42,11 +44,22 @@ async def views(public_key: str, db: Session = Depends(get_db)) -> dict:
 @router.get("/tokens/{public_key}",
             dependencies=[Depends(Limit(times=5, seconds=10))],
             status_code=200)
-async def tokens(request: Request, public_key: str) -> JSONResponse:
+async def tokens(request: Request, public_key: str, db: Session = Depends(get_db)) -> JSONResponse:
+    if len(public_key) != 44:
+        user = db.query(User).filter(func.lower(User.username)==public_key.lower()).first()
+        if user:
+            public_key = user.public_key
+        else:
+            return JSONResponse(
+                    status_code=400,
+                    content={"error": "Invalid username"}
+                    )
+
     SOL_ADDRESS = "So11111111111111111111111111111111111111112"
     tokens = request.app.solana_client.get_token_accounts_by_owner(
             public_key,
             program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+
     )
     filtered_tokens = []
     try:
@@ -80,6 +93,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
     prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana" +
                                                   f"?contract_addresses={','.join(tokens_addresses)}&vs_currencies=usd")
     prices_data = prices.json()
+    print(prices_data)
     unfetched_public_keys = [
         x for x in tokens_addresses if x not in [y for y in prices_data]]
     unfetched_coingecko_ids = {}
@@ -103,7 +117,7 @@ async def tokens(request: Request, public_key: str) -> JSONResponse:
     for i in prices_data:
         token = [x for x in token_data if x["address"] == i][0]
         token_price = prices_data[i]
-        token_value = round(token_price["usd"]
+        token_value = round(token_price.get("usd", 0)
                             * amounts_pair[token["address"]], 2)
         token_price.update({
             "symbol": token["symbol"],
