@@ -133,24 +133,24 @@
         &:hover {
             border: 1px solid $primaryStroke;
         }
-	&:focusrwithin {
+	&:focus-within {
 	    border: 1px solid $blue;
 	}
     }
     > button {
         width: 40%;
         color: white;
-        border-radius: 20px;
+        border-radius: 15px;
         cursor: pointer;
         @include light_font;
-        padding: 10px;
+        padding: 10px 15px;
         transition: .1s ease-out;
         border: 1px solid $secondaryBg;
         background-color: $hoverBg;
-        font-size: 1rem;
-        margin-top: 20px;
+        font-size: 1.1rem;
+        margin-top: 40px;
         &:hover {
-            border: 1px solid $primaryStroke;
+	    filter: brightness(120%)
         }
     }
 }

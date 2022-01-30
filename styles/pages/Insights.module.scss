@@ -22,9 +22,6 @@
 
 .search {
     @include search(45px, 100%);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
     grid-column: 1/8;
     grid-row: 2;
     align-self: flex-start;

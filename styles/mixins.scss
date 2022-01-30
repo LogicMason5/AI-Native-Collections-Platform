@@ -69,7 +69,8 @@
 
 @mixin search($height, $width) {
     display: flex;
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     > input {
         @include default_font;
         border-radius: 5px;
@@ -87,6 +88,9 @@
         &::placeholder {
             color: $grey;
         }
+	&:hover {
+ 	    border: 1px solid $primaryStroke
+	}
         &:focus {
             border: 1px solid $blue;
         }

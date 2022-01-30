@@ -244,6 +244,6 @@
     border: 1px solid $bg;
     background-color: $hoverBg;
     &:hover {
-        border: 1px solid $primaryStroke;
+	filter: brightness(120%)
     }
 }

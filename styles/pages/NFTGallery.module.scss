@@ -20,9 +20,6 @@
 
 .search {
     @include search(45px, 100%);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
     align-self: flex-start;
     width: 30vw;
 }
