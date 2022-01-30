@@ -93,7 +93,6 @@ async def tokens(request: Request, public_key: str, db: Session = Depends(get_db
     prices = await request.app.request_client.get("https://api.coingecko.com/api/v3/simple/token_price/solana" +
                                                   f"?contract_addresses={','.join(tokens_addresses)}&vs_currencies=usd")
     prices_data = prices.json()
-    print(prices_data)
     unfetched_public_keys = [
         x for x in tokens_addresses if x not in [y for y in prices_data]]
     unfetched_coingecko_ids = {}
@@ -165,7 +164,17 @@ async def tokens(request: Request, public_key: str, db: Session = Depends(get_db
 @router.get("/nfts/{public_key}",
             dependencies=[Depends(Limit(times=5, seconds=2))],
             status_code=200)
-async def nfts(request: Request, public_key: str, limit: int = 10, offset: int = 0) -> JSONResponse:
+async def nfts(request: Request, public_key: str, limit: int = 10, offset: int = 0, db: Session = Depends(get_db)) -> JSONResponse:
+    if len(public_key) != 44:
+        user = db.query(User).filter(func.lower(User.username)==public_key.lower()).first()
+        if user:
+            public_key = user.public_key
+        else:
+            return JSONResponse(
+                    status_code=400,
+                    content={"error": "Invalid username"}
+                    )
+
     tokens = request.app.solana_client.get_token_accounts_by_owner(
             public_key,
             program_id='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
