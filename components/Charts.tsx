@@ -199,6 +199,20 @@ export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
     if (!byAmount) {
         //@ts-ignore
         chartData = Object.fromEntries(Object.entries(chartData).filter(([key, value]) => "value" in value))
+    } else {
+       const sort = (obj: any, valSelector: any) => {
+         const sortedEntries = Object.entries(obj)
+           .sort((a, b) =>
+             valSelector(a[1]) > valSelector(b[1]) ? -1 :
+               valSelector(a[1]) < valSelector(b[1]) ? 1 : 0);
+         return new Map(sortedEntries);
+       }
+       //@ts-ignore
+       var sortedMap = sort(chartData, val => val.amount);
+       var sortedObj = {};
+       //@ts-ignore
+       sortedMap.forEach((v, k) => { sortedObj[k] = v }) 
+       chartData = sortedObj
     }
     const data = (canvas: any) => {
         const ctx = canvas.getContext("2d")
@@ -210,7 +224,6 @@ export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
             gradiant.addColorStop(0.6, i[1]);
             backgroundColors.push(gradiant)
         }
-
         return {
             labels: Object.keys(chartData).map(t => chartData[t].symbol),
             datasets: [

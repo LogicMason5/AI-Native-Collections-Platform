@@ -40,7 +40,6 @@ export default function Insights() {
         );
         const API_URL = process.env.NEXT_PUBLIC_API_URL
         const res = await fetch(API_URL + `/transactions/${pubKey}/${currentDate.getFullYear()}/${currentDate.getMonth()}`)
-        console.log(res)
         const json = await res.json()
         if (!res.ok) {
             toast.error(json.error)
@@ -111,7 +110,7 @@ export default function Insights() {
                 <div className={styles.gap}></div>
                 <input type="text" placeholder="View insights by username or public key" name="search" />
                 <button type="submit">
-                <Image src={Search} width="30" height="30" alt="search" />
+                <Image src={Search} width="35" height="35" alt="search" />
                 </button>
             </form>
                 <h1 className={styles.heading} >Insights</h1>

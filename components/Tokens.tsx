@@ -23,19 +23,19 @@ export const Tokens = ({ data, unfetchedTokenCount, byAmount }: any) => {
       percentages = { ...percentages, [symbols[i]]: { "percentage": perc, "logo": logos[i], "symbol": symbols[i] } }
     }
     if (byAmount) {
-      const sort = (obj: any, valSelector: any) => {
-        const sortedEntries = Object.entries(obj)
-          .sort((a, b) =>
-            valSelector(a[1]) > valSelector(b[1]) ? -1 :
-              valSelector(a[1]) < valSelector(b[1]) ? 1 : 0);
-        return new Map(sortedEntries);
-      }
-      //@ts-ignore
-      var sortedMap = sort(percentages, val => val.percentage);
-      var sortedObj = {};
-      //@ts-ignore
-      sortedMap.forEach((v, k) => { sortedObj[k] = v }); console.log(sortedObj);
-      setTokenData(sortedObj)
+       const sort = (obj: any, valSelector: any) => {
+         const sortedEntries = Object.entries(obj)
+           .sort((a, b) =>
+             valSelector(a[1]) > valSelector(b[1]) ? -1 :
+               valSelector(a[1]) < valSelector(b[1]) ? 1 : 0);
+         return new Map(sortedEntries);
+       }
+       //@ts-ignore
+       var sortedMap = sort(percentages, val => val.percentage);
+       var sortedObj = {};
+       //@ts-ignore
+       sortedMap.forEach((v, k) => { sortedObj[k] = v }) 
+       setTokenData(sortedObj)
     } else {
       setTokenData(percentages)
     }
