@@ -32,7 +32,6 @@ export default function Insights() {
 
     const fetchTransactionData = async () => {
         const pubKey = publicKey ? publicKey : await connectWallet(false, false)
-        setPublicKey(pubKey)
         setDelay(true)
         setTimeout(
             () => setDelay(false),
@@ -55,9 +54,8 @@ export default function Insights() {
         const localStorageTokens = localStorage.getItem("tokens")
         if (publicKey || !localStorageTokens || !localStorageNumerics) {
             setTokens({})
-            setNumericsData(null)
+            setNumericsData()
             const pubKey = publicKey ? publicKey : await connectWallet(false, false)
-            setPublicKey(pubKey)
             const res = await fetch(API_URL + "/fetch/tokens/" + pubKey)
             const json = await res.json()
 	    if (!res.ok){
@@ -72,8 +70,10 @@ export default function Insights() {
                 "walletValue": json["walletValue"]
             }
             setNumericsData(numericsData)
-            localStorage.setItem("numerics", JSON.stringify(numericsData))
-            localStorage.setItem("tokens", JSON.stringify(json["tokenData"]))
+	    if (!publicKey){
+	    localStorage.setItem("numerics", JSON.stringify(numericsData))
+	    localStorage.setItem("tokens", JSON.stringify(json["tokenData"]))
+	    }
 	    }
         } else {
             setTokens(JSON.parse(localStorageTokens))
