@@ -54,7 +54,7 @@ export default function Insights() {
         const localStorageTokens = localStorage.getItem("tokens")
         if (publicKey || !localStorageTokens || !localStorageNumerics) {
             setTokens({})
-            setNumericsData()
+            setNumericsData(null)
             const pubKey = publicKey ? publicKey : await connectWallet(false, false)
             const res = await fetch(API_URL + "/fetch/tokens/" + pubKey)
             const json = await res.json()

@@ -9,7 +9,7 @@ import { connectWallet } from '@/components/Wallet'
 import Image from 'next/image'
 import Search from '@/images/icons/Search.svg'
 
-export default function Dashboard() {
+export default function NFTs() {
     const [publicKey, setPublicKey] = useState<string>()
     const [data, setData] = useState<any>()
     const [offset, setOffset] = useState<number>(0)
@@ -58,7 +58,7 @@ export default function Dashboard() {
         e.preventDefault();
         setPublicKey(e.target.search.value)
 	setOffset(0)
-	setData()
+	setData(null)
 	localStorage.removeItem("nfts")
       }
     return (
