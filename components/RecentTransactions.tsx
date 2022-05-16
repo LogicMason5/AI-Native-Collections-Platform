@@ -37,7 +37,7 @@ export const RecentTransactions = () => {
         <p>Time</p>
       </div>
       {data ? (data.map((a) => (
-        <Link key={a['tx']} href={"https://solscan.io/tx/" + a['tx']}><a>
+        <a key={a['tx']} target="_blank" rel="noopener noreferrer" href={"https://solscan.io/tx/" + a['tx']}>
           <div className={styles.transaction}>
             <div className={styles.type}>
               <Image src={(a['type'] == "sent") ? Sent : Received} width="40" height="40" alt="transaction" />
@@ -51,8 +51,7 @@ export const RecentTransactions = () => {
             </div>
 
           </div>
-
-        </a></Link>
+        </a>
       ))
       ) : null
       }

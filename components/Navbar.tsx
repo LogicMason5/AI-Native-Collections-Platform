@@ -26,8 +26,8 @@ export const Navbar = (props: any) => {
       <nav>
         <ul className={styles.links}>
           <Link href="/">Home</Link>
-          <Link href="https://discord.gg/94zMschwDW">Support</Link>
-          <Link href="https://api.nodeair.io">API</Link>
+          <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/94zMschwDW">Support</a>
+          <a target="_blank" rel="noopener noreferrer" href="https://api.nodeair.io">API</a>
           {/* <Link href="/">Pricing</Link> */}
         </ul>
       </nav>

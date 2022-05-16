@@ -13,12 +13,11 @@
 
 .links {
     width: 80%;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     display: flex;
     flex-flow: column;
     gap: 30px;
     margin-top: 40%;
-    float: left;
     @include medium_font;
 }
 

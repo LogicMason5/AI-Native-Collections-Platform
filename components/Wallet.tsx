@@ -126,6 +126,8 @@ export const registerWallet = async (event: any, username: string, usd: number) 
             toast.error(json.error, { toastId: "to_prevent_duplication" })
           }
 
+        }).catch((e) => {
+          console.log("e", e)
         })
       }
     })
