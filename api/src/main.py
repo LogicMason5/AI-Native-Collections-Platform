@@ -44,7 +44,6 @@ async def startup() -> None:
     Base.metadata.create_all(bind=engine)
     app.request_client = httpx.AsyncClient()
     app.solana_client = Client(os.environ["SOL_NETWORK"])
-    app.ipfs = ipfsApi.Client(host='https://ipfs.infura.io', port=5001)
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
