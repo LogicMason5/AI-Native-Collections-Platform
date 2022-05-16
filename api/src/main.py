@@ -1,6 +1,5 @@
 import os
 import httpx
-import ipfsApi
 from fastapi import FastAPI
 from aioredis import from_url
 from routes import user
