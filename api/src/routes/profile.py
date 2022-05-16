@@ -81,15 +81,15 @@ async def profile_update(
     bio: Optional[str] = Form(None),
     social: Optional[str] = Form(None),
     public_key: str = Form(...),
-    # signature: str = Form(...),
+    signature: str = Form(...),
     db: Session = Depends(get_db),
 ) -> Union[JSONResponse, User]:
 
-    # signature = json.loads(signature)
-    # signature = signature["data"]
+    signature = json.loads(signature)
+    signature = signature["data"]
 
-    # verify = verify_signature(signature, public_key)
-    if False:
+    verify = verify_signature(signature, public_key)
+    if not verify:
         return JSONResponse(
             status_code=403,
             content={"error": "Error verifying signature"}
@@ -106,40 +106,36 @@ async def profile_update(
         user.bio = bio
         user.social = social
 
-        file_name = f"{public_key}.png"
-        if (avatar):
-            with open(file_name, 'wb') as image:
-                content = await avatar.read()
-                image.write(content)
-                image.close()
-            with nft_storage.ApiClient(configuration) as api_client:
-                api_instance = nft_storage_api.NFTStorageAPI(api_client)
-                body = open(f"{file_name}", 'rb')
-                try:
-                    print(body)
-                    api_response = api_instance.store(
-                        body, _check_return_type=False)
-                    user.avatar = f"https://nftstorage.link/ipfs/{api_response['value']['cid']}"
-                    os.remove(file_name)
-                except nft_storage.ApiException as e:
-                    print("Exception when calling NFTStorageAPI->store: %s\n" % e)
-
-        if (banner):
-            with open(file_name, 'wb') as image:
-                content = await banner.read()
-                image.write(content)
-                image.close()
         with nft_storage.ApiClient(configuration) as api_client:
             api_instance = nft_storage_api.NFTStorageAPI(api_client)
-            body = open(f"{file_name}", 'rb')
-            try:
-                print(body)
-                api_response = api_instance.store(
-                    body, _check_return_type=False)
-                user.avatar = f"https://nftstorage.link/ipfs/{api_response['value']['cid']}"
-                os.remove(file_name)
-            except nft_storage.ApiException as e:
-                print("Exception when calling NFTStorageAPI->store: %s\n" % e)
+            file_name = f"{public_key}.png"
+            if (avatar):
+                with open(file_name, 'wb') as image:
+                    content = await avatar.read()
+                    image.write(content)
+                    image.close()
+                    body = open(f"{file_name}", 'rb')
+                    try:
+                        api_response = api_instance.store(
+                        body, _check_return_type=False)
+                        user.avatar = f"https://nftstorage.link/ipfs/{api_response['value']['cid']}"
+                        os.remove(file_name)
+                    except nft_storage.ApiException as e:
+                        print("Exception when calling NFTStorageAPI->store: %s\n" % e)
+
+            if (banner):
+                with open(file_name, 'wb') as image:
+                    content = await banner.read()
+                    image.write(content)
+                    image.close()
+                    body = open(f"{file_name}", 'rb')
+                    try:
+                        api_response = api_instance.store(
+                        body, _check_return_type=False)
+                        user.banner = f"https://nftstorage.link/ipfs/{api_response['value']['cid']}"
+                        os.remove(file_name)
+                    except nft_storage.ApiException as e:
+                        print("Exception when calling NFTStorageAPI->store: %s\n" % e)
 
     db.commit()
     db.refresh(user)
