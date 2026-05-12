@@ -1,271 +1,351 @@
-import { Line, Bar, Doughnut, Chart } from "react-chartjs-2"
-import { TokenChartGradiants } from "@/utils/gradiants"
+import {
+  Line,
+  Bar,
+  Doughnut,
+} from "react-chartjs-2";
+
+import {
+  ChartData,
+  ChartOptions,
+} from "chart.js";
+
+import { useMemo } from "react";
+
+import { TokenChartGradiants } from "@/utils/gradiants";
 
 
+// ======================================================
+// Shared Types
+// ======================================================
 
-export const ViewChart = ({ chartData = { [1]: [1] } }: any) => {
-    const values = Object.values(chartData)
-    const labels = Object.keys(chartData)
+type ViewChartProps = {
+  chartData?: Record<string, number>;
+};
 
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                data: values,
-                fill: true,
-                backgroundColor: '#104EAA10',
-                borderColor: '#5196FD',
-                lineTension: .5,
-                borderWidth: 1,
-            }
-        ],
-    }
-    const options = {
-        maintainAspectRatio: false,
-        layout: { padding: { top: 50, left: 5 } },
-        plugins: {
-            legend: { display: false, },
-        },
-        scales: {
-            y: {
-                title: { display: true, text: "Views", color: "#889FCD" },
-                ticks: { color: "#FFFFFF", },
-                grid: { color: "#282E4290" },
-            },
-            x: {
-                title: {
-                    display: true, text: "Dates", color: "#889FCD"
-                },
-                ticks: { color: "#FFFFFF" },
-                grid: { color: "#282E4290" },
-            }
-        }
-    }
+type TransactionValue = {
+  received: number;
+  sent: number;
+};
 
-    return (
-        <Line
-            data={data}
-            options={options}
-        />
-    )
-}
+type TransactionChartProps = {
+  chartData?: Record<string, TransactionValue>;
+  type?: "line" | "bar";
+};
 
-export const TransactionChart = ({ chartData = { 1: 1 }, type }: any) => {
+type TokenData = {
+  symbol: string;
+  value?: number;
+  amount?: number;
+};
 
-    const labels: any = Object.keys(chartData)
-    const values: any = Object.values(chartData)
-
-    const received = new Array()
-    const sent = new Array()
-
-    for (const i of values) {
-        received.push(i.received)
-        sent.push(i.sent)
-    }
+type TokenDistributionChartProps = {
+  chartData: Record<string, TokenData>;
+  byAmount?: boolean;
+};
 
 
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: "Received",
-                data: received,
-                backgroundColor: '#008505',
-                borderColor: '#008505',
-                borderWidth: 1.5,
-                lineTension: .5,
-            },
-            {
-                label: "Sent",
-                data: sent,
-                backgroundColor: '#0059DE',
-                borderColor: '#0059DE',
-                borderWidth: 1.5,
-                lineTension: .5,
-            }
-        ],
+// ======================================================
+// Shared Chart Options
+// ======================================================
+
+const axisStyles = {
+  ticks: {
+    color: "#FFFFFF",
+  },
+  grid: {
+    color: "#282E4290",
+  },
+};
+
+const createBaseOptions = (
+  yTitle: string,
+  xTitle = "Dates"
+): ChartOptions<any> => ({
+  responsive: true,
+  maintainAspectRatio: false,
+
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+
+  scales: {
+    y: {
+      ...axisStyles,
+      title: {
+        display: true,
+        text: yTitle,
+        color: "#889FCD",
+      },
+    },
+
+    x: {
+      ...axisStyles,
+      title: {
+        display: true,
+        text: xTitle,
+        color: "#889FCD",
+      },
+    },
+  },
+});
+
+
+// ======================================================
+// View Chart
+// ======================================================
+
+export const ViewChart = ({
+  chartData = {},
+}: ViewChartProps) => {
+
+  const data = useMemo<ChartData<"line">>(() => ({
+    labels: Object.keys(chartData),
+
+    datasets: [
+      {
+        data: Object.values(chartData),
+        fill: true,
+        backgroundColor: "#104EAA10",
+        borderColor: "#5196FD",
+        tension: 0.5,
         borderWidth: 1,
-    }
+      },
+    ],
+  }), [chartData]);
 
-    const options = {
+  const options = useMemo(
+    () => createBaseOptions("Views"),
+    []
+  );
+
+  return (
+    <Line
+      data={data}
+      options={options}
+    />
+  );
+};
+
+
+// ======================================================
+// Transaction Chart
+// ======================================================
+
+export const TransactionChart = ({
+  chartData = {},
+  type = "line",
+}: TransactionChartProps) => {
+
+  const labels = useMemo(
+    () => Object.keys(chartData),
+    [chartData]
+  );
+
+  const { received, sent } = useMemo(() => ({
+    received: Object.values(chartData).map(v => v.received),
+    sent: Object.values(chartData).map(v => v.sent),
+  }), [chartData]);
+
+  const data = useMemo<ChartData<"line" | "bar">>(() => ({
+    labels,
+
+    datasets: [
+      {
+        label: "Received",
+        data: received,
+        backgroundColor: "#008505",
+        borderColor: "#008505",
+        borderWidth: 1.5,
+        tension: 0.5,
+      },
+
+      {
+        label: "Sent",
+        data: sent,
+        backgroundColor: "#0059DE",
+        borderColor: "#0059DE",
+        borderWidth: 1.5,
+        tension: 0.5,
+      },
+    ],
+  }), [labels, received, sent]);
+
+  const options = useMemo<ChartOptions<any>>(() => ({
+    ...createBaseOptions("Amount (SOL)"),
+
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context) =>
+            `${context.dataset.label} ${context.formattedValue} SOL`,
+        },
+      },
+
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+
+          mode: "x",
+        },
+
+        pan: {
+          enabled: true,
+          mode: "xy",
+        },
+      },
+    },
+  }), []);
+
+  return type === "line" ? (
+    <Line data={data} options={options} />
+  ) : (
+    <Bar data={data} options={options} />
+  );
+};
+
+
+// ======================================================
+// Transaction Distribution Chart
+// ======================================================
+
+export const TransactionDistributionChart = ({
+  chartData,
+}: {
+  chartData: number[];
+}) => {
+
+  const data = (canvas: HTMLCanvasElement) => {
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return { datasets: [] };
+
+    const gradient1 = ctx.createLinearGradient(0, 0, 0, 350);
+    gradient1.addColorStop(0.2, "#008505");
+    gradient1.addColorStop(1, "#00BE9C");
+
+    const gradient2 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient2.addColorStop(0.1, "#232E96");
+    gradient2.addColorStop(1, "#6CA3F4");
+
+    return {
+      labels: ["Received", "Sent"],
+
+      datasets: [
+        {
+          data: chartData,
+          backgroundColor: [gradient1, gradient2],
+          borderWidth: 0,
+        },
+      ],
+    };
+  };
+
+  return (
+    <Doughnut
+      data={data}
+      options={{
         maintainAspectRatio: false,
-        layout: { padding: { top: 20, left: 5 } },
-        scales: {
-            y: {
-                title: {
-                    display: true, text: "Amount (SOL)", color: "#889FCD"
-                },
-                ticks: { color: "#FFFFFF", },
-                grid: { color: "#282E4290" },
-            },
-            x: {
-                title: {
-                    display: true, text: "Dates", color: "#889FCD"
-                },
-                ticks: { color: "#FFFFFF" },
-                grid: {
-                    color: "#282E4290"
-                },
-            }
-        },
+
         plugins: {
-            tooltip: {
-                callbacks: {
-                    label: (context: any) => {
-                        let label = "";
-                        if (context.parsed) {
-                            label = context.dataset.label + "  " + context.formattedValue + " SOLs"
-                        }
-                        return label;
-                    },
-                }
-            },
-            zoom: {
-                zoom: {
-                    wheel: {
-                        enabled: true
-                    },
-                    mode: "x",
-                    speed: 50
-                },
-                pan: {
-                    enabled: true,
-                    mode: "xy",
-                    speed: 50,
-                }
-            }
+          legend: {
+            display: false,
+          },
         },
-    }
-    return ( //@ts-ignore (interal type difference, not to worry about)
-        (type == "line") ? <Line data={data} options={options} /> : <Bar data={data} options={options} />
-    )
-}
+      }}
+    />
+  );
+};
 
-export const TransactionDistributionChart = ({ chartData }: any) => {
 
-    const data = (canvas: any) => {
-        const ctx = canvas.getContext("2d")
+// ======================================================
+// Token Distribution Chart
+// ======================================================
 
-        let gradiant1 = ctx.createLinearGradient(0, 0, 0, 350);
-        gradiant1.addColorStop(0.2, "#008505");
-        gradiant1.addColorStop(1, "#00BE9C");
+export const TokenDistributionChart = ({
+  chartData,
+  byAmount = false,
+}: TokenDistributionChartProps) => {
 
-        let gradiant2 = ctx.createLinearGradient(0, 0, 0, 300);
-        gradiant2.addColorStop(0.1, "#232E96");
-        gradiant2.addColorStop(1, "#6CA3F4");
-        return {
-            labels: ["Received", "Sent"],
-            datasets: [
-                {
-                    data: chartData,
-                    fill: true,
-                    backgroundColor: [gradiant1, gradiant2],
-                    borderWidth: 0
-                }
-            ],
-        }
-    }
+  const filteredData = useMemo(() => {
 
-    const options = {
+    const entries = Object.entries(chartData);
+
+    const valid = byAmount
+      ? entries
+      : entries.filter(
+          ([_, value]) => value.value !== undefined
+        );
+
+    return valid.sort((a, b) => {
+      const aVal = byAmount
+        ? a[1].amount ?? 0
+        : a[1].value ?? 0;
+
+      const bVal = byAmount
+        ? b[1].amount ?? 0
+        : b[1].value ?? 0;
+
+      return bVal - aVal;
+    });
+
+  }, [chartData, byAmount]);
+
+  const data = (canvas: HTMLCanvasElement) => {
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return { datasets: [] };
+
+    const gradients = TokenChartGradiants(filteredData.length);
+
+    const backgroundColors = gradients.map(colors => {
+      const gradient = ctx.createLinearGradient(
+        0,
+        400,
+        0,
+        80
+      );
+
+      gradient.addColorStop(1, colors[0]);
+      gradient.addColorStop(0.6, colors[1]);
+
+      return gradient;
+    });
+
+    return {
+      labels: filteredData.map(([_, value]) => value.symbol),
+
+      datasets: [
+        {
+          data: filteredData.map(([_, value]) =>
+            byAmount
+              ? value.amount ?? 0
+              : value.value ?? 0
+          ),
+
+          backgroundColor: backgroundColors,
+          borderWidth: 0,
+        },
+      ],
+    };
+  };
+
+  return (
+    <Doughnut
+      data={data}
+      options={{
         maintainAspectRatio: false,
-        aspectRatio: 1,
-        layout: { padding: { top: 50, left: 30, right: 20, bottom: 25 } },
+
         plugins: {
-            legend: { display: false, },
-            tooltip: {
-                callbacks: {
-                    label: (context: any) => {
-                        let label = "";
-                        if (context.parsed) {
-                            label = context.label + "  " + context.parsed + "%"
-                        }
-                        return label;
-                    },
-                }
-            }
+          legend: {
+            display: false,
+          },
         },
-        hoverOffset: 5,
-    }
-
-    return (
-        <Doughnut
-            data={data}
-            options={options}
-        />
-    )
-}
-
-export const TokenDistributionChart = ({ chartData, byAmount }: any) => {
-    if (!byAmount) {
-        //@ts-ignore
-        chartData = Object.fromEntries(Object.entries(chartData).filter(([key, value]) => "value" in value))
-    } else {
-       const sort = (obj: any, valSelector: any) => {
-         const sortedEntries = Object.entries(obj)
-           .sort((a, b) =>
-             valSelector(a[1]) > valSelector(b[1]) ? -1 :
-               valSelector(a[1]) < valSelector(b[1]) ? 1 : 0);
-         return new Map(sortedEntries);
-       }
-       //@ts-ignore
-       var sortedMap = sort(chartData, val => val.amount);
-       var sortedObj = {};
-       //@ts-ignore
-       sortedMap.forEach((v, k) => { sortedObj[k] = v }) 
-       chartData = sortedObj
-    }
-    const data = (canvas: any) => {
-        const ctx = canvas.getContext("2d")
-        const gradiants = TokenChartGradiants(Object.keys(chartData).length)
-        const backgroundColors = new Array()
-        for (const i of gradiants) {
-            let gradiant = ctx.createLinearGradient(0, 400, 0, 80);
-            gradiant.addColorStop(1, i[0]);
-            gradiant.addColorStop(0.6, i[1]);
-            backgroundColors.push(gradiant)
-        }
-        return {
-            labels: Object.keys(chartData).map(t => chartData[t].symbol),
-            datasets: [
-                {
-                    data: Object.keys(chartData).map(t => byAmount ? chartData[t].amount : chartData[t].value),
-                    fill: true,
-                    backgroundColor: backgroundColors,
-                    borderWidth: 0
-                }
-            ],
-        }
-    }
-
-    const options = {
-        maintainAspectRatio: false,
-        layout: { padding: 10 },
-        plugins: {
-            legend: { display: false, },
-            tooltip: {
-                callbacks: {
-                    label: (context: any) => {
-                        let label = "";
-                        if (context.parsed) {
-                            label = context.label + "  $" + context.parsed
-                            if(byAmount){
-                                label = context.label + "  " + context.parsed
-                            }
-
-                        }
-                        return label;
-                    },
-                }
-            }
-        },
-        hoverOffset: 5,
-
-    }
-    return (
-        <Doughnut
-            data={data}
-            options={options}
-        />
-    )
-}
-
+      }}
+    />
+  );
+};
