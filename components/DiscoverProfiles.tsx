@@ -1,74 +1,153 @@
-import Image from 'next/image'
-import Search from '@/images/icons/Search.svg'
-import styles from '@/styles/modules/DiscoverProfiles.module.scss'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState, FormEvent } from 'react';
+import { toast } from 'react-toastify';
+
+import SearchIcon from '@/images/icons/Search.svg';
+import styles from '@/styles/modules/DiscoverProfiles.module.scss';
+
+interface Profile {
+  username: string;
+  name: string;
+  avatar: string;
+  public_key: string;
+  bio: string;
+}
 
 export const DiscoverProfiles = () => {
-  const [data, setData] = useState([]);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const fetchData = async () => {
-      const result = await fetch(API_URL + "/profile/ext/getrandom")
-      const data = await result.json()
-      setData(data)
-    }
-    setTimeout(() => fetchData(), 500)
-  }, []);
+    const fetchProfiles = async () => {
+      try {
+        const response = await fetch(
+          `${API_URL}/profile/ext/getrandom`
+        );
 
-  const getProfiles = async (e: any) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch profiles');
+        }
+
+        const data: Profile[] = await response.json();
+        setProfiles(data);
+      } catch (error) {
+        toast.error('Unable to load profiles');
+        console.error(error);
+      }
+    };
+
+    fetchProfiles();
+  }, [API_URL]);
+
+  const getProfiles = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
-    if (e.target.search.value != "") {
-      const res = await fetch(API_URL + "/profile/ext/find", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", },
-        body: JSON.stringify({ username_or_public_key: e.target.search.value })
-      })
-      const json = await res.json()
-      if (res.ok) {
-        //@ts-ignore
-        setData([json])
-      } else {
-        toast.error(json.error)
-      }
+    const formData = new FormData(e.currentTarget);
+    const searchValue = formData
+      .get('search')
+      ?.toString()
+      .trim();
+
+    if (!searchValue) {
+      toast.error('Please enter a username or public key');
+      return;
     }
-  }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/profile/ext/find`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username_or_public_key: searchValue,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Profile not found');
+      }
+
+      setProfiles([data]);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className={styles.discoverProfiles}>
-      <form className={styles.search} onSubmit={(e) => getProfiles(e)}>
-        <div className={styles.gap}></div>
-        <input type="text" placeholder="Search profiles by username or public key" name="search" />
+      <form
+        className={styles.search}
+        onSubmit={getProfiles}
+      >
+        <div className={styles.gap} />
+
+        <input
+          type="text"
+          name="search"
+          placeholder="Search profiles by username or public key"
+        />
+
         <button type="submit">
-          <Image src={Search} width="30" height="30" alt="search" />
+          <Image
+            src={SearchIcon}
+            width={30}
+            height={30}
+            alt="Search"
+          />
         </button>
       </form>
+
       <p>Discover other profiles</p>
-      {data ? (data.map((a: any) => (
-        <Link key={a['username']} href={a['username']} ><a className={styles.profileBox}>
-          <div className={styles.upper}>
-            <img src={a['avatar']} className={styles.avatar} alt="avatar" />
-            <div className={styles.nameGroup}>
-              <span className={styles.name}>{a['name']}</span>
-              <span className={styles.username}>@{a['username']} </span>
+
+      {profiles.length > 0 &&
+        profiles.map((profile) => (
+          <Link
+            key={profile.username}
+            href={`/${profile.username}`}
+            className={styles.profileBox}
+          >
+            <div className={styles.upper}>
+              <img
+                src={profile.avatar}
+                className={styles.avatar}
+                alt={profile.name}
+              />
+
+              <div className={styles.nameGroup}>
+                <span className={styles.name}>
+                  {profile.name}
+                </span>
+
+                <span className={styles.username}>
+                  @{profile.username}
+                </span>
+              </div>
+
+              <div />
+
+              <p>{profile.public_key}</p>
             </div>
-            <div></div>
-            <p>{a['public_key']}</p>
-          </div>
 
-          <div className={styles.lower}>
-            <p>{a['bio'].replace("[name_here]", a['name'])}</p>
-          </div>
-        </a></Link>
-      ))
-      ) : null
-      }
+            <div className={styles.lower}>
+              <p>
+                {profile.bio?.replace(
+                  '[name_here]',
+                  profile.name
+                )}
+              </p>
+            </div>
+          </Link>
+        ))}
     </div>
-
-  )
-}
-
+  );
+};
